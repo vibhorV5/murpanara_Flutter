@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "422914951837",
+    "project_id": "murpanara-ecom",
+    "storage_bucket": "murpanara-ecom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:422914951837:android:41571921fe6717c542e274",
+        "android_client_info": {
+          "package_name": "com.murpanaraecom.murpanara"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "422914951837-ejtekc4d1lr9pmc3noph4a9esk3jkreb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.murpanaraecom.murpanara",
+            "certificate_hash": "1f1342a1ebc56ec23a74b0722a72aaec9de2d2d7"
+          }
+        },
+        {
+          "client_id": "422914951837-lrn2k4k4s0qp71lkrri7gnsmf8gt3ssm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBewuJAKsa-f7syFxanHENybu_ffmmbdHE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "422914951837-lrn2k4k4s0qp71lkrri7gnsmf8gt3ssm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
