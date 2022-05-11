@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:murpanara/services/auth.dart';
 import 'package:murpanara/views/authenticate/forgot_password.dart';
 import 'package:murpanara/widgets/google_sign_in.dart';
@@ -14,7 +13,9 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  //text field state
+  final SnackBar errorSnackBar = SnackBar(
+    content: Text('Enter a Valid Email'),
+  );
 
   String error = '';
   String googleErrorMessage = '';
@@ -46,7 +47,6 @@ class _SignInState extends State<SignIn> {
                 children: [
                   Container(
                     padding: const EdgeInsets.only(left: 40),
-                    // color: Colors.red.withOpacity(0.3),
                     child: const Text(
                       'Sign In',
                       style:
@@ -147,27 +147,19 @@ class _SignInState extends State<SignIn> {
                             style: const ButtonStyle(
                                 splashFactory: NoSplash.splashFactory),
                             onPressed: () async {
+                              FocusScope.of(context).unfocus();
                               if (_formKey.currentState!.validate()) {
-                                // SystemChannels.textInput
-                                //     .invokeMethod('TextInput.hide');
-                                // FocusScope.of(context).unfocus();
-                                // await Future.delayed(
-                                //     Duration(milliseconds: 500));
-
-                                // showDialogAlert(context);
-
                                 dynamic result = await AuthService().signIn(
                                   email: emailController,
                                   password: passwordController,
                                 );
 
                                 if (result == null) {
-                                  // FocusScope.of(context).unfocus();
-                                  // await Future.delayed(
-                                  //     Duration(milliseconds: 500));
-                                  setState(() {
-                                    error = 'Enter Registered Email ID';
-                                  });
+                                  // setState(() {
+                                  //   error = 'Enter Registered Email ID';
+                                  // });
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(errorSnackBar);
                                 }
                                 print(emailController);
                                 print(passwordController);
@@ -252,34 +244,4 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
-
-  // showDialogAlert(BuildContext context) {
-  //   AlertDialog alertDialog = AlertDialog(
-  //     content: Row(
-  //       children: [
-  //         const CircularProgressIndicator(),
-  //         Container(
-  //           margin: const EdgeInsets.only(left: 7),
-  //           child: const Text("Signing in..."),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  //   showDialog(
-  //     useRootNavigator: false,
-  //     barrierDismissible: true,
-  //     context: context,
-  //     builder: (context) {
-  //       BuildContext dialogContext = context;
-
-  //       context = dialogContext;
-  //       getContext(dialogContext);
-  //       return alertDialog;
-  //     },
-  //   );
-  // }
-
-  // getContext(BuildContext ctx) {
-  //   return ctx;
-  // }
 }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:murpanara/services/auth.dart';
-import 'package:murpanara/constants/routes.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);
@@ -32,7 +30,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
             ),
             const SizedBox(height: 80),
-
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -100,31 +97,31 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           style: const ButtonStyle(
                               splashFactory: NoSplash.splashFactory),
                           onPressed: () async {
+                            FocusScope.of(context).unfocus();
                             if (_formKey.currentState!.validate()) {
-                              // FocusScope.of(context).unfocus();
-                              // Future.delayed(Duration(milliseconds: 500));
-
-                              // SystemChannels.textInput
-                              //     .invokeMethod('TextInput.hide');
                               dynamic result = await AuthService()
                                   .resetPassword(email: emailController);
-                              print(emailController);
-                              print(result);
 
-                              // Navigator.of(context).pushNamedAndRemoveUntil(
-                              //     '/', (route) => false);
+                              if (result == null) {
+                                showDialogBox(context, 'Email sent');
 
-                              // if (result == null) {
-                              //   // FocusScope.of(context).unfocus();
-                              //   // await Future.delayed(
-                              //   //     Duration(milliseconds: 500));
-                              //   setState(() {
-                              //     error = 'Enter Registered Email ID';
-                              //   });
-                              // }
+                                await Future.delayed(
+                                  Duration(seconds: 2),
+                                );
+
+                                Navigator.of(context).pushNamedAndRemoveUntil(
+                                    '/', (route) => false);
+
+                                print(emailController);
+                                print(result);
+                              }
+
+                              if (result != null) {
+                                setState(() {
+                                  error = result;
+                                });
+                              }
                             }
-                            // Navigator.of(context)
-                            //     .pushAndRemoveUntil('/', (route) => false);
                           },
                           child: const Text(
                             'Request Password Reset',
@@ -145,34 +142,34 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
               ],
             ),
-
-            // Google Sign In Button
-
-            //Already a user?
           ],
         )),
       ),
     );
   }
 
-  // showDialogAlert(BuildContext context) {
-  //   AlertDialog alertDialog = AlertDialog(
-  //     content: Row(
-  //       children: [
-  //         const CircularProgressIndicator(),
-  //         Container(
-  //           margin: const EdgeInsets.only(left: 7),
-  //           child: const Text("Sending Email..."),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  //   showDialog(
-  //     barrierDismissible: true,
-  //     context: context,
-  //     builder: (context) {
-  //       return alertDialog;
-  //     },
-  //   );
-  // }
+  showDialogBox(BuildContext context, String message) {
+    AlertDialog alertDialog = AlertDialog(
+      content: Row(
+        children: [
+          Container(
+            child: Text(message),
+          ),
+          SizedBox(
+            width: 50,
+          ),
+          Container(
+              child: Icon(
+            Icons.done,
+            color: Colors.green,
+          )),
+        ],
+      ),
+    );
+    showDialog(
+        context: context,
+        builder: (context) {
+          return alertDialog;
+        });
+  }
 }

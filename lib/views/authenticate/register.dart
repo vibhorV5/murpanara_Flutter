@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:murpanara/services/auth.dart';
 import 'package:murpanara/views/authenticate/forgot_password.dart';
 import 'package:murpanara/widgets/google_sign_in.dart';
@@ -14,9 +13,10 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  //text field state
-  // String email = '';
-  // String password = '';
+  final SnackBar errorSnackBar = SnackBar(
+    content: Text('Enter a Valid Email'),
+  );
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
@@ -150,33 +150,19 @@ class _RegisterState extends State<Register> {
                             style: const ButtonStyle(
                                 splashFactory: NoSplash.splashFactory),
                             onPressed: () async {
+                              FocusScope.of(context).unfocus();
                               if (_formKey.currentState!.validate()) {
-                                showDialog(
-                                    context: context,
-                                    barrierDismissible: true,
-                                    builder: (context) => Center(
-                                          child: CircularProgressIndicator(),
-                                        ));
-                                // SystemChannels.textInput
-                                //     .invokeMethod('TextInput.hide');
-                                // FocusScope.of(context).unfocus();
-
-                                // await Future.delayed(
-                                //     Duration(milliseconds: 500));
-                                // showDialogAlert(context);
-
                                 dynamic result =
                                     await AuthService().registerUser(
                                   email: emailController,
                                   password: passwordController,
                                 );
                                 if (result == null) {
-                                  // FocusScope.of(context).unfocus();
-                                  // await Future.delayed(
-                                  //     Duration(milliseconds: 500));
-                                  setState(() {
-                                    error = 'Supply a valid Email';
-                                  });
+                                  // setState(() {
+                                  //   error = 'Supply a valid Email';
+                                  // });
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(errorSnackBar);
                                 }
 
                                 print(emailController.text);
@@ -262,25 +248,4 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
-
-  // showDialogAlert(BuildContext context) {
-  //   AlertDialog alertDialog = AlertDialog(
-  //     content: Row(
-  //       children: [
-  //         const CircularProgressIndicator(),
-  //         Container(
-  //           margin: const EdgeInsets.only(left: 7),
-  //           child: const Text("Registering User..."),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  //   showDialog(
-  //     barrierDismissible: true,
-  //     context: context,
-  //     builder: (context) {
-  //       return alertDialog;
-  //     },
-  //   );
-  // }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:murpanara/services/auth.dart';
 
 class GoogleSignIn extends StatefulWidget {
-  GoogleSignIn({Key? key}) : super(key: key);
+  const GoogleSignIn({Key? key}) : super(key: key);
 
   @override
   State<GoogleSignIn> createState() => _GoogleSignInState();

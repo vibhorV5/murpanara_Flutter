@@ -121,6 +121,9 @@ class AuthService {
       print(
         e.toString(),
       );
+      print(e.code);
+      print(e.message);
+      return e.message;
     } catch (e) {
       print(e.toString());
     }
