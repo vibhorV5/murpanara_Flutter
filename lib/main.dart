@@ -17,21 +17,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        StreamProvider<AppUser>(
-          create: (_) => AuthService().userAuthState,
-          initialData: AppUser(uid: ''),
-          catchError: (_, __) => AppUser(uid: 'error'),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'murpanara',
-        routes: appRoutes,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-      ),
-    );
+        providers: [
+          StreamProvider<AppUser>(
+            create: (_) => AuthService().userAuthState,
+            initialData: AppUser(uid: ''),
+            catchError: (_, __) => AppUser(uid: 'error'),
+          ),
+        ],
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'murpanara',
+            routes: appRoutes,
+            theme: ThemeData.dark()));
   }
 }

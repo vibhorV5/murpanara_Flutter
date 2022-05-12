@@ -4,7 +4,9 @@ import 'package:murpanara/views/checkout/checkout_page.dart';
 import 'package:murpanara/views/details/details_page.dart';
 import 'package:murpanara/views/home/home_page.dart';
 import 'package:murpanara/views/main_page/main_page.dart';
+import 'package:murpanara/views/orders/orders_page.dart';
 import 'package:murpanara/views/profile/profile_page.dart';
+import 'package:murpanara/views/settings/settings_page.dart';
 import 'package:murpanara/views/wishlist/wishlist_page.dart';
 
 var appRoutes = {
@@ -16,4 +18,6 @@ var appRoutes = {
   'detailsPage': (context) => const DetailsPage(),
   'profilePage': (context) => const ProfilePage(),
   'wishlistPage': (context) => const WishlistPage(),
+  'ordersPage': (context) => const OrdersPage(),
+  'settingsPage': (context) => const SettingsPage(),
 };
