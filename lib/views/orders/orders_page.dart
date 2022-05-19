@@ -8,7 +8,6 @@ class OrdersPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.transparent,
         title: Text('Your Orders'),
       ),
       body: Center(
