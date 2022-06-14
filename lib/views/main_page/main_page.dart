@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/services/auth.dart';
-import 'package:murpanara/views/checkout/checkout_page.dart';
+import 'package:murpanara/views/shoppingcart/shopping_cart.dart';
 import 'package:murpanara/views/home/home_page.dart';
 import 'package:murpanara/views/wishlist/wishlist_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -29,7 +29,7 @@ class _MainPageState extends State<MainPage> {
   List<Widget> _widgetoptions = [
     HomePage(),
     WishlistPage(),
-    CheckoutPage(),
+    ShoppingCart(),
   ];
 
   @override
