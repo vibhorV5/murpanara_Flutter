@@ -172,6 +172,7 @@ class _RegisterState extends State<Register> {
                                 ),
                               ),
 
+                              //Error Text
                               Center(
                                 child: Container(
                                   padding: EdgeInsets.symmetric(

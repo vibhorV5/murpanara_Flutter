@@ -82,14 +82,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               //Blank space
               SizedBox(height: _mediaQuery.size.height * 0.1),
 
-              // Container(
-              //   padding: const EdgeInsets.only(left: 55, right: 55, top: 30),
-              //   child: Image.asset(
-              //     'assets/images/mpr_main.png',
-              //   ),
-              // ),
-              // const SizedBox(height: 80),
-
               Container(
                 height: _mediaQuery.size.height * 0.285,
                 width: _mediaQuery.size.width,
@@ -118,47 +110,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              // Container(
-                              //   height: 60,
-                              //   margin: const EdgeInsets.only(
-                              //       left: 40, right: 40, top: 10, bottom: 10),
-                              //   decoration: BoxDecoration(
-                              //     borderRadius: BorderRadius.circular(20),
-                              //     color: const Color(0xFFE9E9E9),
-                              //   ),
-                              //   child: Center(
-                              //     child: Padding(
-                              //       padding: const EdgeInsets.only(
-                              //           left: 20, right: 20),
-                              //       child: TextFormField(
-                              //         validator: (value) => value!.isEmpty
-                              //             ? 'Enter Registered Email ID.'
-                              //             : null,
-                              //         onChanged: (val) {
-                              //           emailController.text = val;
-                              //         },
-                              //         keyboardType: TextInputType.emailAddress,
-                              //         cursorColor: Colors.black38,
-                              //         style: const TextStyle(
-                              //             color: Colors.black87),
-                              //         textAlignVertical:
-                              //             TextAlignVertical.center,
-                              //         decoration: const InputDecoration(
-                              //           errorStyle:
-                              //               TextStyle(color: Colors.black54),
-                              //           border: InputBorder.none,
-                              //           hintText: 'Registered Email',
-                              //           hintStyle: TextStyle(
-                              //             fontSize: 20,
-                              //             fontWeight: FontWeight.bold,
-                              //             color: Color(0xFFB1B1B1),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
-
                               //Email Form Field
                               CustomEmailFormField(
                                 emailController: emailController,
@@ -236,6 +187,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 ),
                               ),
 
+                              //Error Text
                               Center(
                                 child: Container(
                                   margin: EdgeInsets.only(
