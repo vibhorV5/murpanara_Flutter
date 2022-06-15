@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:murpanara/constants/colors.dart';
+import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/services/auth.dart';
 import 'package:murpanara/views/authenticate/forgot_password.dart';
 import 'package:murpanara/widgets/google_sign_in.dart';
@@ -13,8 +15,20 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  final SnackBar errorSnackBar = SnackBar(
-    content: Text('Enter a Valid Email'),
+  @override
+  void dispose() {
+    super.dispose();
+    emailController;
+    passwordController;
+  }
+
+  final SnackBar errorSnackBar = const SnackBar(
+    elevation: 10,
+    backgroundColor: kColorSnackBarBackgroundAuthPage,
+    content: Text(
+      'Enter Registered Email ID',
+      style: kSnackBarTextStyleAuthPage,
+    ),
   );
 
   String error = '';
@@ -27,6 +41,10 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    final _mediaQuery = MediaQuery.of(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -34,211 +52,509 @@ class _SignInState extends State<SignIn> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //Blank Space
+              SizedBox(
+                height: _mediaQuery.size.height * 0.02,
+                width: _mediaQuery.size.width,
+              ),
+
+              //Murpanara Logo Image
               Container(
-                padding: const EdgeInsets.only(left: 55, right: 55, top: 30),
-                child: Image.asset(
-                  'assets/images/mpr_main.png',
+                height: _mediaQuery.size.height * 0.25,
+                width: _mediaQuery.size.width,
+                // color: Colors.red.withOpacity(0.3),
+                child: LayoutBuilder(
+                  builder: ((context, constraints) {
+                    return Container(
+                      padding: EdgeInsets.only(
+                          top: constraints.maxHeight * 0.05,
+                          bottom: constraints.maxHeight * 0.04,
+                          left: constraints.maxWidth * 0.1,
+                          right: constraints.maxWidth * 0.1),
+                      child: Image.asset(
+                        'assets/images/mpr_main.png',
+                      ),
+                    );
+                  }),
                 ),
               ),
-              const SizedBox(height: 80),
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(left: 40),
-                    child: const Text(
-                      'Sign In',
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Form(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+              //Blank space
+              SizedBox(height: _mediaQuery.size.height * 0.1),
+
+              //Sign In With Email and Password Form
+              Container(
+                height: _mediaQuery.size.height * 0.285,
+                width: _mediaQuery.size.width,
+                // color: Colors.amber.withOpacity(0.3),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        //Heading
                         Container(
-                          height: 60,
-                          margin: const EdgeInsets.only(
-                              left: 40, right: 40, top: 10, bottom: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color(0xFFE9E9E9),
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              child: TextFormField(
-                                validator: (value) => value!.isEmpty
-                                    ? 'Enter Registered Email ID.'
-                                    : null,
-                                onChanged: (val) {
-                                  emailController.text = val;
-                                },
-                                keyboardType: TextInputType.emailAddress,
-                                cursorColor: Colors.black38,
-                                style: const TextStyle(color: Colors.black87),
-                                textAlignVertical: TextAlignVertical.center,
-                                decoration: const InputDecoration(
-                                  errorStyle: TextStyle(color: Colors.black54),
-                                  border: InputBorder.none,
-                                  hintText: 'Email',
-                                  hintStyle: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFFB1B1B1),
-                                  ),
-                                ),
-                              ),
-                            ),
+                          // color: Colors.red,
+                          padding:
+                              EdgeInsets.only(left: constraints.maxWidth * 0.1),
+                          // color: Colors.red.withOpacity(0.3),
+                          child: Text(
+                            'Sign In',
+                            style: kHeadingsAuthPage.copyWith(
+                                fontSize: constraints.maxHeight * 0.14),
                           ),
                         ),
-                        Container(
-                          height: 60,
-                          margin: const EdgeInsets.only(
-                              left: 40, right: 40, bottom: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color(0xFFE9E9E9),
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              child: TextFormField(
-                                validator: (value) => value!.length < 6
-                                    ? 'Enter a Password 6+ chars long.'
-                                    : null,
-                                onChanged: (val) {
-                                  passwordController.text = val;
-                                },
-                                obscureText: true,
-                                cursorColor: Colors.black38,
-                                style: const TextStyle(color: Colors.black87),
-                                textAlignVertical: TextAlignVertical.center,
-                                decoration: const InputDecoration(
-                                  errorStyle: TextStyle(color: Colors.black54),
-                                  border: InputBorder.none,
+
+                        //Fields
+                        Form(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              //Email Form Field
+                              CustomEmailFormField(
+                                emailController: emailController,
+                                constraints: constraints,
+                                validatorText: 'Enter Registered Email ID.',
+                                hintText: 'Email',
+                              ),
+
+                              //Password Form Field
+                              CustomPasswordFormField(
+                                  passwordController: passwordController,
+                                  constraints: constraints,
                                   hintText: 'Password',
-                                  hintStyle: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFFB1B1B1),
+                                  validatorText:
+                                      'Enter a Password 6+ chars long.'),
+
+                              //SignIn Button
+                              Container(
+                                margin: EdgeInsets.only(
+                                    right: constraints.maxWidth * 0.1),
+                                height: constraints.maxHeight * 0.15,
+                                padding: EdgeInsets.only(
+                                    left: constraints.maxWidth * 0.05,
+                                    right: constraints.maxWidth * 0.05),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      constraints.maxHeight * 0.4),
+                                  color: kColorButtonConfirmAuthPage,
+                                ),
+                                child: TextButton(
+                                  style: kButtonStyleConfirmAuthPage,
+                                  onPressed: () async {
+                                    FocusScope.of(context).unfocus();
+                                    if (_formKey.currentState!.validate()) {
+                                      dynamic result =
+                                          await AuthService().signIn(
+                                        email: emailController,
+                                        password: passwordController,
+                                      );
+
+                                      if (result == null) {
+                                        setState(() {
+                                          error = 'Enter Registered Email ID';
+                                        });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(errorSnackBar);
+                                      }
+                                      print(emailController);
+                                      print(passwordController);
+                                    }
+                                  },
+                                  child: Text(
+                                    'Sign In',
+                                    style: kButtonTextStyleConfirmAuthPage
+                                        .copyWith(
+                                            fontSize:
+                                                constraints.maxHeight * 0.065),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ),
 
-                        // SignIn Button
-                        Container(
-                          margin: const EdgeInsets.only(right: 40),
-                          height: 35,
-                          padding: const EdgeInsets.only(left: 15, right: 15),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: const Color(0xFF444444),
-                          ),
-                          child: TextButton(
-                            style: const ButtonStyle(
-                                splashFactory: NoSplash.splashFactory),
-                            onPressed: () async {
-                              FocusScope.of(context).unfocus();
-                              if (_formKey.currentState!.validate()) {
-                                dynamic result = await AuthService().signIn(
-                                  email: emailController,
-                                  password: passwordController,
-                                );
-
-                                if (result == null) {
-                                  // setState(() {
-                                  //   error = 'Enter Registered Email ID';
-                                  // });
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(errorSnackBar);
-                                }
-                                print(emailController);
-                                print(passwordController);
-                              }
-                            },
-                            child: const Text(
-                              'Sign In',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            child: Text(
-                              error,
-                              style: TextStyle(color: Colors.red),
-                            ),
+                              Center(
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: constraints.maxWidth * 0.03),
+                                  child: Text(
+                                    error,
+                                    style:
+                                        kErrorTextStyleInvalidAuthPage.copyWith(
+                                            fontSize:
+                                                constraints.maxHeight * 0.055),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                ],
+                    );
+                  },
+                ),
               ),
+
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     Container(
+              //       padding: const EdgeInsets.only(left: 40),
+              //       child: const Text(
+              //         'Sign In',
+              //         style:
+              //             TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              //       ),
+              //     ),
+              //     Form(
+              //       autovalidateMode: AutovalidateMode.onUserInteraction,
+              //       key: _formKey,
+              //       child: Column(
+              //         crossAxisAlignment: CrossAxisAlignment.end,
+              //         children: [
+              //           Container(
+              //             height: 60,
+              //             margin: const EdgeInsets.only(
+              //                 left: 40, right: 40, top: 10, bottom: 10),
+              //             decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(20),
+              //               color: const Color(0xFFE9E9E9),
+              //             ),
+              //             child: Center(
+              //               child: Padding(
+              //                 padding:
+              //                     const EdgeInsets.only(left: 20, right: 20),
+              //                 child: TextFormField(
+              //                   validator: (value) => value!.isEmpty
+              //                       ? 'Enter Registered Email ID.'
+              //                       : null,
+              //                   onChanged: (val) {
+              //                     emailController.text = val;
+              //                   },
+              //                   keyboardType: TextInputType.emailAddress,
+              //                   cursorColor: Colors.black38,
+              //                   style: const TextStyle(color: Colors.black87),
+              //                   textAlignVertical: TextAlignVertical.center,
+              //                   decoration: const InputDecoration(
+              //                     errorStyle: TextStyle(color: Colors.black54),
+              //                     border: InputBorder.none,
+              //                     hintText: 'Email',
+              //                     hintStyle: TextStyle(
+              //                       fontSize: 20,
+              //                       fontWeight: FontWeight.bold,
+              //                       color: Color(0xFFB1B1B1),
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //             ),
+              //           ),
+              //           Container(
+              //             height: 60,
+              //             margin: const EdgeInsets.only(
+              //                 left: 40, right: 40, bottom: 10),
+              //             decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(20),
+              //               color: const Color(0xFFE9E9E9),
+              //             ),
+              //             child: Center(
+              //               child: Padding(
+              //                 padding:
+              //                     const EdgeInsets.only(left: 20, right: 20),
+              //                 child: TextFormField(
+              //                   validator: (value) => value!.length < 6
+              //                       ? 'Enter a Password 6+ chars long.'
+              //                       : null,
+              //                   onChanged: (val) {
+              //                     passwordController.text = val;
+              //                   },
+              //                   obscureText: true,
+              //                   cursorColor: Colors.black38,
+              //                   style: const TextStyle(color: Colors.black87),
+              //                   textAlignVertical: TextAlignVertical.center,
+              //                   decoration: const InputDecoration(
+              //                     errorStyle: TextStyle(color: Colors.black54),
+              //                     border: InputBorder.none,
+              //                     hintText: 'Password',
+              //                     hintStyle: TextStyle(
+              //                       fontSize: 20,
+              //                       fontWeight: FontWeight.bold,
+              //                       color: Color(0xFFB1B1B1),
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //             ),
+              //           ),
+
+              //           // SignIn Button
+              //           Container(
+              //             margin: const EdgeInsets.only(right: 40),
+              //             height: 35,
+              //             padding: const EdgeInsets.only(left: 15, right: 15),
+              //             decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(25),
+              //               color: const Color(0xFF444444),
+              //             ),
+              //             child: TextButton(
+              //               style: const ButtonStyle(
+              //                   splashFactory: NoSplash.splashFactory),
+              //               onPressed: () async {
+              //                 FocusScope.of(context).unfocus();
+              //                 if (_formKey.currentState!.validate()) {
+              //                   dynamic result = await AuthService().signIn(
+              //                     email: emailController,
+              //                     password: passwordController,
+              //                   );
+
+              //                   if (result == null) {
+              //                     // setState(() {
+              //                     //   error = 'Enter Registered Email ID';
+              //                     // });
+              //                     ScaffoldMessenger.of(context)
+              //                         .showSnackBar(errorSnackBar);
+              //                   }
+              //                   print(emailController);
+              //                   print(passwordController);
+              //                 }
+              //               },
+              //               child: const Text(
+              //                 'Sign In',
+              //                 style: TextStyle(color: Colors.white),
+              //               ),
+              //             ),
+              //           ),
+              //           Center(
+              //             child: Container(
+              //               child: Text(
+              //                 error,
+              //                 style: TextStyle(color: Colors.red),
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ),
 
               // Google Sign In Button
 
-              GoogleSignIn(),
+              const GoogleSignIn(),
 
-              //Already a user?
-
+              //Don't Have an Account
+              // Container(
+              //   margin: const EdgeInsets.only(left: 35, right: 35, top: 25),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       const Text(
+              //         ' Don\'t have an account? ',
+              //         style:
+              //             TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              //       ),
+              //       InkWell(
+              //         onTap: () {
+              //           widget.toggleView();
+              //         },
+              //         child: Container(
+              //           child: const Text(
+              //             'Register ',
+              //             style: TextStyle(
+              //                 fontSize: 16,
+              //                 fontWeight: FontWeight.w500,
+              //                 color: Color(0xFF008CB8)),
+              //           ),
+              //         ),
+              //       ),
+              //       const Text(
+              //         '| ',
+              //         style:
+              //             TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+              //       ),
+              //       InkWell(
+              //         onTap: () {
+              //           Navigator.push(
+              //               context,
+              //               MaterialPageRoute(
+              //                   builder: (context) => const ForgotPassword()));
+              //         },
+              //         child: Container(
+              //           child: const Text(
+              //             'Forgot password?',
+              //             style: TextStyle(
+              //                 fontSize: 16, fontWeight: FontWeight.w500),
+              //           ),
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Container(
-                margin: const EdgeInsets.only(left: 35, right: 35, top: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      ' Don\'t have an account? ',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        widget.toggleView();
-                      },
+                height: _mediaQuery.size.height * 0.06,
+                width: _mediaQuery.size.width,
+                // color: Colors.purple.withOpacity(0.4),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Center(
                       child: Container(
-                        child: const Text(
-                          'Register ',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF008CB8)),
+                        // color: Colors.green.withOpacity(0.5),
+                        margin: EdgeInsets.only(
+                            left: constraints.maxWidth * 0.02,
+                            right: constraints.maxWidth * 0.02,
+                            top: constraints.maxHeight * 0.4),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Don\'t have an account? ',
+                              style: kAlreadyAUserTextStyle.copyWith(
+                                  fontSize: constraints.maxHeight * 0.33),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                widget.toggleView();
+                              },
+                              child: Text(
+                                'Register ',
+                                style: kAlreadySignInOptAuthPage.copyWith(
+                                    fontSize: constraints.maxHeight * 0.33),
+                              ),
+                            ),
+                            Text(
+                              '| ',
+                              style: kForgotPassTextStyleAuthPage.copyWith(
+                                  fontSize: constraints.maxHeight * 0.33),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ForgotPassword(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'Forgot password?',
+                                style: kForgotPassTextStyleAuthPage.copyWith(
+                                    fontSize: constraints.maxHeight * 0.33),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    const Text(
-                      '| ',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ForgotPassword()));
-                      },
-                      child: Container(
-                        child: const Text(
-                          'Forgot password?',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomEmailFormField extends StatelessWidget {
+  CustomEmailFormField(
+      {Key? key,
+      required this.emailController,
+      required this.constraints,
+      required this.hintText,
+      required this.validatorText})
+      : super(key: key);
+
+  final TextEditingController emailController;
+  final String hintText;
+  final String validatorText;
+  BoxConstraints constraints;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: constraints.maxHeight * 0.25,
+      margin: EdgeInsets.only(
+          left: constraints.maxWidth * 0.1,
+          right: constraints.maxWidth * 0.1,
+          top: constraints.maxHeight * 0.04,
+          bottom: constraints.maxHeight * 0.04),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(constraints.maxHeight * 0.08),
+        color: kColorFormFieldsAuthPage,
+      ),
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.only(left: constraints.maxWidth * 0.04),
+          child: TextFormField(
+            validator: (value) => value!.isEmpty ? validatorText : null,
+            onChanged: (val) {
+              emailController.text = val;
+            },
+            keyboardType: TextInputType.emailAddress,
+            cursorColor: kColorCursorAuthPage,
+            style: kInputFormFieldsAuthPage,
+            textAlignVertical: TextAlignVertical.center,
+            decoration: InputDecoration(
+              errorStyle: kErrorFormFields,
+              border: InputBorder.none,
+              hintText: hintText,
+              hintStyle: kHintStyleFormFields.copyWith(
+                  fontSize: constraints.maxHeight * 0.09),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomPasswordFormField extends StatelessWidget {
+  CustomPasswordFormField(
+      {Key? key,
+      required this.passwordController,
+      required this.constraints,
+      required this.hintText,
+      required this.validatorText})
+      : super(key: key);
+
+  final TextEditingController passwordController;
+  final String hintText;
+  final String validatorText;
+  BoxConstraints constraints;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: constraints.maxHeight * 0.25,
+      margin: EdgeInsets.only(
+          left: constraints.maxWidth * 0.1,
+          right: constraints.maxWidth * 0.1,
+          bottom: constraints.maxHeight * 0.04),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(constraints.maxHeight * 0.08),
+        color: kColorFormFieldsAuthPage,
+      ),
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.only(left: constraints.maxWidth * 0.04),
+          child: TextFormField(
+            validator: (value) => value!.length < 6 ? validatorText : null,
+            onChanged: (val) {
+              passwordController.text = val;
+            },
+            obscureText: true,
+            cursorColor: kColorCursorAuthPage,
+            style: kInputFormFieldsAuthPage,
+            textAlignVertical: TextAlignVertical.center,
+            decoration: InputDecoration(
+              errorStyle: kErrorFormFields,
+              border: InputBorder.none,
+              hintText: hintText,
+              hintStyle: kHintStyleFormFields.copyWith(
+                  fontSize: constraints.maxHeight * 0.09),
+            ),
           ),
         ),
       ),

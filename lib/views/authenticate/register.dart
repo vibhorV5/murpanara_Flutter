@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
-import 'package:murpanara/constants/textstyles.dart';
+import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/services/auth.dart';
 import 'package:murpanara/views/authenticate/forgot_password.dart';
 import 'package:murpanara/widgets/google_sign_in.dart';
@@ -15,18 +15,28 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  final SnackBar errorSnackBar = SnackBar(
-    content: Text('Enter a Valid Email'),
+  @override
+  void dispose() {
+    super.dispose();
+    emailController;
+    passwordController;
+  }
+
+  final SnackBar errorSnackBar = const SnackBar(
+    elevation: 10,
+    backgroundColor: kColorSnackBarBackgroundAuthPage,
+    content: Text(
+      'Enter a Valid Email ID',
+      style: kSnackBarTextStyleAuthPage,
+    ),
   );
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  String error = '';
 
   final _formKey = GlobalKey<FormState>();
 
-  final AuthService authenticationService = AuthService();
-
-  String error = '';
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +51,13 @@ class _RegisterState extends State<Register> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //Blank Space
               SizedBox(
                 height: _mediaQuery.size.height * 0.02,
+                width: _mediaQuery.size.width,
               ),
+
+              //Murpanara Logo Image
               Container(
                 height: _mediaQuery.size.height * 0.25,
                 width: _mediaQuery.size.width,
@@ -69,153 +83,175 @@ class _RegisterState extends State<Register> {
 
               //Register Form
               Container(
-                  height: _mediaQuery.size.height * 0.285,
-                  color: Colors.amber.withOpacity(0.3),
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                height: _mediaQuery.size.height * 0.285,
+                width: _mediaQuery.size.width,
+                // color: Colors.amber.withOpacity(0.3),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        //Heading
+                        Container(
+                          // color: Colors.red,
+                          padding:
+                              EdgeInsets.only(left: constraints.maxWidth * 0.1),
+                          // color: Colors.red.withOpacity(0.3),
+                          child: Text(
+                            'Register',
+                            style: kHeadingsAuthPage.copyWith(
+                                fontSize: constraints.maxHeight * 0.14),
+                          ),
+                        ),
+
+                        //Fields
+                        Form(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          key: _formKey,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              //Email Form Field
+                              CustomEmailFormField(
+                                emailController: emailController,
+                                constraints: constraints,
+                                validatorText: 'Enter a Valid Email ID.',
+                                hintText: 'Email',
+                              ),
+
+                              //Password Form Field
+                              CustomPasswordFormField(
+                                  passwordController: passwordController,
+                                  constraints: constraints,
+                                  hintText: 'Password',
+                                  validatorText:
+                                      'Enter a Password 6+ chars long.'),
+
+                              // Register Button
+                              Container(
+                                margin: EdgeInsets.only(
+                                    right: constraints.maxWidth * 0.1),
+                                height: constraints.maxHeight * 0.15,
+                                padding: EdgeInsets.only(
+                                    left: constraints.maxWidth * 0.05,
+                                    right: constraints.maxWidth * 0.05),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      constraints.maxHeight * 0.4),
+                                  color: kColorButtonConfirmAuthPage,
+                                ),
+                                child: TextButton(
+                                  style: kButtonStyleConfirmAuthPage,
+                                  onPressed: () async {
+                                    FocusScope.of(context).unfocus();
+                                    if (_formKey.currentState!.validate()) {
+                                      dynamic result =
+                                          await AuthService().registerUser(
+                                        email: emailController,
+                                        password: passwordController,
+                                      );
+                                      if (result == null) {
+                                        setState(() {
+                                          error = 'Enter a valid Email ID';
+                                        });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(errorSnackBar);
+                                      }
+
+                                      print(emailController.text);
+                                      print(passwordController.text);
+                                    }
+                                  },
+                                  child: Text(
+                                    'Register',
+                                    style: kButtonTextStyleConfirmAuthPage
+                                        .copyWith(
+                                            fontSize:
+                                                constraints.maxHeight * 0.065),
+                                  ),
+                                ),
+                              ),
+
+                              Center(
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: constraints.maxWidth * 0.03),
+                                  child: Text(
+                                    error,
+                                    style:
+                                        kErrorTextStyleInvalidAuthPage.copyWith(
+                                            fontSize:
+                                                constraints.maxHeight * 0.055),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+
+              // Google Sign In Button
+              const GoogleSignIn(),
+
+              //Already a user?
+              Container(
+                height: _mediaQuery.size.height * 0.06,
+                width: _mediaQuery.size.width,
+                // color: Colors.purple.withOpacity(0.4),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return Container(
+                      // color: Colors.green.withOpacity(0.5),
+                      margin: EdgeInsets.only(
+                          left: constraints.maxWidth * 0.1,
+                          right: constraints.maxWidth * 0.1,
+                          top: constraints.maxHeight * 0.4),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                            // color: Colors.red,
-                            padding: EdgeInsets.only(
-                                left: constraints.maxWidth * 0.1),
-                            // color: Colors.red.withOpacity(0.3),
+                          Text(
+                            'Already a user? ',
+                            style: kAlreadyAUserTextStyle.copyWith(
+                                fontSize: constraints.maxHeight * 0.33),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              widget.toggleView();
+                            },
                             child: Text(
-                              'Register',
-                              style: kHeadings.copyWith(
-                                  fontSize: constraints.maxHeight * 0.14),
+                              'Sign In ',
+                              style: kAlreadySignInOptAuthPage.copyWith(
+                                  fontSize: constraints.maxHeight * 0.33),
                             ),
                           ),
-                          Form(
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            key: _formKey,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                //Email Form Field
-                                CustomEmailFormField(
-                                  emailController: emailController,
-                                  constraints: constraints,
-                                  validatorText: 'Enter a Valid Email ID.',
-                                  hintText: 'Email',
+                          Text(
+                            '| ',
+                            style: kForgotPassTextStyleAuthPage.copyWith(
+                                fontSize: constraints.maxHeight * 0.33),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ForgotPassword(),
                                 ),
-
-                                //Password Form Field
-                                CustomPasswordFormField(
-                                    passwordController: passwordController,
-                                    constraints: constraints,
-                                    hintText: 'Password',
-                                    validatorText:
-                                        'Enter a Password 6+ chars long.'),
-
-                                // Register Button
-                                Container(
-                                  margin: const EdgeInsets.only(right: 40),
-                                  height: 35,
-                                  padding: const EdgeInsets.only(
-                                      left: 15, right: 15),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(25),
-                                    color: const Color(0xFF444444),
-                                  ),
-                                  child: TextButton(
-                                    style: const ButtonStyle(
-                                        splashFactory: NoSplash.splashFactory),
-                                    onPressed: () async {
-                                      FocusScope.of(context).unfocus();
-                                      if (_formKey.currentState!.validate()) {
-                                        dynamic result =
-                                            await AuthService().registerUser(
-                                          email: emailController,
-                                          password: passwordController,
-                                        );
-                                        if (result == null) {
-                                          // setState(() {
-                                          //   error = 'Supply a valid Email';
-                                          // });
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(errorSnackBar);
-                                        }
-
-                                        print(emailController.text);
-                                        print(passwordController.text);
-                                      }
-                                    },
-                                    child: const Text(
-                                      'Register',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                                Center(
-                                  child: Container(
-                                    child: Text(
-                                      error,
-                                      style: TextStyle(color: Colors.red),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              );
+                            },
+                            child: Text(
+                              'Forgot password?',
+                              style: kForgotPassTextStyleAuthPage.copyWith(
+                                  fontSize: constraints.maxHeight * 0.33),
                             ),
                           ),
                         ],
-                      );
-                    },
-                  )),
-
-              // Google Sign In Button
-
-              GoogleSignIn(),
-
-              //Already a user?
-
-              Container(
-                margin: const EdgeInsets.only(left: 40, right: 40, top: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Already a user? ',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        widget.toggleView();
-                      },
-                      child: Container(
-                        child: const Text(
-                          'Sign In ',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF008CB8)),
-                        ),
                       ),
-                    ),
-                    const Text(
-                      '| ',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ForgotPassword()));
-                      },
-                      child: Container(
-                        child: const Text(
-                          'Forgot password?',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
             ],
@@ -268,7 +304,7 @@ class CustomEmailFormField extends StatelessWidget {
             decoration: InputDecoration(
               errorStyle: kErrorFormFields,
               border: InputBorder.none,
-              hintText: 'Email',
+              hintText: hintText,
               hintStyle: kHintStyleFormFields.copyWith(
                   fontSize: constraints.maxHeight * 0.09),
             ),
