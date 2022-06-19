@@ -18,3 +18,6 @@ const Color kColorAlreadySignInOptAuthPage = Colors.blue;
 const Color kColorSnackBarBackgroundAuthPage = Colors.black87;
 const Color kColorAlertDialogIconAuthPage = Colors.black87;
 const Color kColorBackIconForgotPassPage = Colors.black87;
+const Color kColorHomePageTitles = Colors.black87;
+const Color kColorHomePageBg = Colors.white60;
+const Color kColorWishlistPageBg = Colors.white60;

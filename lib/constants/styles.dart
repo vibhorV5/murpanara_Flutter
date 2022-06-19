@@ -37,6 +37,15 @@ const TextStyle kAlreadySignInOptAuthPage = TextStyle(
 const TextStyle kDialogTextStyleForgotPass =
     TextStyle(fontFamily: 'AvertaStd-Bold', color: Colors.black87);
 
+const TextStyle kHomePageTitlesTextStyle =
+    TextStyle(fontFamily: 'AvertaStd-Bold', color: kColorHomePageTitles);
+
+const TextStyle kProductsTitlesTextStyle =
+    TextStyle(fontFamily: 'AvertaStd-Semibold');
+
+const TextStyle kWishlistTitleTextStyle =
+    TextStyle(fontFamily: 'AvertaStd-Semibold');
+
 const ButtonStyle kButtonStyleConfirmAuthPage =
     ButtonStyle(splashFactory: NoSplash.splashFactory);
 

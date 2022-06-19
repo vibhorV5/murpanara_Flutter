@@ -20,24 +20,24 @@ class _MainPageState extends State<MainPage> {
         const SnackBar(content: Text("Wecome to murpanara!")),
       );
     });
-
-    // TODO: implement initState
     super.initState();
   }
 
   int _selectedIndex = 0;
-  List<Widget> _widgetoptions = [
-    HomePage(),
-    WishlistPage(),
-    ShoppingCart(),
+  final List<Widget> _widgetoptions = [
+    const HomePage(),
+    const WishlistPage(),
+    const ShoppingCart(),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final _mediaQuery = MediaQuery.of(context);
+
     return Scaffold(
       drawer: AppDrawer(context: context),
       bottomNavigationBar: BottomNavigationBar(
-        // selectedItemColor: Colors.black,
+        selectedItemColor: Colors.black,
         currentIndex: _selectedIndex,
         items: const [
           BottomNavigationBarItem(
@@ -81,25 +81,22 @@ class _MainPageState extends State<MainPage> {
         },
       ),
       appBar: AppBar(
-        // iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.white,
         centerTitle: true,
-        title: Container(
-            // color: Colors.red,
-            height: 50,
-            width: 100,
-            child: Image.asset('assets/images/mpr_main.png')),
+        title: LayoutBuilder(
+          builder: (context, constraints) {
+            return Container(
+              // color: Colors.red,
+              height: _mediaQuery.size.height * 0.06,
+              width: _mediaQuery.size.width,
+              child: Image.asset('assets/images/mpr_main.png'),
+            );
+          },
+        ),
         // backgroundColor: Colors.white,
         elevation: 0,
         actions: [
-          // IconButton(
-          //   onPressed: () async {
-          //     await AuthService().signOut();
-          //   },
-          //   icon: const Icon(
-          //     Icons.logout_outlined,
-          //     // color: Colors.black,
-          //   ),
-          // ),
           IconButton(
             onPressed: () {
               Navigator.of(context).pushNamed('settingsPage');
@@ -146,17 +143,6 @@ class AppDrawer extends StatelessWidget {
                     },
                   ),
                 ),
-                // ListTile(
-                //   leading: Icon(Icons.favorite_rounded),
-                //   title: Text(
-                //     'Wishlist',
-                //     style: TextStyle(fontSize: 40),
-                //   ),
-                //   onTap: () {
-                //     Navigator.of(context).pop();
-                //     Navigator.of(context).pushNamed('wishlistPage');
-                //   },
-                // ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
