@@ -49,7 +49,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   alignment: Alignment.topLeft,
                   child: Icon(
                     Icons.arrow_back_ios_new_outlined,
-                    size: _mediaQuery.size.width * 0.07,
+                    size: _mediaQuery.size.width * 0.065,
                     color: kColorBackIconForgotPassPage,
                   ),
                   // color: Colors.amber.withOpacity(0.4),

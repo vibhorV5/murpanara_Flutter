@@ -27,8 +27,8 @@ class _WishlistTileState extends State<WishlistTile> {
           physics: BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,
           separatorBuilder: (context, index) {
-            return const Divider(
-              color: Colors.white10,
+            return SizedBox(
+              height: _mediaQuery.size.height * 0.01,
             );
           },
           itemCount: widget.subProductList.length,

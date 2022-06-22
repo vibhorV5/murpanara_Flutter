@@ -63,11 +63,12 @@ class DatabaseServices {
               (product) => SubProducts(
                 name: product['name'],
                 imagefront: product['imagefront'],
-                // imageback: product['imageback'],
+                imageback: product['imageback'],
                 fit: product['fit'],
                 composition: product['composition'],
                 price: product['price'],
                 productId: product['productId'],
+                size: product['size'],
               ),
             )
             .toList()
@@ -91,7 +92,7 @@ class DatabaseServices {
             return ShoppingCartProduct(
               name: product['name'],
               imagefront: product['imagefront'],
-              // imageback: product['imageback'],
+              imageback: product['imageback'],
               fit: product['fit'],
               composition: product['composition'],
               price: product['price'],
@@ -120,11 +121,12 @@ class DatabaseServices {
     final nestedData = {
       'name': subProducts.name,
       'imagefront': subProducts.imagefront,
-      // 'imageback': subProducts.imageback,
+      'imageback': subProducts.imageback,
       'fit': subProducts.fit,
       'composition': subProducts.composition,
       'price': subProducts.price,
       'productId': subProducts.productId,
+      'size': subProducts.size,
     };
 
     var user = AuthService().currentUser!;
@@ -144,7 +146,7 @@ class DatabaseServices {
     final nestedData = {
       'name': subProducts.name,
       'imagefront': subProducts.imagefront,
-      // 'imageback': subProducts.imageback,
+      'imageback': subProducts.imageback,
       'fit': subProducts.fit,
       'composition': subProducts.composition,
       'price': subProducts.price,
@@ -170,11 +172,12 @@ class DatabaseServices {
     final nestedData = {
       'name': subProducts.name,
       'imagefront': subProducts.imagefront,
-      // 'imageback': subProducts.imageback,
+      'imageback': subProducts.imageback,
       'fit': subProducts.fit,
       'composition': subProducts.composition,
       'price': subProducts.price,
       'productId': subProducts.productId,
+      'size': subProducts.size,
     };
 
     var user = AuthService().currentUser!;
@@ -189,7 +192,7 @@ class DatabaseServices {
     final nestedData = {
       'name': shoppingCartProduct.name,
       'imagefront': shoppingCartProduct.imagefront,
-      // 'imageback': subProducts.imageback,
+      'imageback': shoppingCartProduct.imageback,
       'fit': shoppingCartProduct.fit,
       'composition': shoppingCartProduct.composition,
       'price': shoppingCartProduct.price,

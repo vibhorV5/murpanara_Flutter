@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/product.dart';
 import 'package:murpanara/services/auth.dart';
@@ -29,8 +30,8 @@ class _ProductTileState extends State<ProductTile> {
               physics: BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
               separatorBuilder: (context, index) {
-                return const Divider(
-                  color: Colors.white10,
+                return SizedBox(
+                  height: _mediaQuery.size.height * 0.01,
                 );
               },
               itemCount: widget.subProductList.length,
@@ -44,7 +45,7 @@ class _ProductTileState extends State<ProductTile> {
                   height: _mediaQuery.size.height * 0.4,
                   width: _mediaQuery.size.width,
                   decoration: BoxDecoration(
-                    color: Color(0xFFF6F6F6),
+                    color: kColorProductTitleBg,
                     // color: Colors.red,
                     borderRadius:
                         BorderRadius.circular(_mediaQuery.size.width * 0.04),
@@ -68,11 +69,11 @@ class _ProductTileState extends State<ProductTile> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProductOverview(
-                                                  subproduct: widget
-                                                      .subProductList[index],
-                                                )),
+                                          builder: (context) => ProductOverview(
+                                            subproduct:
+                                                widget.subProductList[index],
+                                          ),
+                                        ),
                                       ).then((value) => setState(() {}));
                                     },
                                     child: Image.network(widget

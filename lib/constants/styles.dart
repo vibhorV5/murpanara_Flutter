@@ -43,8 +43,22 @@ const TextStyle kHomePageTitlesTextStyle =
 const TextStyle kProductsTitlesTextStyle =
     TextStyle(fontFamily: 'AvertaStd-Semibold');
 
+const TextStyle kProductsSizesTextStyle =
+    TextStyle(fontFamily: 'AvertaStd-Bold');
+
 const TextStyle kWishlistTitleTextStyle =
     TextStyle(fontFamily: 'AvertaStd-Semibold');
+
+const TextStyle kAddToCartTextStyle =
+    TextStyle(fontFamily: 'AvertaStd-Semibold', color: Colors.white);
+
+const TextStyle kProductsOverviewTitlesTextStyle =
+    TextStyle(fontFamily: 'AvertaStd-Bold');
+
+const TextStyle kProductsInfoTitles = TextStyle(fontFamily: 'AvertaStd-Bold');
+
+const TextStyle kProductsDescTitles =
+    TextStyle(fontFamily: 'AvertaStd-Regular');
 
 const ButtonStyle kButtonStyleConfirmAuthPage =
     ButtonStyle(splashFactory: NoSplash.splashFactory);

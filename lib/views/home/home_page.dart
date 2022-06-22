@@ -22,125 +22,103 @@ class _HomePageState extends State<HomePage> {
     //     Provider.of<List<SubproductsMain>>(context);
 
     return Scaffold(
-        backgroundColor: kColorHomePageBg,
-        body: StreamBuilder(
-          stream: DatabaseServices().productsStream,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text('Has Error'),
-              );
-            } else if (snapshot.hasData) {
-              List<Product> productsData = snapshot.data! as List<Product>;
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      height: _mediaQuery.size.height * 0.2,
-                      width: _mediaQuery.size.width,
-                      child: LayoutBuilder(
-                        builder: (context, constrainsts) {
-                          return Column(
-                            children: [
-                              //TITLE: Welcome to the dawn..
-                              Container(
-                                // color: Colors.green.withOpacity(0.2),
-                                height: constrainsts.maxHeight * 0.5,
-                                width: constrainsts.maxWidth,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'WELCOME TO THE DAWN OF',
+      backgroundColor: kColorHomePageBg,
+      body: StreamBuilder(
+        stream: DatabaseServices().productsStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Has Error'),
+            );
+          } else if (snapshot.hasData) {
+            List<Product> productsData = snapshot.data! as List<Product>;
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    height: _mediaQuery.size.height * 0.2,
+                    width: _mediaQuery.size.width,
+                    child: LayoutBuilder(
+                      builder: (context, constrainsts) {
+                        return Column(
+                          children: [
+                            //TITLE: Welcome to the dawn..
+                            Container(
+                              // color: Colors.green.withOpacity(0.2),
+                              height: constrainsts.maxHeight * 0.5,
+                              width: constrainsts.maxWidth,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'WELCOME TO THE DAWN OF',
+                                    style: kHomePageTitlesTextStyle.copyWith(
+                                        fontSize:
+                                            constrainsts.maxHeight * 0.11),
+                                  ),
+                                  Center(
+                                    child: Text(
+                                      'MURPANARA',
                                       style: kHomePageTitlesTextStyle.copyWith(
                                           fontSize:
-                                              constrainsts.maxHeight * 0.11),
+                                              constrainsts.maxHeight * 0.12),
                                     ),
-                                    Center(
-                                      child: Text(
-                                        'MURPANARA',
-                                        style:
-                                            kHomePageTitlesTextStyle.copyWith(
-                                                fontSize:
-                                                    constrainsts.maxHeight *
-                                                        0.12),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            //TITLE: You are now viewing..
+                            Container(
+                              // color: Colors.green.withOpacity(0.2),
+                              height: constrainsts.maxHeight * 0.5,
+                              width: constrainsts.maxWidth,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'YOUR ARE NOW VIEWING OUR LATEST RELEASE',
+                                    style: kHomePageTitlesTextStyle.copyWith(
+                                        fontFamily: 'AvertaStd-Semibold',
+                                        fontSize:
+                                            constrainsts.maxHeight * 0.08),
+                                  ),
+                                  Center(
+                                    child: Container(
+                                      height: constrainsts.maxHeight * 0.22,
+                                      child: Image.asset(
+                                        'assets/images/mpr_eye.png',
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-
-                              //TITLE: You are now viewing..
-                              Container(
-                                // color: Colors.green.withOpacity(0.2),
-                                height: constrainsts.maxHeight * 0.5,
-                                width: constrainsts.maxWidth,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'YOUR ARE NOW VIEWING OUR LATEST RELEASE',
-                                      style: kHomePageTitlesTextStyle.copyWith(
-                                          fontFamily: 'AvertaStd-Semibold',
-                                          fontSize:
-                                              constrainsts.maxHeight * 0.08),
-                                    ),
-                                    Center(
-                                      child: Container(
-                                        height: constrainsts.maxHeight * 0.22,
-                                        child: Image.asset(
-                                          'assets/images/mpr_eye.png',
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
-                    ProductTile(
-                      subProductList: productsData.first.subproducts,
-                    ),
-                    // SizedBox(
-                    //   height: 100,
-                    // )
-                  ],
-                ),
-              );
-            } else {
-              return Center(
-                child: Text('Some db error'),
-              );
-            }
-          },
-        ));
-    // final List<SubProducts> subProducts = product.subproducts;
-    // List<SubProducts> subProductsData = [];
-
-    // if (product != null) {
-    //   product.forEach((element) {
-    //     print(element.name);
-    //     subProductsData = element.subproducts;
-    //   });
-    // }
-
-    // return Scaffold(
-    //     body: Container(
-    //   color: Colors.red.withOpacity(0.2),
-    //   width: 400,
-    //   height: 600,
-    //   child: Column(
-    //     children: [
-    //       Container(child: Text(subproduct[0].name)),
-    //     ],
-    //   ),
-    // ));
+                  ),
+                  ProductTile(
+                    subProductList: productsData.first.subproducts,
+                  ),
+                  // SizedBox(
+                  //   height: 100,
+                  // )
+                ],
+              ),
+            );
+          } else {
+            return Center(
+              child: Text('Some db error'),
+            );
+          }
+        },
+      ),
+    );
   }
 }

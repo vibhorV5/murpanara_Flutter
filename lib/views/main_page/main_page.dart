@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:murpanara/constants/colors.dart';
+import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/services/auth.dart';
 import 'package:murpanara/views/shoppingcart/shopping_cart.dart';
 import 'package:murpanara/views/home/home_page.dart';
@@ -17,7 +19,14 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     Future.delayed(const Duration(milliseconds: 500), () {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Wecome to murpanara!")),
+        const SnackBar(
+          elevation: 10,
+          backgroundColor: kColorSnackBarBackgroundAuthPage,
+          content: Text(
+            'Welcome to murpanara.',
+            style: kSnackBarTextStyleAuthPage,
+          ),
+        ),
       );
     });
     super.initState();
