@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:murpanara/constants/colors.dart';
+import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:murpanara/widgets/shopppingcartitem_tile.dart';
 
 class ShoppingCart extends StatefulWidget {
   const ShoppingCart({Key? key}) : super(key: key);
@@ -73,19 +76,49 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
   @override
   Widget build(BuildContext context) {
+    final _mediaQuery = MediaQuery.of(context);
+
     return Scaffold(
+      backgroundColor: kColorShoppingCartPageBg,
       body: Column(
         children: [
+          //Shopping Cart(title)
           Container(
-            color: Colors.black.withOpacity(0.3),
+            margin: EdgeInsets.only(
+                top: _mediaQuery.size.height * 0.04,
+                bottom: _mediaQuery.size.height * 0.03,
+                left: _mediaQuery.size.width * 0.04),
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Shopping Cart',
+              style: kShoppingCartTitleTextStyle.copyWith(
+                  fontSize: _mediaQuery.size.height * 0.05),
+            ),
+          ),
+
+          Container(
+            // color: Colors.black.withOpacity(0.3),
             child: StreamBuilder(
               stream: DatabaseServices().shoppingCartProductStream,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Container(
-                    child: CircularProgressIndicator(
-                      color: Colors.black,
-                    ),
+                  return Stack(
+                    children: [
+                      Container(
+                        height: _mediaQuery.size.height * 0.6,
+                        width: _mediaQuery.size.width,
+                        child: Center(
+                          child: Text(''),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 250),
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
                   );
                 } else if (snapshot.hasData) {
                   var data = snapshot.data!;
@@ -94,55 +127,53 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
                   _getSum(data);
 
-                  return Column(
-                    children: [
-                      Container(
-                        height: 500,
-                        width: MediaQuery.of(context).size.width,
-                        child: ListView.separated(
-                            itemBuilder: (context, index) {
-                              return Container(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                        height: 50,
-                                        child: Image.network(
-                                            product[index].imagefront)),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(product[index].name),
-                                        GestureDetector(
-                                          onTap: () async {
-                                            await DatabaseServices()
-                                                .deleteShoppingCartItemOnFirestore(
-                                                    shoppingCartProduct:
-                                                        product[index]);
-
-                                            print('deleted');
-                                            print('done');
-                                          },
-                                          child: Container(
-                                            child: Text('Delete item'),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Text(product[index].size),
-                                    Text('${product[index].quantity}'),
-                                    Text('${product[index].price}'),
-                                  ],
+                  return Container(
+                    // color: Colors.purple,
+                    child: Column(
+                      children: [
+                        Container(
+                          height: _mediaQuery.size.height * 0.5,
+                          child: ListView.separated(
+                              physics: BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return ShoppingCartItemTile(
+                                    product: product[index]);
+                              },
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  height: _mediaQuery.size.height * 0.025,
+                                );
+                              },
+                              itemCount: product.length),
+                        ),
+                        Container(
+                          height: _mediaQuery.size.height * 0.1,
+                          // color: Colors.orange,
+                          margin: EdgeInsets.only(
+                              left: _mediaQuery.size.width * 0.04,
+                              right: _mediaQuery.size.width * 0.08),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                child: Text(
+                                  'Total',
+                                  style: kTotalSumTextStyle.copyWith(
+                                      fontSize: _mediaQuery.size.height * 0.03),
                                 ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return Divider();
-                            },
-                            itemCount: product.length),
-                      ),
-                      Text('${_getSum(data)} ₹'),
-                    ],
+                              ),
+                              Container(
+                                child: Text(
+                                  '₹${_getSum(data)}',
+                                  style: kTotalSumTextStyle2.copyWith(
+                                      fontSize: _mediaQuery.size.height * 0.03),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   );
                 } else if (snapshot.hasError) {
                   return Container(
@@ -156,20 +187,55 @@ class _ShoppingCartState extends State<ShoppingCart> {
               },
             ),
           ),
-          Center(
-              child: TextButton(
+
+          //Pay Now
+          // Center(
+          //   child: TextButton(
+          //     onPressed: () {
+          //       launchRazorpay();
+          //     },
+          //     child: Container(
+          //       padding: EdgeInsets.all(15),
+          //       color: Colors.black,
+          //       child: Text(
+          //         'Pay Now',
+          //         style: TextStyle(color: Colors.white),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+
+          //Checkout
+          TextButton(
+            style: ButtonStyle(
+              splashFactory: NoSplash.splashFactory,
+            ),
             onPressed: () {
               launchRazorpay();
             },
             child: Container(
-              padding: EdgeInsets.all(15),
-              color: Colors.black,
+              margin: EdgeInsets.only(
+                  top: _mediaQuery.size.height * 0.02,
+                  // bottom: _mediaQuery.size.height * 0.02,
+                  left: _mediaQuery.size.width * 0.06,
+                  right: _mediaQuery.size.width * 0.06),
+              alignment: Alignment.center,
+              height: _mediaQuery.size.height * 0.065,
+              width: _mediaQuery.size.width,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius:
+                    BorderRadius.circular(_mediaQuery.size.height * 0.5),
+              ),
+              // color: Colors.amber,
               child: Text(
-                'Pay Now',
-                style: TextStyle(color: Colors.white),
+                'Checkout',
+                style: kAddToCartTextStyle.copyWith(
+                    color: Colors.white,
+                    fontSize: _mediaQuery.size.height * 0.02),
               ),
             ),
-          )),
+          ),
         ],
       ),
     );

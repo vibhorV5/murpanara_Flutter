@@ -383,37 +383,38 @@ class _ProductOverviewState extends State<ProductOverview> {
                     SizedBox(
                       width: _mediaQuery.size.width * 0.025,
                     ),
+
                     //Add to Cart
-                    Container(
-                      alignment: Alignment.center,
-                      height: _mediaQuery.size.height * 0.07,
-                      width: _mediaQuery.size.width * 0.7,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(
-                            _mediaQuery.size.height * 0.5),
-                      ),
-                      child: TextButton(
-                        onPressed: () async {
-                          _showBottomPanel();
-                          if (selectedSize != '' && selectedQuantity != 0) {
-                            await DatabaseServices().setShoppingCartItem(
-                                subProducts: widget.subproduct,
-                                productSize: selectedSize,
-                                productQuantity: selectedQuantity);
-                            print('Item added to shopping cart');
-                            setState(() {
-                              selectedSize = '';
-                              selectedQuantity = 0;
-                            });
-                          } else {
-                            print('please select a size');
-                          }
-                        },
+                    TextButton(
+                      onPressed: () async {
+                        _showBottomPanel();
+                        if (selectedSize != '' && selectedQuantity != 0) {
+                          await DatabaseServices().setShoppingCartItem(
+                              subProducts: widget.subproduct,
+                              productSize: selectedSize,
+                              productQuantity: selectedQuantity);
+                          print('Item added to shopping cart');
+                          setState(() {
+                            selectedSize = '';
+                            selectedQuantity = 0;
+                          });
+                        } else {
+                          print('please select a size');
+                        }
+                      },
+                      child: Container(
                         child: Text(
                           'Add to Cart',
                           style: kAddToCartTextStyle.copyWith(
                               fontSize: _mediaQuery.size.height * 0.02),
+                        ),
+                        alignment: Alignment.center,
+                        height: _mediaQuery.size.height * 0.07,
+                        width: _mediaQuery.size.width * 0.7,
+                        decoration: BoxDecoration(
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(
+                              _mediaQuery.size.height * 0.5),
                         ),
                       ),
                     ),

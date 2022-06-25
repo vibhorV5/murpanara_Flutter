@@ -46,6 +46,8 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       drawer: AppDrawer(context: context),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
         selectedItemColor: Colors.black,
         currentIndex: _selectedIndex,
         items: const [
@@ -92,6 +94,7 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
+
         centerTitle: true,
         title: LayoutBuilder(
           builder: (context, constraints) {

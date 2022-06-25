@@ -21,4 +21,5 @@ const Color kColorBackIconForgotPassPage = Colors.black87;
 const Color kColorHomePageTitles = Colors.black87;
 const Color kColorHomePageBg = Colors.white60;
 const Color kColorWishlistPageBg = Colors.white60;
+const Color kColorShoppingCartPageBg = Colors.white60;
 const Color kColorProductTitleBg = Color(0xFFF6F6F6);

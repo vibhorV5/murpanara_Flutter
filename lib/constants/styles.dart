@@ -49,11 +49,29 @@ const TextStyle kProductsSizesTextStyle =
 const TextStyle kWishlistTitleTextStyle =
     TextStyle(fontFamily: 'AvertaStd-Semibold');
 
+const TextStyle kShoppingCartTitleTextStyle =
+    TextStyle(fontFamily: 'AvertaStd-Semibold');
+
+const TextStyle kShoppingCartSubTitlesTextStyle =
+    TextStyle(fontFamily: 'AvertaStd-Semibold');
+
 const TextStyle kAddToCartTextStyle =
     TextStyle(fontFamily: 'AvertaStd-Semibold', color: Colors.white);
 
 const TextStyle kProductsOverviewTitlesTextStyle =
     TextStyle(fontFamily: 'AvertaStd-Bold');
+
+const TextStyle kTotalSumTextStyle =
+    TextStyle(fontFamily: 'AvertaStd-Semibold', color: Colors.black45);
+
+const TextStyle kTotalSumTextStyle2 =
+    TextStyle(fontFamily: 'AvertaStd-Semibold');
+
+const TextStyle kShoppingCartItemTextStyle =
+    TextStyle(fontFamily: 'AvertaStd-Bold');
+
+const TextStyle kShoppingQuantityTextStyle =
+    TextStyle(fontFamily: 'AvertaStd-Bold', color: Colors.black54);
 
 const TextStyle kProductsInfoTitles = TextStyle(fontFamily: 'AvertaStd-Bold');
 
