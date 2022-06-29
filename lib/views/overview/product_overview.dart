@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/product.dart';
+import 'package:murpanara/providers/size_provider.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductOverview extends StatefulWidget {
@@ -16,16 +18,18 @@ class ProductOverview extends StatefulWidget {
 }
 
 class _ProductOverviewState extends State<ProductOverview> {
-  @override
   int activeIndex = 0;
 
+  @override
   Widget build(BuildContext context) {
+    var sizeState = Provider.of<SizeProvider>(context);
     final _mediaQuery = MediaQuery.of(context);
 
+    List sizes = widget.subproduct.size;
     var isWishlistedNew;
 
-    String selectedSize = '';
     num selectedQuantity = 0;
+    String dropdownValue = 'One';
 
     List<Widget> imagesPro = [
       //1st Image of Slider
@@ -215,46 +219,9 @@ class _ProductOverviewState extends State<ProductOverview> {
               ),
 
               //Sizes Buttons
-              Container(
-                margin: EdgeInsets.only(
-                    left: _mediaQuery.size.width * 0.055,
-                    top: _mediaQuery.size.height * 0.012),
-                width: _mediaQuery.size.width,
-                height: _mediaQuery.size.height * 0.08,
-                // color: Colors.yellow.withOpacity(0.3),
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      width: _mediaQuery.size.width * 0.025,
-                    );
-                  },
-                  itemCount: widget.subproduct.size.length,
-                  itemBuilder: ((context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        selectedSize = widget.subproduct.size[index];
-                        print('$selectedSize size slected');
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: _mediaQuery.size.height * 0.07,
-                        width: _mediaQuery.size.width * 0.14,
-                        decoration: BoxDecoration(
-                          color: Color(0xFFF6F6F6),
-                          borderRadius: BorderRadius.circular(
-                              _mediaQuery.size.height * 0.01),
-                        ),
-                        child: Text(
-                          widget.subproduct.size[index],
-                          style: kProductsSizesTextStyle.copyWith(
-                              fontFamily: 'AvertaStd-Semibold',
-                              fontSize: _mediaQuery.size.height * 0.028),
-                        ),
-                      ),
-                    );
-                  }),
-                ),
+              SizeButtons(
+                sizeList: sizes,
+                mediaQ: _mediaQuery,
               ),
 
               //Description(Title)
@@ -331,53 +298,71 @@ class _ProductOverviewState extends State<ProductOverview> {
                         }
                       },
                       child: FutureBuilder(
-                          future: DatabaseServices()
-                              .checkItem(subproduct: widget.subproduct),
-                          builder: ((context, snapshot) {
-                            if (snapshot.hasData) {
-                              var isWishlisted = snapshot.data!;
-                              isWishlistedNew = isWishlisted;
-                              return isWishlistedNew
-                                  ? Container(
-                                      alignment: Alignment.center,
-                                      height: _mediaQuery.size.height * 0.07,
-                                      width: _mediaQuery.size.width * 0.14,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.grey.withOpacity(0.1),
-                                        ),
-                                        color: Color(0xFFF6F6F6),
-                                        borderRadius: BorderRadius.circular(
-                                            _mediaQuery.size.height * 0.01),
+                        future: DatabaseServices()
+                            .checkItem(subproduct: widget.subproduct),
+                        builder: ((context, snapshot) {
+                          if (snapshot.hasData) {
+                            var isWishlisted = snapshot.data!;
+                            isWishlistedNew = isWishlisted;
+                            return isWishlistedNew
+                                ? Container(
+                                    alignment: Alignment.center,
+                                    height: _mediaQuery.size.height * 0.07,
+                                    width: _mediaQuery.size.width * 0.14,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey.withOpacity(0.1),
                                       ),
-                                      child: Icon(
-                                        Icons.favorite,
-                                        size: _mediaQuery.size.height * 0.024,
-                                        color: Colors.red,
+                                      color: Color(0xFFF6F6F6),
+                                      borderRadius: BorderRadius.circular(
+                                          _mediaQuery.size.height * 0.01),
+                                    ),
+                                    child: Icon(
+                                      Icons.favorite,
+                                      size: _mediaQuery.size.height * 0.024,
+                                      color: Colors.red,
+                                    ),
+                                  )
+                                : Container(
+                                    alignment: Alignment.center,
+                                    height: _mediaQuery.size.height * 0.07,
+                                    width: _mediaQuery.size.width * 0.14,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey.withOpacity(0.1),
                                       ),
-                                    )
-                                  : Container(
-                                      alignment: Alignment.center,
-                                      height: _mediaQuery.size.height * 0.07,
-                                      width: _mediaQuery.size.width * 0.14,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.grey.withOpacity(0.1),
-                                        ),
-                                        color: Color(0xFFF6F6F6),
-                                        borderRadius: BorderRadius.circular(
-                                            _mediaQuery.size.height * 0.01),
-                                      ),
-                                      child: Icon(
-                                        Icons.favorite_border_outlined,
-                                        size: _mediaQuery.size.height * 0.024,
-                                        color: Colors.black,
-                                      ),
-                                    );
-                            } else {
-                              return Container();
-                            }
-                          })),
+                                      color: Color(0xFFF6F6F6),
+                                      borderRadius: BorderRadius.circular(
+                                          _mediaQuery.size.height * 0.01),
+                                    ),
+                                    child: Icon(
+                                      Icons.favorite_border_outlined,
+                                      size: _mediaQuery.size.height * 0.024,
+                                      color: Colors.black,
+                                    ),
+                                  );
+                          } else {
+                            return Container(
+                              alignment: Alignment.center,
+                              height: _mediaQuery.size.height * 0.07,
+                              width: _mediaQuery.size.width * 0.14,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.grey.withOpacity(0.1),
+                                ),
+                                color: Color(0xFFF6F6F6),
+                                borderRadius: BorderRadius.circular(
+                                    _mediaQuery.size.height * 0.01),
+                              ),
+                              child: Icon(
+                                Icons.favorite_border_outlined,
+                                size: _mediaQuery.size.height * 0.024,
+                                color: Colors.black,
+                              ),
+                            );
+                          }
+                        }),
+                      ),
                     ),
 
                     SizedBox(
@@ -388,14 +373,17 @@ class _ProductOverviewState extends State<ProductOverview> {
                     TextButton(
                       onPressed: () async {
                         _showBottomPanel();
-                        if (selectedSize != '' && selectedQuantity != 0) {
+                        if (sizeState.sizeSelected != '' &&
+                            selectedQuantity != 0) {
                           await DatabaseServices().setShoppingCartItem(
                               subProducts: widget.subproduct,
-                              productSize: selectedSize,
+                              productSize: sizeState.sizeSelected,
                               productQuantity: selectedQuantity);
+
+                          sizeState.setSize('');
                           print('Item added to shopping cart');
                           setState(() {
-                            selectedSize = '';
+                            sizeState.sizeSelected = '';
                             selectedQuantity = 0;
                           });
                         } else {
@@ -424,6 +412,97 @@ class _ProductOverviewState extends State<ProductOverview> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class SizeButtons extends StatefulWidget {
+  SizeButtons({
+    Key? key,
+    required this.mediaQ,
+    required this.sizeList,
+  }) : super(key: key);
+
+  final MediaQueryData mediaQ;
+  List sizeList;
+  String selectedS = '';
+
+  @override
+  State<SizeButtons> createState() => _SizeButtonsState();
+}
+
+class _SizeButtonsState extends State<SizeButtons> {
+  SizeProvider sizeProvider = SizeProvider();
+
+  @override
+  Widget build(BuildContext context) {
+    var sizeState = Provider.of<SizeProvider>(context);
+
+    return Container(
+      margin: EdgeInsets.only(
+          left: widget.mediaQ.size.width * 0.055,
+          top: widget.mediaQ.size.height * 0.012),
+      width: widget.mediaQ.size.width,
+      height: widget.mediaQ.size.height * 0.08,
+      // color: Colors.yellow.withOpacity(0.3),
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        separatorBuilder: (context, index) {
+          return SizedBox(
+            width: widget.mediaQ.size.width * 0.025,
+          );
+        },
+        itemCount: widget.sizeList.length,
+        itemBuilder: ((context, index) {
+          Container getContainer;
+
+          if (sizeState.getSizeSelected == widget.sizeList[index]) {
+            getContainer = Container(
+              alignment: Alignment.center,
+              height: widget.mediaQ.size.height * 0.07,
+              width: widget.mediaQ.size.width * 0.14,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius:
+                    BorderRadius.circular(widget.mediaQ.size.height * 0.01),
+              ),
+              child: Text(
+                widget.sizeList[index],
+                style: kProductsSizesTextStyle.copyWith(
+                    color: Color(0xFFF6F6F6),
+                    fontFamily: 'AvertaStd-Semibold',
+                    fontSize: widget.mediaQ.size.height * 0.028),
+              ),
+            );
+          } else {
+            getContainer = Container(
+              alignment: Alignment.center,
+              height: widget.mediaQ.size.height * 0.07,
+              width: widget.mediaQ.size.width * 0.14,
+              decoration: BoxDecoration(
+                color: Color(0xFFF6F6F6),
+                borderRadius:
+                    BorderRadius.circular(widget.mediaQ.size.height * 0.01),
+              ),
+              child: Text(
+                widget.sizeList[index],
+                style: kProductsSizesTextStyle.copyWith(
+                    color: Colors.black,
+                    fontFamily: 'AvertaStd-Semibold',
+                    fontSize: widget.mediaQ.size.height * 0.028),
+              ),
+            );
+          }
+
+          return GestureDetector(
+              onTap: () {
+                sizeState.setSize(widget.sizeList[index]);
+
+                print('${sizeState.getSizeSelected} size slected');
+              },
+              child: getContainer);
+        }),
       ),
     );
   }
