@@ -1,8 +1,7 @@
-import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 class SizeProvider extends ChangeNotifier {
-  String sizeSelected = 'S';
+  String sizeSelected = '';
 
   String get getSizeSelected => sizeSelected;
 

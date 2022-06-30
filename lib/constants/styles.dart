@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 
+const TextStyle kSemibold = TextStyle(fontFamily: 'AvertaStd-Semibold');
+const TextStyle kBold = TextStyle(fontFamily: 'AvertaStd-Bold');
+const TextStyle kRegular = TextStyle(fontFamily: 'AvertaStd-Regular');
+
 const TextStyle kHeadingsAuthPage =
     TextStyle(fontFamily: 'AvertaStd-Bold', color: kColorHeadingsAuthPage);
 

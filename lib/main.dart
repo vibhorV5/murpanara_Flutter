@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:murpanara/constants/routes.dart';
 import 'package:murpanara/models/product.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:murpanara/providers/quantity_provider.dart';
 import 'package:murpanara/providers/size_provider.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => SizeProvider()),
+        ChangeNotifierProvider(
+          create: (_) => SizeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => QuantityProvider(),
+        ),
         StreamProvider<List<Product>>(
           create: (_) => DatabaseServices().productsStream,
           initialData: const [],

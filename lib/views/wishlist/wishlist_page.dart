@@ -3,7 +3,7 @@ import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/product.dart';
 import 'package:murpanara/services/database_services.dart';
-import 'package:murpanara/widgets/wishlist_tile.dart';
+import 'package:murpanara/views/wishlist/wishlist_tile.dart';
 
 class WishlistPage extends StatefulWidget {
   const WishlistPage({Key? key}) : super(key: key);
@@ -24,7 +24,9 @@ class _WishlistPageState extends State<WishlistPage> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.black,
+                ),
               );
             } else if (snapshot.hasError) {
               return Center(

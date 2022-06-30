@@ -3,7 +3,7 @@ import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/product.dart';
 import 'package:murpanara/services/database_services.dart';
-import 'package:murpanara/widgets/product_tile.dart';
+import 'package:murpanara/views/home/product_tile.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,7 +28,9 @@ class _HomePageState extends State<HomePage> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(
+                color: Colors.black,
+              ),
             );
           } else if (snapshot.hasError) {
             return Center(

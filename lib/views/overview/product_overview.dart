@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/product.dart';
+import 'package:murpanara/providers/quantity_provider.dart';
 import 'package:murpanara/providers/size_provider.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -20,16 +21,44 @@ class ProductOverview extends StatefulWidget {
 class _ProductOverviewState extends State<ProductOverview> {
   int activeIndex = 0;
 
+  final SnackBar errorSnackBar = const SnackBar(
+    elevation: 10,
+    backgroundColor: kColorSnackBarBackgroundAuthPage,
+    content: Text(
+      'Please select a size.',
+      style: kSnackBarTextStyleAuthPage,
+    ),
+  );
+
+  final SnackBar successSnackBar = const SnackBar(
+    elevation: 10,
+    backgroundColor: kColorSnackBarBackgroundAuthPage,
+    content: Text(
+      'Product added to your cart.',
+      style: kSnackBarTextStyleAuthPage,
+    ),
+  );
+
+  final SnackBar itemAlreadyPresentSnackBar = const SnackBar(
+    elevation: 10,
+    backgroundColor: kColorSnackBarBackgroundAuthPage,
+    content: Text(
+      'Product already present in your shopping cart.',
+      style: kSnackBarTextStyleAuthPage,
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
+    //State Providers
     var sizeState = Provider.of<SizeProvider>(context);
+    var quantityState = Provider.of<QuantityProvider>(context);
+
     final _mediaQuery = MediaQuery.of(context);
 
     List sizes = widget.subproduct.size;
-    var isWishlistedNew;
 
-    num selectedQuantity = 0;
-    String dropdownValue = 'One';
+    var isWishlistedNew;
 
     List<Widget> imagesPro = [
       //1st Image of Slider
@@ -51,43 +80,147 @@ class _ProductOverviewState extends State<ProductOverview> {
       ),
     ];
 
-    void _showBottomPanel() {
+    void _showBottomPanel({required SubProducts subProducts}) {
       showModalBottomSheet(
+          backgroundColor: Colors.black.withOpacity(0.6),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(_mediaQuery.size.height * 0.03),
+            ),
+          ),
           context: context,
           builder: (context) {
-            return Container(
-              child: Row(
-                children: [
-                  Text('Select Quantity'),
-                  GestureDetector(
-                    onTap: () {
-                      selectedQuantity = 1;
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                          color: Colors.red.withOpacity(0.4),
-                          padding: EdgeInsets.all(20),
-                          child: Text('1')),
-                    ),
+            return StatefulBuilder(builder: ((context, setModalState) {
+              return Container(
+                height: _mediaQuery.size.height * 0.355,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(_mediaQuery.size.height * 0.03),
+                    topRight: Radius.circular(_mediaQuery.size.height * 0.03),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      selectedQuantity = 3;
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        color: Colors.red.withOpacity(0.4),
-                        padding: EdgeInsets.all(20),
-                        child: Text('3'),
+                  color: Colors.black.withOpacity(0.6),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(
+                          bottom: _mediaQuery.size.height * 0.02),
+                      child: Text(
+                        'Select Quantity',
+                        style: kSemibold.copyWith(
+                            color: Colors.white,
+                            fontSize: _mediaQuery.size.height * 0.033),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              padding: EdgeInsets.all(30),
-            );
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            setModalState(() {
+                              quantityState.decreaseQuantity();
+                            });
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: _mediaQuery.size.height * 0.055,
+                            width: _mediaQuery.size.height * 0.055,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.black,
+                            ),
+                            child: Text('-',
+                                style: kSemibold.copyWith(
+                                    color: Colors.white,
+                                    fontSize: _mediaQuery.size.height * 0.05)),
+                          ),
+                        ),
+                        Container(
+                          margin:
+                              EdgeInsets.all(_mediaQuery.size.height * 0.03),
+                          child: Text('${quantityState.getQuantity}',
+                              style: kSemibold.copyWith(
+                                  color: Colors.white,
+                                  fontSize: _mediaQuery.size.height * 0.03)),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setModalState(() {
+                              quantityState.increaseQuantity();
+                            });
+                          },
+                          child: Container(
+                            height: _mediaQuery.size.height * 0.055,
+                            width: _mediaQuery.size.height * 0.055,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.black,
+                            ),
+                            child: Text('+',
+                                style: kSemibold.copyWith(
+                                    color: Colors.white,
+                                    fontSize: _mediaQuery.size.height * 0.05)),
+                          ),
+                        ),
+                      ],
+                    ),
+                    //Confirm Button
+                    Container(
+                      margin:
+                          EdgeInsets.only(top: _mediaQuery.size.height * 0.03),
+                      child: GestureDetector(
+                        onTap: () async {
+                          bool result = await DatabaseServices()
+                              .checkShoppingCartItem(
+                                  subproduct: widget.subproduct,
+                                  quantity: quantityState.getQuantity,
+                                  size: sizeState.sizeSelected);
+                          if (result == false) {
+                            await DatabaseServices().setShoppingCartItem(
+                                subProducts: subProducts,
+                                productSize: sizeState.sizeSelected,
+                                productQuantity: quantityState.getQuantity);
+
+                            Navigator.of(context).pop();
+
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(successSnackBar);
+                            print('Item added to shopping cart');
+                            setState(() {
+                              sizeState.setSize('');
+                              quantityState.setQuantity(1);
+                            });
+                          } else {
+                            Navigator.of(context).pop();
+                            print('already present');
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(itemAlreadyPresentSnackBar);
+                          }
+                        },
+                        child: Text(
+                          'Confirm',
+                          style: kAddToCartTextStyle.copyWith(
+                              fontSize: _mediaQuery.size.height * 0.02),
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                      height: _mediaQuery.size.height * 0.04,
+                      width: _mediaQuery.size.width * 0.25,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white),
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(
+                            _mediaQuery.size.height * 0.5),
+                      ),
+                    ),
+                  ],
+                ),
+                padding: EdgeInsets.all(30),
+              );
+            }));
           });
     }
 
@@ -371,23 +504,15 @@ class _ProductOverviewState extends State<ProductOverview> {
 
                     //Add to Cart
                     TextButton(
-                      onPressed: () async {
-                        _showBottomPanel();
-                        if (sizeState.sizeSelected != '' &&
-                            selectedQuantity != 0) {
-                          await DatabaseServices().setShoppingCartItem(
-                              subProducts: widget.subproduct,
-                              productSize: sizeState.sizeSelected,
-                              productQuantity: selectedQuantity);
-
-                          sizeState.setSize('');
-                          print('Item added to shopping cart');
-                          setState(() {
-                            sizeState.sizeSelected = '';
-                            selectedQuantity = 0;
-                          });
+                      style: ButtonStyle(
+                        splashFactory: NoSplash.splashFactory,
+                      ),
+                      onPressed: () {
+                        if (sizeState.sizeSelected != '') {
+                          _showBottomPanel(subProducts: widget.subproduct);
                         } else {
-                          print('please select a size');
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(errorSnackBar);
                         }
                       },
                       child: Container(
@@ -433,8 +558,6 @@ class SizeButtons extends StatefulWidget {
 }
 
 class _SizeButtonsState extends State<SizeButtons> {
-  SizeProvider sizeProvider = SizeProvider();
-
   @override
   Widget build(BuildContext context) {
     var sizeState = Provider.of<SizeProvider>(context);

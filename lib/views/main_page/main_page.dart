@@ -49,6 +49,7 @@ class _MainPageState extends State<MainPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black,
         currentIndex: _selectedIndex,
         items: const [
           BottomNavigationBarItem(
@@ -59,7 +60,7 @@ class _MainPageState extends State<MainPage> {
             label: 'Home',
             icon: Icon(
               Icons.home_outlined,
-              // color: Colors.black,
+              color: Colors.black,
             ),
           ),
           BottomNavigationBarItem(
@@ -70,7 +71,7 @@ class _MainPageState extends State<MainPage> {
             label: 'Wishlist',
             icon: Icon(
               Icons.favorite_outline_rounded,
-              // color: Colors.black,
+              color: Colors.black,
             ),
           ),
           BottomNavigationBarItem(
@@ -81,7 +82,7 @@ class _MainPageState extends State<MainPage> {
             label: 'Shopping Cart',
             icon: Icon(
               Icons.shopping_bag_outlined,
-              // color: Colors.black,
+              color: Colors.black,
             ),
           )
         ],

@@ -3,7 +3,7 @@ import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/services/auth.dart';
 import 'package:murpanara/views/authenticate/forgot_password.dart';
-import 'package:murpanara/widgets/google_sign_in.dart';
+import 'package:murpanara/views/authenticate/google_sign_in_button.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key, required this.toggleView}) : super(key: key);

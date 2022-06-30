@@ -4,7 +4,7 @@ import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:murpanara/widgets/shopppingcartitem_tile.dart';
+import 'package:murpanara/views/shoppingcart/shopppingcartitem_tile.dart';
 
 class ShoppingCart extends StatefulWidget {
   const ShoppingCart({Key? key}) : super(key: key);

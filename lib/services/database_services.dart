@@ -236,4 +236,36 @@ class DatabaseServices {
     subList = [];
     return isWishlisted;
   }
+
+  Future<bool> checkShoppingCartItem(
+      {required SubProducts subproduct,
+      required int quantity,
+      required String size}) async {
+    bool isWishlisted = false;
+    var subList = [];
+
+    var user = AuthService().currentUser!;
+    var ref = shoppingcartCollection.doc(user.uid);
+
+    await ref.get().then((value) {
+      value.data().toString().contains('shoppingcart')
+          ? (value.get('shoppingcart') as List).forEach((element) {
+              subList.add(element);
+              for (var map in subList) {
+                if (map?.containsKey('productId') ?? false) {
+                  if ((map!["productId"] == subproduct.productId) &&
+                      (map!["quantity"] == quantity) &&
+                      (map!["size"] == size)) {
+                    isWishlisted = true;
+                  }
+                } else {
+                  isWishlisted = false;
+                }
+              }
+            })
+          : false;
+    });
+    subList = [];
+    return isWishlisted;
+  }
 }
