@@ -46,6 +46,11 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       drawer: AppDrawer(context: context),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        selectedLabelStyle:
+            kSemibold.copyWith(fontSize: _mediaQuery.size.height * 0.017),
+        unselectedLabelStyle:
+            kRegular.copyWith(fontSize: _mediaQuery.size.height * 0.015),
         backgroundColor: Colors.white,
         elevation: 0,
         selectedItemColor: Colors.black,
@@ -76,15 +81,15 @@ class _MainPageState extends State<MainPage> {
           ),
           BottomNavigationBarItem(
             activeIcon: Icon(
-              Icons.shopping_bag,
+              Icons.shopping_cart_rounded,
               // color: Colors.black,
             ),
             label: 'Shopping Cart',
             icon: Icon(
-              Icons.shopping_bag_outlined,
+              Icons.shopping_cart_outlined,
               color: Colors.black,
             ),
-          )
+          ),
         ],
         onTap: (index) {
           setState(() {
@@ -97,16 +102,13 @@ class _MainPageState extends State<MainPage> {
         backgroundColor: Colors.white,
 
         centerTitle: true,
-        title: LayoutBuilder(
-          builder: (context, constraints) {
-            return Container(
-              // color: Colors.red,
-              height: _mediaQuery.size.height * 0.06,
-              width: _mediaQuery.size.width,
-              child: Image.asset('assets/images/mpr_main.png'),
-            );
-          },
+        title: Container(
+          // color: Colors.red,
+          height: _mediaQuery.size.height * 0.06,
+          width: _mediaQuery.size.width,
+          child: Image.asset('assets/images/mpr_main.png'),
         ),
+
         // backgroundColor: Colors.white,
         elevation: 0,
         actions: [

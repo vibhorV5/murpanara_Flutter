@@ -50,12 +50,6 @@ const TextStyle kProductsTitlesTextStyle =
 const TextStyle kProductsSizesTextStyle =
     TextStyle(fontFamily: 'AvertaStd-Bold');
 
-const TextStyle kWishlistTitleTextStyle =
-    TextStyle(fontFamily: 'AvertaStd-Semibold');
-
-const TextStyle kShoppingCartTitleTextStyle =
-    TextStyle(fontFamily: 'AvertaStd-Semibold');
-
 const TextStyle kShoppingCartSubTitlesTextStyle =
     TextStyle(fontFamily: 'AvertaStd-Semibold');
 

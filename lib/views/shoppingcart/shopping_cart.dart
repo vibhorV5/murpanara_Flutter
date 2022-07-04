@@ -4,7 +4,7 @@ import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:murpanara/views/shoppingcart/shopppingcartitem_tile.dart';
+import 'package:murpanara/views/shoppingcart/shoppping_cart_item_tile.dart';
 
 class ShoppingCart extends StatefulWidget {
   const ShoppingCart({Key? key}) : super(key: key);
@@ -87,12 +87,12 @@ class _ShoppingCartState extends State<ShoppingCart> {
             margin: EdgeInsets.only(
                 top: _mediaQuery.size.height * 0.04,
                 bottom: _mediaQuery.size.height * 0.03,
-                left: _mediaQuery.size.width * 0.04),
+                left: _mediaQuery.size.width * 0.04,
+                right: _mediaQuery.size.width * 0.04),
             alignment: Alignment.centerLeft,
             child: Text(
               'Shopping Cart',
-              style: kShoppingCartTitleTextStyle.copyWith(
-                  fontSize: _mediaQuery.size.height * 0.05),
+              style: kBold.copyWith(fontSize: _mediaQuery.size.height * 0.05),
             ),
           ),
 
@@ -112,7 +112,8 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 250),
+                        margin:
+                            EdgeInsets.only(top: _mediaQuery.size.height * 0.4),
                         alignment: Alignment.center,
                         child: CircularProgressIndicator(
                           color: Colors.black,
@@ -127,54 +128,133 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
                   _getSum(data);
 
-                  return Container(
-                    // color: Colors.purple,
-                    child: Column(
-                      children: [
-                        Container(
-                          height: _mediaQuery.size.height * 0.5,
-                          child: ListView.separated(
-                              physics: BouncingScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return ShoppingCartItemTile(
-                                    product: product[index]);
-                              },
-                              separatorBuilder: (context, index) {
-                                return SizedBox(
-                                  height: _mediaQuery.size.height * 0.025,
-                                );
-                              },
-                              itemCount: product.length),
-                        ),
-                        Container(
-                          height: _mediaQuery.size.height * 0.1,
+                  return data.isEmpty
+                      ? Container(
+                          alignment: Alignment.center,
                           // color: Colors.orange,
-                          margin: EdgeInsets.only(
-                              left: _mediaQuery.size.width * 0.04,
-                              right: _mediaQuery.size.width * 0.08),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          height: _mediaQuery.size.height * 0.6,
+                          width: _mediaQuery.size.width,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
+                                // margin: EdgeInsets.only(top: 100),
+                                // height: _mediaQuery.size.height * 0.2,
+                                child: Icon(
+                                  Icons.shopping_cart_outlined,
+                                  color: Colors.black.withOpacity(0.8),
+                                  size: _mediaQuery.size.height * 0.12,
+                                ),
+                              ),
+
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: _mediaQuery.size.height * 0.02),
                                 child: Text(
-                                  'Total',
-                                  style: kTotalSumTextStyle.copyWith(
-                                      fontSize: _mediaQuery.size.height * 0.03),
+                                  'Your Shopping Cart is empty.',
+                                  style: kSemibold.copyWith(
+                                    fontSize: _mediaQuery.size.height * 0.027,
+                                    color: Colors.black.withOpacity(0.8),
+                                  ),
                                 ),
                               ),
                               Container(
+                                margin: EdgeInsets.only(
+                                    top: _mediaQuery.size.height * 0.01),
                                 child: Text(
-                                  '₹${_getSum(data)}',
-                                  style: kTotalSumTextStyle2.copyWith(
-                                      fontSize: _mediaQuery.size.height * 0.03),
+                                  'Looks like you haven\'t added anything to your cart yet.',
+                                  style: kRegular.copyWith(
+                                    fontSize: _mediaQuery.size.height * 0.018,
+                                    color: Colors.black.withOpacity(0.7),
+                                  ),
                                 ),
                               ),
+
+                              //Shop Now Button
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      '/', (Route<dynamic> route) => false);
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      top: _mediaQuery.size.height * 0.025),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(
+                                        _mediaQuery.size.height * 0.04),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: _mediaQuery.size.width * 0.07,
+                                      vertical:
+                                          _mediaQuery.size.height * 0.014),
+                                  child: Text(
+                                    'Continue Shopping',
+                                    style:
+                                        kSemibold.copyWith(color: Colors.white),
+                                  ),
+                                ),
+                              )
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                  );
+                        )
+                      : Container(
+                          // color: Colors.purple,
+                          child: Column(
+                            children: [
+                              Container(
+                                height: _mediaQuery.size.height * 0.5,
+                                width: _mediaQuery.size.width,
+                                child: ListView.separated(
+                                    physics: BouncingScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return ShoppingCartItemTile(
+                                          product: product[index]);
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return SizedBox(
+                                        height: _mediaQuery.size.height * 0.025,
+                                      );
+                                    },
+                                    itemCount: product.length),
+                              ),
+                              Container(
+                                height: _mediaQuery.size.height * 0.1,
+                                // color: Colors.orange,
+                                margin: EdgeInsets.only(
+                                    left: _mediaQuery.size.width * 0.04,
+                                    right: _mediaQuery.size.width * 0.08),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      child: Text(
+                                        'Total',
+                                        style: kTotalSumTextStyle.copyWith(
+                                            fontSize:
+                                                _mediaQuery.size.height * 0.03),
+                                      ),
+                                    ),
+                                    Container(
+                                      child: Text(
+                                        '₹${_getSum(data)}',
+                                        style: kTotalSumTextStyle2.copyWith(
+                                            fontSize:
+                                                _mediaQuery.size.height * 0.03),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              //Checkout Button
+                              CartButton(
+                                  mediaQuery: _mediaQuery,
+                                  cartFunction: launchRazorpay),
+                            ],
+                          ),
+                        );
                 } else if (snapshot.hasError) {
                   return Container(
                     child: Text('Error'),
@@ -185,55 +265,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   );
                 }
               },
-            ),
-          ),
-
-          //Pay Now
-          // Center(
-          //   child: TextButton(
-          //     onPressed: () {
-          //       launchRazorpay();
-          //     },
-          //     child: Container(
-          //       padding: EdgeInsets.all(15),
-          //       color: Colors.black,
-          //       child: Text(
-          //         'Pay Now',
-          //         style: TextStyle(color: Colors.white),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-
-          //Checkout
-          TextButton(
-            style: ButtonStyle(
-              splashFactory: NoSplash.splashFactory,
-            ),
-            onPressed: () {
-              launchRazorpay();
-            },
-            child: Container(
-              margin: EdgeInsets.only(
-                  top: _mediaQuery.size.height * 0.02,
-                  // bottom: _mediaQuery.size.height * 0.02,
-                  left: _mediaQuery.size.width * 0.06,
-                  right: _mediaQuery.size.width * 0.06),
-              alignment: Alignment.center,
-              height: _mediaQuery.size.height * 0.065,
-              width: _mediaQuery.size.width,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius:
-                    BorderRadius.circular(_mediaQuery.size.height * 0.5),
-              ),
-              // color: Colors.amber,
-              child: Text(
-                'Checkout',
-                style: kAddToCartTextStyle.copyWith(
-                    color: Colors.white,
-                    fontSize: _mediaQuery.size.height * 0.02),
-              ),
             ),
           ),
         ],
@@ -249,5 +280,49 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
     print(sum);
     return sum;
+  }
+}
+
+class CartButton extends StatelessWidget {
+  CartButton(
+      {Key? key,
+      required MediaQueryData mediaQuery,
+      required this.cartFunction})
+      : _mediaQuery = mediaQuery,
+        super(key: key);
+
+  final MediaQueryData _mediaQuery;
+  Function cartFunction;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      style: ButtonStyle(
+        splashFactory: NoSplash.splashFactory,
+      ),
+      onPressed: () {
+        cartFunction();
+      },
+      child: Container(
+        margin: EdgeInsets.only(
+            top: _mediaQuery.size.height * 0.02,
+            // bottom: _mediaQuery.size.height * 0.02,
+            left: _mediaQuery.size.width * 0.06,
+            right: _mediaQuery.size.width * 0.06),
+        alignment: Alignment.center,
+        height: _mediaQuery.size.height * 0.065,
+        width: _mediaQuery.size.width,
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(_mediaQuery.size.height * 0.5),
+        ),
+        // color: Colors.amber,
+        child: Text(
+          'Checkout',
+          style: kAddToCartTextStyle.copyWith(
+              color: Colors.white, fontSize: _mediaQuery.size.height * 0.02),
+        ),
+      ),
+    );
   }
 }

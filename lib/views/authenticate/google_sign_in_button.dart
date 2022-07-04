@@ -18,7 +18,7 @@ class _GoogleSignInState extends State<GoogleSignIn> {
 
     return SizedBox(
       // color: Colors.blue.withOpacity(0.3),
-      height: _mediaQuery.size.height * 0.24,
+      height: _mediaQuery.size.height * 0.23,
       width: _mediaQuery.size.width,
       child: LayoutBuilder(
         builder: (context, constraints) {

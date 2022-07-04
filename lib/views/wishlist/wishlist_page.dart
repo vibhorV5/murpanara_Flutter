@@ -36,26 +36,79 @@ class _WishlistPageState extends State<WishlistPage> {
               List<SubProducts> productsData =
                   snapshot.data! as List<SubProducts>;
               print(productsData);
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: _mediaQuery.size.height * 0.04,
-                          bottom: _mediaQuery.size.height * 0.03,
-                          left: _mediaQuery.size.width * 0.04),
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Wishlist',
-                        style: kWishlistTitleTextStyle.copyWith(
-                            fontSize: _mediaQuery.size.height * 0.05),
-                      ),
+              return Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(
+                        top: _mediaQuery.size.height * 0.04,
+                        bottom: _mediaQuery.size.height * 0.03,
+                        left: _mediaQuery.size.width * 0.04),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Wishlist',
+                      style: kBold.copyWith(
+                          fontSize: _mediaQuery.size.height * 0.05),
                     ),
-                    WishlistTile(
-                      subProductList: productsData,
-                    ),
-                  ],
-                ),
+                  ),
+                  productsData.isEmpty
+                      ? Container(
+                          // color: Colors.amber,
+                          height: _mediaQuery.size.height * 0.6,
+                          width: _mediaQuery.size.width,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                // margin: EdgeInsets.only(top: 100),
+                                // height: _mediaQuery.size.height * 0.2,
+                                child: Icon(
+                                  Icons.heart_broken_rounded,
+                                  color: Colors.black.withOpacity(0.8),
+                                  size: _mediaQuery.size.height * 0.12,
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: _mediaQuery.size.height * 0.02),
+                                child: Text(
+                                  'Your Wishlist is currently empty.',
+                                  style: kSemibold.copyWith(
+                                    fontSize: _mediaQuery.size.height * 0.027,
+                                    color: Colors.black.withOpacity(0.7),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: _mediaQuery.size.height * 0.01),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Try adding items to your wishlist by tapping ',
+                                      style: kRegular.copyWith(
+                                        fontSize:
+                                            _mediaQuery.size.height * 0.018,
+                                        color: Colors.black.withOpacity(0.7),
+                                      ),
+                                    ),
+                                    Container(
+                                      child: Icon(
+                                        Icons.favorite_rounded,
+                                        color: Colors.red,
+                                        size: _mediaQuery.size.height * 0.02,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : WishlistTile(
+                          subProductList: productsData,
+                        ),
+                ],
               );
             } else {
               return Center(

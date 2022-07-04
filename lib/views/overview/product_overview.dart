@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
+import 'package:murpanara/constants/snackbars.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/product.dart';
 import 'package:murpanara/providers/quantity_provider.dart';
@@ -20,33 +21,6 @@ class ProductOverview extends StatefulWidget {
 
 class _ProductOverviewState extends State<ProductOverview> {
   int activeIndex = 0;
-
-  final SnackBar errorSnackBar = const SnackBar(
-    elevation: 10,
-    backgroundColor: kColorSnackBarBackgroundAuthPage,
-    content: Text(
-      'Please select a size.',
-      style: kSnackBarTextStyleAuthPage,
-    ),
-  );
-
-  final SnackBar successSnackBar = const SnackBar(
-    elevation: 10,
-    backgroundColor: kColorSnackBarBackgroundAuthPage,
-    content: Text(
-      'Product added to your cart.',
-      style: kSnackBarTextStyleAuthPage,
-    ),
-  );
-
-  final SnackBar itemAlreadyPresentSnackBar = const SnackBar(
-    elevation: 10,
-    backgroundColor: kColorSnackBarBackgroundAuthPage,
-    content: Text(
-      'Product already present in your shopping cart.',
-      style: kSnackBarTextStyleAuthPage,
-    ),
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -167,53 +141,54 @@ class _ProductOverviewState extends State<ProductOverview> {
                         ),
                       ],
                     ),
+
                     //Confirm Button
-                    Container(
-                      margin:
-                          EdgeInsets.only(top: _mediaQuery.size.height * 0.03),
-                      child: GestureDetector(
-                        onTap: () async {
-                          bool result = await DatabaseServices()
-                              .checkShoppingCartItem(
-                                  subproduct: widget.subproduct,
-                                  quantity: quantityState.getQuantity,
-                                  size: sizeState.sizeSelected);
-                          if (result == false) {
-                            await DatabaseServices().setShoppingCartItem(
-                                subProducts: subProducts,
-                                productSize: sizeState.sizeSelected,
-                                productQuantity: quantityState.getQuantity);
+                    GestureDetector(
+                      onTap: () async {
+                        bool result = await DatabaseServices()
+                            .checkShoppingCartItem(
+                                subproduct: widget.subproduct,
+                                quantity: quantityState.getQuantity,
+                                size: sizeState.sizeSelected);
+                        if (result == false) {
+                          await DatabaseServices().setShoppingCartItem(
+                              subProducts: subProducts,
+                              productSize: sizeState.sizeSelected,
+                              productQuantity: quantityState.getQuantity);
 
-                            Navigator.of(context).pop();
+                          Navigator.of(context).pop();
 
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(successSnackBar);
-                            print('Item added to shopping cart');
-                            setState(() {
-                              sizeState.setSize('');
-                              quantityState.setQuantity(1);
-                            });
-                          } else {
-                            Navigator.of(context).pop();
-                            print('already present');
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(itemAlreadyPresentSnackBar);
-                          }
-                        },
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(successSnackBar);
+                          print('Item added to shopping cart');
+                          setState(() {
+                            sizeState.setSize('');
+                            quantityState.setQuantity(1);
+                          });
+                        } else {
+                          Navigator.of(context).pop();
+                          print('already present');
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(itemAlreadyPresentSnackBar);
+                        }
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: _mediaQuery.size.height * 0.04,
+                        width: _mediaQuery.size.width * 0.3,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.white),
+                          color: Colors.black,
+                          borderRadius: BorderRadius.circular(
+                              _mediaQuery.size.height * 0.5),
+                        ),
+                        margin: EdgeInsets.only(
+                            top: _mediaQuery.size.height * 0.03),
                         child: Text(
                           'Confirm',
                           style: kAddToCartTextStyle.copyWith(
                               fontSize: _mediaQuery.size.height * 0.02),
                         ),
-                      ),
-                      alignment: Alignment.center,
-                      height: _mediaQuery.size.height * 0.04,
-                      width: _mediaQuery.size.width * 0.25,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white),
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(
-                            _mediaQuery.size.height * 0.5),
                       ),
                     ),
                   ],
@@ -422,12 +397,22 @@ class _ProductOverviewState extends State<ProductOverview> {
                           setState(() {
                             isWishlistedNew = false;
                           });
+
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(itemRemovedFromWishlistSnackBar);
+
+                          print('item removed from wishlist');
                         } else {
                           await DatabaseServices().setWishlistItemOnFirestore(
                               subProducts: widget.subproduct);
                           setState(() {
                             isWishlistedNew = true;
                           });
+
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(itemAddedToWishlistSnackBar);
+
+                          print('Added added to wishlist');
                         }
                       },
                       child: FutureBuilder(

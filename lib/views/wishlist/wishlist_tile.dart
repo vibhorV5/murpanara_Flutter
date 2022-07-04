@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:murpanara/constants/snackbars.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/product.dart';
 import 'package:murpanara/services/auth.dart';
@@ -21,8 +22,10 @@ class _WishlistTileState extends State<WishlistTile> {
     final String uid = AuthService().currentUser!.uid;
 
     return Container(
-      color: Colors.white,
-      height: _mediaQuery.size.height * 0.69,
+      padding: EdgeInsets.only(bottom: _mediaQuery.size.height * 0.01),
+      // color: Colors.pink,
+      height: _mediaQuery.size.height * 0.7,
+      width: _mediaQuery.size.width,
       child: ListView.separated(
           physics: BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,
@@ -89,6 +92,9 @@ class _WishlistTileState extends State<WishlistTile> {
                                       .deleteWishlistItemOnFirestore(
                                           subProducts:
                                               widget.subProductList[index]);
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      itemRemovedFromWishlistSnackBar);
 
                                   print('deleted');
                                   print('done');

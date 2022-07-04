@@ -144,7 +144,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                         showDialogBox(
                                             mediaQuery: _mediaQuery,
                                             context: context,
-                                            message: 'Email Sent');
+                                            message: 'Email Sent.');
 
                                         await Future.delayed(
                                           Duration(seconds: 2),

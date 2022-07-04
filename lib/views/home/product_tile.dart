@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
+import 'package:murpanara/constants/snackbars.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/product.dart';
 import 'package:murpanara/services/auth.dart';
@@ -24,7 +25,7 @@ class _ProductTileState extends State<ProductTile> {
     return Column(
       children: [
         Container(
-          color: Colors.white,
+          color: kColorHomePageBg,
           height: _mediaQuery.size.height * 0.62,
           child: ListView.separated(
               physics: BouncingScrollPhysics(),
@@ -102,6 +103,10 @@ class _ProductTileState extends State<ProductTile> {
                                       setState(() {
                                         isWishlistedNew = false;
                                       });
+
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                              itemRemovedFromWishlistSnackBar);
                                     } else {
                                       await DatabaseServices()
                                           .setWishlistItemOnFirestore(
@@ -110,6 +115,10 @@ class _ProductTileState extends State<ProductTile> {
                                       setState(() {
                                         isWishlistedNew = true;
                                       });
+
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                              itemAddedToWishlistSnackBar);
                                     }
                                   },
                                   child: FutureBuilder(

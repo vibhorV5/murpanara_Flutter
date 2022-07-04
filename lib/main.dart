@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'murpanara',
         routes: appRoutes,
-        theme: ThemeData.light(),
       ),
     );
   }

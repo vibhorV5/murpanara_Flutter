@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
+import 'package:murpanara/constants/snackbars.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/services/auth.dart';
 import 'package:murpanara/views/authenticate/forgot_password.dart';
@@ -21,15 +22,6 @@ class _SignInState extends State<SignIn> {
     emailController;
     passwordController;
   }
-
-  final SnackBar errorSnackBar = const SnackBar(
-    elevation: 10,
-    backgroundColor: kColorSnackBarBackgroundAuthPage,
-    content: Text(
-      'Enter Registered Email ID',
-      style: kSnackBarTextStyleAuthPage,
-    ),
-  );
 
   String error = '';
 
@@ -158,7 +150,8 @@ class _SignInState extends State<SignIn> {
                                           error = 'Enter Registered Email ID';
                                         });
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(errorSnackBar);
+                                            .showSnackBar(
+                                                emailNotRegisteredSnackBar);
                                       }
                                       print(emailController);
                                       print(passwordController);

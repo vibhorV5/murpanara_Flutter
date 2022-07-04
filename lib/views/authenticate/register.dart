@@ -4,6 +4,7 @@ import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/services/auth.dart';
 import 'package:murpanara/views/authenticate/forgot_password.dart';
 import 'package:murpanara/views/authenticate/google_sign_in_button.dart';
+import 'package:murpanara/constants/snackbars.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key, required this.toggleView}) : super(key: key);
@@ -21,15 +22,6 @@ class _RegisterState extends State<Register> {
     emailController;
     passwordController;
   }
-
-  final SnackBar errorSnackBar = const SnackBar(
-    elevation: 10,
-    backgroundColor: kColorSnackBarBackgroundAuthPage,
-    content: Text(
-      'Enter a Valid Email ID',
-      style: kSnackBarTextStyleAuthPage,
-    ),
-  );
 
   String error = '';
 
@@ -85,7 +77,7 @@ class _RegisterState extends State<Register> {
               Container(
                 height: _mediaQuery.size.height * 0.285,
                 width: _mediaQuery.size.width,
-                // color: Colors.amber.withOpacity(0.3),
+                color: Colors.amber.withOpacity(0.3),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     return Column(
@@ -152,10 +144,10 @@ class _RegisterState extends State<Register> {
                                       );
                                       if (result == null) {
                                         setState(() {
-                                          error = 'Enter a valid Email ID';
+                                          error = 'Enter a valid Email ID.';
                                         });
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(errorSnackBar);
+                                            .showSnackBar(invalidEmailSnackBar);
                                       }
 
                                       print(emailController.text);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:murpanara/constants/snackbars.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/services/database_services.dart';
@@ -17,7 +18,6 @@ class ShoppingCartItemTile extends StatelessWidget {
 
     return Container(
       // color: Colors.red,
-
       child: Row(
         children: [
           Container(
@@ -27,13 +27,14 @@ class ShoppingCartItemTile extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: Color(0xFFF6F6F6),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius:
+                  BorderRadius.circular(_mediaQuery.size.height * 0.02),
             ),
             padding: EdgeInsets.only(
               left: _mediaQuery.size.width * 0.04,
               right: _mediaQuery.size.width * 0.04,
             ),
-            height: 120,
+            height: _mediaQuery.size.height * 0.141,
             child: Image.network(product.imagefront),
           ),
           Container(
@@ -43,20 +44,22 @@ class ShoppingCartItemTile extends StatelessWidget {
               top: _mediaQuery.size.height * 0.015,
               bottom: _mediaQuery.size.width * 0.03,
             ),
-            height: 120,
-            width: 170,
+            height: _mediaQuery.size.height * 0.141,
+            width: _mediaQuery.size.width * 0.45,
             // color: Colors.green,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   margin:
-                      EdgeInsets.only(bottom: _mediaQuery.size.height * 0.02),
+                      EdgeInsets.only(bottom: _mediaQuery.size.height * 0.028),
                   // color: Colors.purple,
-                  child: Text(
-                    product.name,
-                    style: kShoppingCartItemTextStyle.copyWith(
-                        fontSize: _mediaQuery.size.height * 0.022),
+                  child: FittedBox(
+                    child: Text(
+                      (product.name),
+                      style: kShoppingCartItemTextStyle.copyWith(
+                          fontSize: _mediaQuery.size.height * 0.022),
+                    ),
                   ),
                 ),
                 Container(
@@ -80,7 +83,7 @@ class ShoppingCartItemTile extends StatelessWidget {
           ),
           Container(
             // color: Colors.pink,
-            height: 120,
+            height: _mediaQuery.size.height * 0.14,
             child: Column(
               children: [
                 GestureDetector(
@@ -89,13 +92,16 @@ class ShoppingCartItemTile extends StatelessWidget {
                       shoppingCartProduct: product,
                     );
 
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(itemRemovedFromShoppingCartSnackBar);
+
                     print('deleted');
                     print('done');
                   },
                   child: Container(
                     alignment: Alignment.center,
-                    height: 20,
-                    width: 20,
+                    height: _mediaQuery.size.height * 0.035,
+                    width: _mediaQuery.size.width * 0.055,
                     decoration: BoxDecoration(
                       color: Colors.grey.withOpacity(0.1),
                       shape: BoxShape.circle,
@@ -103,7 +109,7 @@ class ShoppingCartItemTile extends StatelessWidget {
                     child: Icon(
                       Icons.delete,
                       color: Colors.black26,
-                      size: 12,
+                      size: _mediaQuery.size.height * 0.02,
                     ),
                   ),
                 ),
@@ -111,7 +117,8 @@ class ShoppingCartItemTile extends StatelessWidget {
                   margin: EdgeInsets.only(top: _mediaQuery.size.height * 0.035),
                   child: Text(
                     'x${product.quantity}',
-                    style: kShoppingQuantityTextStyle.copyWith(fontSize: 18),
+                    style: kShoppingQuantityTextStyle.copyWith(
+                        fontSize: _mediaQuery.size.height * 0.02),
                   ),
                 ),
               ],
