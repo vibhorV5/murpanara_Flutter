@@ -77,7 +77,7 @@ class _RegisterState extends State<Register> {
               Container(
                 height: _mediaQuery.size.height * 0.285,
                 width: _mediaQuery.size.width,
-                color: Colors.amber.withOpacity(0.3),
+                // color: Colors.amber.withOpacity(0.3),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     return Column(

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
+import 'package:murpanara/views/profile/address_book.dart';
+import 'package:murpanara/views/profile/billing_address_edit.dart';
+import 'package:murpanara/views/profile/personal_details_edit.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -60,6 +63,8 @@ class _ProfilePageState extends State<ProfilePage> {
         ],
       ),
       body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        physics: BouncingScrollPhysics(),
         child: Container(
           margin: EdgeInsets.only(
               top: _mediaQuery.size.height * 0.04,
@@ -81,18 +86,143 @@ class _ProfilePageState extends State<ProfilePage> {
                 decoration: BoxDecoration(
                   borderRadius:
                       BorderRadius.circular(_mediaQuery.size.width * 0.04),
-                  color: Colors.purple,
+                  color: Colors.grey.shade200,
                 ),
-                height: _mediaQuery.size.height * 0.5,
+                // height: _mediaQuery.size.height * 0.56,
+                width: _mediaQuery.size.width,
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          HeadingsTitle(
+                            titleText: 'Personal details',
+                          ),
+
+                          //Edit Personal details
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const PersonalDetailsEdit(),
+                                ),
+                              );
+                            },
+                            child: EditWidget(),
+                          ),
+                        ],
+                      ),
+                      PersonalInfoField(
+                        titleField: 'First name',
+                        userTitleField: 'Member',
+                      ),
+                      PersonalInfoField(
+                        titleField: 'Last name',
+                        userTitleField: '-',
+                      ),
+                      PersonalInfoField(
+                        titleField: 'Date of birth',
+                        userTitleField: '-',
+                      ),
+                      PersonalInfoField(
+                        titleField: 'Phone number',
+                        userTitleField: '-',
+                      ),
+                      PersonalInfoField(
+                        titleField: 'Gender',
+                        userTitleField: '-',
+                      ),
+                      PersonalInfoField(
+                        titleField: 'Postal Code',
+                        userTitleField: '-',
+                      ),
+                      PersonalInfoField(
+                        titleField: 'Country',
+                        userTitleField: '-',
+                      ),
+                    ],
+                  ),
+                ),
               ),
+
+              //My Addresses
               Container(
                 margin: EdgeInsets.only(top: _mediaQuery.size.height * 0.01),
                 decoration: BoxDecoration(
                   borderRadius:
                       BorderRadius.circular(_mediaQuery.size.width * 0.04),
-                  color: Colors.orange,
+                  color: Colors.grey.shade200,
                 ),
-                height: _mediaQuery.size.height * 0.4,
+                // height: _mediaQuery.size.height * 0.4,
+                width: _mediaQuery.size.width,
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          HeadingsTitle(
+                            titleText: 'My Addresses',
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const AddressBook(),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              // color: Colors.pink,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(bottom: 15),
+                                    child: Text(
+                                      'Edit ',
+                                      style: kSemibold.copyWith(
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.edit,
+                                    size: 14,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 16),
+                        child: Text(
+                          'Delivery address',
+                          style: kSemibold.copyWith(
+                              fontSize: 13, color: Colors.black45),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 16),
+                        child: Text(
+                          'Billing address',
+                          style: kSemibold.copyWith(
+                              fontSize: 13, color: Colors.black45),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
@@ -102,50 +232,84 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-class CustomFormField extends StatelessWidget {
-  CustomFormField(
-      {Key? key,
-      required this.textController,
-      required this.mediaQuery,
-      required this.hintText,
-      required this.validatorText})
-      : super(key: key);
-
-  final TextEditingController textController;
-  final String hintText;
-  final String validatorText;
-  MediaQueryData mediaQuery;
+class EditWidget extends StatelessWidget {
+  const EditWidget({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: mediaQuery.size.height * 0.05,
-      margin: EdgeInsets.only(
-        right: mediaQuery.size.width * 0.04,
+      // color: Colors.amber,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.only(bottom: 15),
+            child: Text(
+              'Edit ',
+              style: kSemibold.copyWith(
+                fontSize: 13,
+              ),
+            ),
+          ),
+          Icon(
+            Icons.edit,
+            size: 14,
+          ),
+        ],
       ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(mediaQuery.size.height * 0.08),
-        color: kColorFormFieldsAuthPage,
+    );
+  }
+}
+
+class HeadingsTitle extends StatelessWidget {
+  const HeadingsTitle({Key? key, required this.titleText}) : super(key: key);
+
+  final String titleText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 30),
+      child: Text(
+        titleText,
+        style: kSemibold.copyWith(fontSize: 18),
       ),
-      child: Center(
-        child: TextFormField(
-          validator: (value) => value!.isEmpty ? validatorText : null,
-          onChanged: (val) {
-            textController.text = val;
-          },
-          keyboardType: TextInputType.emailAddress,
-          cursorColor: kColorCursorAuthPage,
-          style: kInputFormFieldsAuthPage,
-          textAlignVertical: TextAlignVertical.center,
-          decoration: InputDecoration(
-            errorStyle: kErrorFormFields,
-            border: InputBorder.none,
-            hintText: hintText,
-            hintStyle: kHintStyleFormFields.copyWith(
-                fontSize: mediaQuery.size.height * 0.02),
+    );
+  }
+}
+
+class PersonalInfoField extends StatelessWidget {
+  const PersonalInfoField(
+      {Key? key, required this.titleField, required this.userTitleField})
+      : super(key: key);
+
+  final String titleField;
+  final String userTitleField;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          margin: EdgeInsets.only(bottom: 2),
+          child: Text(
+            titleField,
+            style: kSemibold.copyWith(fontSize: 13).copyWith(
+                  color: Colors.black45,
+                ),
           ),
         ),
-      ),
+        Container(
+          margin: EdgeInsets.only(bottom: 16),
+          child: Text(
+            userTitleField,
+            style: kSemibold.copyWith(fontSize: 13, color: Colors.black),
+          ),
+        ),
+      ],
     );
   }
 }
