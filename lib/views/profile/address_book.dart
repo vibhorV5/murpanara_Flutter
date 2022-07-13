@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
+import 'package:murpanara/models/billing_address.dart';
+import 'package:murpanara/models/delivery_address.dart';
+import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/views/profile/billing_address_edit.dart';
 import 'package:murpanara/views/profile/delivery_address_edit.dart';
 
@@ -94,18 +97,77 @@ class _AddressBookState extends State<AddressBook> {
                       children: [
                         HeadingsTitle(titleText: 'Billing Address'),
                         InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const BillingAddressEdit(),
-                                ),
-                              );
-                            },
-                            child: EditWidget()),
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const BillingAddressEdit(),
+                              ),
+                            );
+                          },
+                          child: EditWidget(),
+                        ),
                       ],
                     ),
-                    SmallInfoText(txt: 'No Billing Address found'),
+                    // SmallInfoText(txt: 'No Billing Address found'),
+                    StreamBuilder(
+                      stream: DatabaseServices().billingAddressStream,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Container(
+                              // color: Colors.yellow,
+                              height: 100,
+                              child: SmallInfoText(
+                                  txt: 'No Billing Address found'));
+                        } else if (snapshot.hasData) {
+                          var data = snapshot.data!;
+                          BillingAddress billingAddress =
+                              data as BillingAddress;
+                          print(billingAddress);
+                          return (data.addressLine1.isEmpty)
+                              ? Container(
+                                  height: 100,
+                                  child: SmallInfoText(
+                                      txt: 'No Billing Address found'))
+                              : Container(
+                                  height: 100,
+                                  child: ListView(
+                                    children: [
+                                      AddressTextWidget(
+                                        txt: data.addressLine1,
+                                        mediaQuery: _mediaQuery,
+                                      ),
+                                      AddressTextWidget(
+                                        txt: data.addressLine2,
+                                        mediaQuery: _mediaQuery,
+                                      ),
+                                      AddressTextWidget(
+                                        txt: data.pincode.toString(),
+                                        mediaQuery: _mediaQuery,
+                                      ),
+                                      Row(
+                                        children: [
+                                          AddressTextWidget(
+                                              txt: '${data.city}, ',
+                                              mediaQuery: _mediaQuery),
+                                          AddressTextWidget(
+                                              txt: data.state,
+                                              mediaQuery: _mediaQuery),
+                                        ],
+                                      ),
+                                      AddressTextWidget(
+                                        txt: data.country,
+                                        mediaQuery: _mediaQuery,
+                                      ),
+                                    ],
+                                  ));
+                        } else {
+                          print('error');
+                          return SmallInfoText(txt: 'No Billing Address found');
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -141,13 +203,109 @@ class _AddressBookState extends State<AddressBook> {
                         ),
                       ],
                     ),
-                    SmallInfoText(txt: 'No Delivery address found'),
+                    // SmallInfoText(txt: 'No Delivery address found'),
+
+                    StreamBuilder(
+                      stream: DatabaseServices().deliveryAddressStream,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Container(
+                            // color: Colors.yellow,
+                            height: 100,
+                            child:
+                                SmallInfoText(txt: 'No Delivery Address found'),
+                          );
+                        } else if (snapshot.hasData) {
+                          var data = snapshot.data!;
+                          DeliveryAddress deliveryAddress =
+                              data as DeliveryAddress;
+                          print(deliveryAddress);
+                          return (data.addressLine1.isEmpty)
+                              ? Container(
+                                  height: 100,
+                                  child: SmallInfoText(
+                                      txt: 'No Delivery Address found'))
+                              : Container(
+                                  height: 100,
+                                  child: ListView(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          AddressTextWidget(
+                                            txt: '${data.firstName} ',
+                                            mediaQuery: _mediaQuery,
+                                          ),
+                                          AddressTextWidget(
+                                            txt: data.lastName,
+                                            mediaQuery: _mediaQuery,
+                                          )
+                                        ],
+                                      ),
+                                      AddressTextWidget(
+                                        txt: data.addressLine1,
+                                        mediaQuery: _mediaQuery,
+                                      ),
+                                      AddressTextWidget(
+                                        txt: data.addressLine2,
+                                        mediaQuery: _mediaQuery,
+                                      ),
+                                      AddressTextWidget(
+                                        txt: data.pincode.toString(),
+                                        mediaQuery: _mediaQuery,
+                                      ),
+                                      Row(
+                                        children: [
+                                          AddressTextWidget(
+                                              txt: '${data.city}, ',
+                                              mediaQuery: _mediaQuery),
+                                          AddressTextWidget(
+                                              txt: data.state,
+                                              mediaQuery: _mediaQuery),
+                                        ],
+                                      ),
+                                      AddressTextWidget(
+                                        txt: data.country,
+                                        mediaQuery: _mediaQuery,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                        } else {
+                          print('hello error');
+                          return SmallInfoText(
+                              txt: 'No Delivery Address found');
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class AddressTextWidget extends StatelessWidget {
+  const AddressTextWidget({
+    Key? key,
+    required this.txt,
+    required MediaQueryData mediaQuery,
+  })  : _mediaQuery = mediaQuery,
+        super(key: key);
+
+  final String txt;
+  final MediaQueryData _mediaQuery;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      txt,
+      style: kSemibold.copyWith(
+        fontSize: _mediaQuery.size.height * 0.014,
       ),
     );
   }

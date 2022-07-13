@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/india_states.dart';
 import 'package:murpanara/constants/styles.dart';
+import 'package:murpanara/services/database_services.dart';
 
 class DeliveryAddressEdit extends StatefulWidget {
   const DeliveryAddressEdit({Key? key}) : super(key: key);
@@ -284,15 +285,18 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
                 ),
               ),
               SaveButton(
-                  mediaQuery: _mediaQuery,
-                  txt: 'Save',
-                  color: Colors.black,
-                  txtColor: Colors.white),
-              SaveButton(
-                  mediaQuery: _mediaQuery,
-                  txt: 'Cancel',
-                  color: Colors.grey.shade200,
-                  txtColor: Colors.black),
+                mediaQuery: _mediaQuery,
+                txt: 'Save',
+                color: Colors.black,
+                txtColor: Colors.white,
+              ),
+              CancelButton(
+                mediaQuery: _mediaQuery,
+                txt: 'Cancel',
+                color: Colors.grey.shade200,
+                txtColor: Colors.black,
+                ctx: context,
+              ),
             ],
           ),
         ),
@@ -343,7 +347,58 @@ class SaveButton extends StatelessWidget {
       style: ButtonStyle(
         splashFactory: NoSplash.splashFactory,
       ),
-      onPressed: () {},
+      onPressed: () async {
+        await DatabaseServices().setDeliveryAddress();
+        print('delivery address set');
+      },
+      child: Container(
+        margin: EdgeInsets.only(
+            // top: _mediaQuery.size.height * 0.01,
+            // bottom: _mediaQuery.size.height * 0.02,
+            ),
+        alignment: Alignment.center,
+        height: mediaQuery.size.height * 0.06,
+        width: mediaQuery.size.width,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(mediaQuery.size.height * 0.4),
+        ),
+        // color: Colors.amber,
+        child: Text(
+          txt,
+          style: kAddToCartTextStyle.copyWith(
+              color: txtColor, fontSize: mediaQuery.size.height * 0.02),
+        ),
+      ),
+    );
+  }
+}
+
+class CancelButton extends StatelessWidget {
+  CancelButton({
+    Key? key,
+    required this.mediaQuery,
+    required this.txt,
+    required this.color,
+    required this.txtColor,
+    required this.ctx,
+  }) : super(key: key);
+
+  final MediaQueryData mediaQuery;
+  final String txt;
+  final Color color;
+  final Color txtColor;
+  final BuildContext ctx;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      style: ButtonStyle(
+        splashFactory: NoSplash.splashFactory,
+      ),
+      onPressed: () {
+        Navigator.of(ctx).pop();
+      },
       child: Container(
         margin: EdgeInsets.only(
             // top: _mediaQuery.size.height * 0.01,

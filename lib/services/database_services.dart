@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:murpanara/models/billing_address.dart';
+import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/models/product.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/services/auth.dart';
-import 'package:murpanara/views/shoppingcart/shopping_cart.dart';
 
 class DatabaseServices {
   final String? uid;
@@ -21,6 +21,14 @@ class DatabaseServices {
   //Collection Reference for shopping cart
   CollectionReference shoppingcartCollection =
       FirebaseFirestore.instance.collection('shoppingcart');
+
+  //Collection Reference for billing address
+  CollectionReference billingAddressCollection =
+      FirebaseFirestore.instance.collection('billingAddress');
+
+  //Collection Reference for delivery address
+  CollectionReference deliveryAddressCollection =
+      FirebaseFirestore.instance.collection('deliveryAddress');
 
   ///FETCHING DATA
 
@@ -82,6 +90,75 @@ class DatabaseServices {
         .doc(user.uid)
         .snapshots()
         .map(_getwishListSubproductsfromsnapshot);
+  }
+
+  BillingAddress _getBillingAddress(DocumentSnapshot snapshot) {
+    return BillingAddress(
+      addressLine1: snapshot.data().toString().contains('addressLine1')
+          ? snapshot.get('addressLine1')
+          : '',
+      addressLine2: snapshot.data().toString().contains('addressLine2')
+          ? snapshot.get('addressLine2')
+          : '',
+      pincode: snapshot.data().toString().contains('pincode')
+          ? snapshot.get('pincode')
+          : 0,
+      city: snapshot.data().toString().contains('city')
+          ? snapshot.get('city')
+          : '',
+      state: snapshot.data().toString().contains('state')
+          ? snapshot.get('state')
+          : '',
+      country: snapshot.data().toString().contains('country')
+          ? snapshot.get('country')
+          : '',
+    );
+  }
+
+  Stream<BillingAddress> get billingAddressStream {
+    var user = AuthService().currentUser!;
+    return billingAddressCollection
+        .doc(user.uid)
+        .snapshots()
+        .map(_getBillingAddress);
+  }
+
+  DeliveryAddress _getDeliveryAddress(DocumentSnapshot snapshot) {
+    return DeliveryAddress(
+      firstName: snapshot.data().toString().contains('firstName')
+          ? snapshot.get('firstName')
+          : '',
+      lastName: snapshot.data().toString().contains('lastName')
+          ? snapshot.get('lastName')
+          : '',
+      addressLine1: snapshot.data().toString().contains('addressLine1')
+          ? snapshot.get('addressLine1')
+          : '',
+      addressLine2: snapshot.data().toString().contains('addressLine2')
+          ? snapshot.get('addressLine2')
+          : '',
+      pincode: snapshot.data().toString().contains('pincode')
+          ? snapshot.get('pincode')
+          : 0,
+      city: snapshot.data().toString().contains('city')
+          ? snapshot.get('city')
+          : '',
+      state: snapshot.data().toString().contains('state')
+          ? snapshot.get('state')
+          : '',
+      country: snapshot.data().toString().contains('country')
+          ? snapshot.get('country')
+          : '',
+    );
+  }
+
+  Stream<DeliveryAddress> get deliveryAddressStream {
+    var user = AuthService().currentUser!;
+
+    return deliveryAddressCollection
+        .doc(user.uid)
+        .snapshots()
+        .map(_getDeliveryAddress);
   }
 
   //List of ShoppingCartProduct from document snapshot
@@ -162,6 +239,40 @@ class DatabaseServices {
       'shoppingcart': FieldValue.arrayUnion([nestedData])
     };
     return await ref.set(data, SetOptions(merge: true));
+  }
+
+  Future<void> setBillingAddress() async {
+    final data = {
+      'addressLine1': '677',
+      'addressLine2': 'New Sainik Colony',
+      'pincode': 250001,
+      'city': 'Meerut',
+      'state': 'Uttar Pradesh',
+      'country': 'India',
+    };
+
+    var user = AuthService().currentUser!;
+    var ref = billingAddressCollection.doc(user.uid);
+
+    return await ref.set(data);
+  }
+
+  Future<void> setDeliveryAddress() async {
+    final data = {
+      'firstName': 'Vibhor',
+      'lastName': 'Vats',
+      'addressLine1': '677',
+      'addressLine2': 'New Sainik Colony',
+      'pincode': 250001,
+      'city': 'Meerut',
+      'state': 'Uttar Pradesh',
+      'country': 'India',
+    };
+
+    var user = AuthService().currentUser!;
+    var ref = deliveryAddressCollection.doc(user.uid);
+
+    return await ref.set(data);
   }
 
   ///DELETING DATA

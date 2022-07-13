@@ -100,7 +100,7 @@ class _SignInState extends State<SignIn> {
 
                         //Fields
                         Form(
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          autovalidateMode: AutovalidateMode.disabled,
                           key: _formKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,

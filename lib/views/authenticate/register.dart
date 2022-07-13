@@ -30,6 +30,8 @@ class _RegisterState extends State<Register> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  // AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
+
   @override
   Widget build(BuildContext context) {
     final isLandscape =
@@ -98,7 +100,7 @@ class _RegisterState extends State<Register> {
 
                         //Fields
                         Form(
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          autovalidateMode: AutovalidateMode.disabled,
                           key: _formKey,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,

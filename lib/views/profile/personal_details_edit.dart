@@ -18,7 +18,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
   TextEditingController dateController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
 
-  String? dropdownValue;
+  String? dropdownValue = 'Male';
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +89,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                   color: Colors.grey.shade200,
                 ),
                 child: Form(
+                  autovalidateMode: AutovalidateMode.disabled,
                   key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +100,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                         textController: firstNameController,
                         mediaQuery: _mediaQuery,
                         hintText: '',
-                        validatorText: '',
+                        validatorText: 'Please enter a first name',
                       ),
                       SizedBox(
                         height: 13,
@@ -109,7 +110,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                         textController: lastNameController,
                         mediaQuery: _mediaQuery,
                         hintText: '',
-                        validatorText: '',
+                        validatorText: 'Please enter a last name',
                       ),
                       SizedBox(
                         height: 13,
@@ -156,7 +157,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                               },
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter date.';
+                                  return 'Please enter a date';
                                 }
                                 return null;
                               },
@@ -169,7 +170,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                         height: 13,
                       ),
 
-                      //Phone number
+                      // //Phone number
                       TitleFieldText(titleFieldText: '*Phone number'),
 
                       Container(
@@ -202,7 +203,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                                 if (value == null ||
                                     value.isEmpty ||
                                     value.length < 10) {
-                                  return 'Please enter a 10 digit Phone number.';
+                                  return 'Please enter a 10 digit Phone number';
                                 }
                                 return null;
                               },
@@ -215,7 +216,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                         height: 13,
                       ),
 
-                      //Gender
+                      // //Gender
                       TitleFieldText(titleFieldText: '*Gender'),
 
                       Container(
@@ -245,9 +246,6 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                                   dropdownValue = value;
                                 });
                               },
-                              validator: (value) => value!.isEmpty
-                                  ? 'Please select a gender.'
-                                  : null,
                               items: <String>[
                                 'Male',
                                 'Female',
@@ -258,7 +256,6 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                                 );
                               }).toList(),
                             ),
-
                             // validator: (value) {
                             //   if (value == null ||
                             //       value.isEmpty ||
@@ -275,7 +272,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                         height: 13,
                       ),
 
-                      //Postal Code
+                      // //Postal Code
                       TitleFieldText(titleFieldText: '*Postal Code'),
 
                       Container(
@@ -302,14 +299,14 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                                 border: InputBorder.none,
                               ),
 
-                              validator: (value) {
-                                if (value == null ||
-                                    value.isEmpty ||
-                                    value.length < 10) {
-                                  return 'Please enter a 10 digit Phone number.';
-                                }
-                                return null;
-                              },
+                              // validator: (value) {
+                              //   if (value == null ||
+                              //       value.isEmpty ||
+                              //       value.length < 10) {
+                              //     return 'Please enter a 10 digit Phone number.';
+                              //   }
+                              //   return null;
+                              // },
                             ),
                           ),
                         ),
@@ -323,7 +320,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                         height: 13,
                       ),
 
-                      //Country
+                      // //Country
                       TitleFieldText(titleFieldText: '*Country'),
 
                       Container(
@@ -350,14 +347,14 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                                 border: InputBorder.none,
                               ),
 
-                              validator: (value) {
-                                if (value == null ||
-                                    value.isEmpty ||
-                                    value.length < 10) {
-                                  return 'Please enter a 10 digit Phone number.';
-                                }
-                                return null;
-                              },
+                              // validator: (value) {
+                              //   if (value == null ||
+                              //       value.isEmpty ||
+                              //       value.length < 10) {
+                              //     return 'Please enter a 10 digit Phone number.';
+                              //   }
+                              //   return null;
+                              // },
                             ),
                           ),
                         ),
@@ -371,11 +368,13 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                 ),
               ),
               SaveButton(
+                  formKey: _formKey,
                   mediaQuery: _mediaQuery,
                   txt: 'Save details',
                   color: Colors.black,
                   txtColor: Colors.white),
               SaveButton(
+                  formKey: _formKey,
                   mediaQuery: _mediaQuery,
                   txt: 'Cancel',
                   color: Colors.grey.shade200,
@@ -417,12 +416,14 @@ class SaveButton extends StatelessWidget {
     required this.txt,
     required this.color,
     required this.txtColor,
+    required this.formKey,
   }) : super(key: key);
 
   final MediaQueryData mediaQuery;
   final String txt;
   final Color color;
   final Color txtColor;
+  final GlobalKey<FormState> formKey;
 
   @override
   Widget build(BuildContext context) {
@@ -430,7 +431,15 @@ class SaveButton extends StatelessWidget {
       style: ButtonStyle(
         splashFactory: NoSplash.splashFactory,
       ),
-      onPressed: () {},
+      onPressed: () async {
+        FocusScope.of(context).unfocus();
+        if (formKey.currentState!.validate()) {
+          print('valid');
+        } else {
+          FocusScope.of(context).unfocus();
+          print('invalid');
+        }
+      },
       child: Container(
         margin: EdgeInsets.only(
             // top: _mediaQuery.size.height * 0.01,
