@@ -6,6 +6,10 @@ import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/views/profile/billing_address_edit.dart';
 import 'package:murpanara/views/profile/delivery_address_edit.dart';
+import 'package:murpanara/widgets/edit_widget.dart';
+import 'package:murpanara/widgets/headings_title.dart';
+import 'package:murpanara/widgets/small_info_text.dart';
+import 'package:murpanara/widgets/top_heading.dart';
 
 class AddressBook extends StatefulWidget {
   const AddressBook({Key? key}) : super(key: key);
@@ -116,10 +120,11 @@ class _AddressBookState extends State<AddressBook> {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return Container(
-                              // color: Colors.yellow,
-                              height: 100,
-                              child: SmallInfoText(
-                                  txt: 'No Billing Address found'));
+                            // color: Colors.yellow,
+                            height: 100,
+                            child:
+                                SmallInfoText(txt: 'No Billing Address found'),
+                          );
                         } else if (snapshot.hasData) {
                           var data = snapshot.data!;
                           BillingAddress billingAddress =
@@ -133,6 +138,7 @@ class _AddressBookState extends State<AddressBook> {
                               : Container(
                                   height: 100,
                                   child: ListView(
+                                    physics: NeverScrollableScrollPhysics(),
                                     children: [
                                       AddressTextWidget(
                                         txt: data.addressLine1,
@@ -229,6 +235,7 @@ class _AddressBookState extends State<AddressBook> {
                               : Container(
                                   height: 100,
                                   child: ListView(
+                                    physics: NeverScrollableScrollPhysics(),
                                     children: [
                                       Row(
                                         children: [
@@ -306,99 +313,6 @@ class AddressTextWidget extends StatelessWidget {
       txt,
       style: kSemibold.copyWith(
         fontSize: _mediaQuery.size.height * 0.014,
-      ),
-    );
-  }
-}
-
-class EditWidget extends StatelessWidget {
-  const EditWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // color: Colors.amber,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: EdgeInsets.only(bottom: 15),
-            child: Text(
-              'Edit ',
-              style: kSemibold.copyWith(
-                fontSize: 13,
-              ),
-            ),
-          ),
-          Icon(
-            Icons.edit,
-            size: 14,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class TopHeading extends StatelessWidget {
-  const TopHeading({
-    Key? key,
-    required this.txt,
-  }) : super(key: key);
-
-  final String txt;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 20, top: 30),
-      child: Text(
-        txt,
-        style: kSemibold.copyWith(fontSize: 22),
-      ),
-    );
-  }
-}
-
-class HeadingsTitle extends StatelessWidget {
-  const HeadingsTitle({
-    Key? key,
-    required this.titleText,
-  }) : super(key: key);
-
-  final String titleText;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 30),
-      child: Text(
-        titleText,
-        style: kSemibold.copyWith(fontSize: 15),
-      ),
-    );
-  }
-}
-
-class SmallInfoText extends StatelessWidget {
-  const SmallInfoText({
-    Key? key,
-    required this.txt,
-  }) : super(key: key);
-
-  final String txt;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 2, top: 5),
-      child: Text(
-        txt,
-        style: kSemibold.copyWith(fontSize: 10).copyWith(
-              color: Colors.black45,
-            ),
       ),
     );
   }

@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/india_states.dart';
-import 'package:murpanara/constants/styles.dart';
+import 'package:murpanara/models/billing_address.dart';
 import 'package:murpanara/services/database_services.dart';
+import 'package:murpanara/widgets/cancel_button.dart';
+import 'package:murpanara/widgets/custom_formfield.dart';
+import 'package:murpanara/widgets/disabled_formfield.dart';
+import 'package:murpanara/widgets/custom_dropdown_button.dart';
+import 'package:murpanara/widgets/headings_title.dart';
+import 'package:murpanara/widgets/save_button.dart';
+import 'package:murpanara/widgets/title_field_text.dart';
+import 'package:murpanara/widgets/top_heading.dart';
 
 class BillingAddressEdit extends StatefulWidget {
   const BillingAddressEdit({Key? key}) : super(key: key);
@@ -12,12 +20,24 @@ class BillingAddressEdit extends StatefulWidget {
 }
 
 class _BillingAddressEditState extends State<BillingAddressEdit> {
+  @override
+  void dispose() {
+    print('dispose');
+    addressLine1Controller.dispose();
+    addressLine2Controller.dispose();
+    pincodeController.dispose();
+    cityController.dispose();
+    stateController.dispose();
+    super.dispose();
+  }
+
   final _formKey = GlobalKey<FormState>();
 
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController dateController = TextEditingController();
-  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController addressLine1Controller = TextEditingController();
+  TextEditingController addressLine2Controller = TextEditingController();
+  TextEditingController pincodeController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController stateController = TextEditingController();
 
   String? dropdownValue;
 
@@ -90,6 +110,7 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                   color: Colors.grey.shade200,
                 ),
                 child: Form(
+                  autovalidateMode: AutovalidateMode.disabled,
                   key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,13 +118,17 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       HeadingsTitle(titleText: 'Billing Address'),
                       TitleFieldText(titleFieldText: '*Address line 1'),
                       CustomFormField(
-                        textController: firstNameController,
+                        onChanged: (val) {
+                          addressLine1Controller.text = val;
+                        },
+                        keyboardType: TextInputType.streetAddress,
+                        validator: (value) => value!.isEmpty
+                            ? 'Please enter a Flat No. / House name'
+                            : null,
+                        textController: addressLine1Controller,
                         mediaQuery: _mediaQuery,
-                        hintText: '',
-                        validatorText: '',
+                        hintText: 'Flat No. / House name',
                       ),
-
-                      SmallInfoText(txt: 'Street address'),
 
                       SizedBox(
                         height: 13,
@@ -111,13 +136,17 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
 
                       TitleFieldText(titleFieldText: 'Address line 2'),
                       CustomFormField(
-                        textController: lastNameController,
+                        onChanged: (val) {
+                          addressLine2Controller.text = val;
+                        },
+                        keyboardType: TextInputType.streetAddress,
+                        validator: (value) => value!.isEmpty
+                            ? 'Please enter a Street address'
+                            : null,
+                        textController: addressLine2Controller,
                         mediaQuery: _mediaQuery,
-                        hintText: '',
-                        validatorText: '',
+                        hintText: 'Street address',
                       ),
-
-                      SmallInfoText(txt: 'Flat No. / House name'),
 
                       SizedBox(
                         height: 13,
@@ -126,13 +155,22 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       TitleFieldText(titleFieldText: 'Pin code'),
 
                       CustomFormField(
-                        textController: lastNameController,
+                        onChanged: (val) {
+                          pincodeController.text = val;
+                        },
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              value.length != 6) {
+                            return 'Please enter a valid pincode';
+                          }
+                          return null;
+                        },
+                        textController: pincodeController,
                         mediaQuery: _mediaQuery,
-                        hintText: '',
-                        validatorText: '',
+                        hintText: 'Enter your postcode. E.g. 122003',
                       ),
-
-                      SmallInfoText(txt: 'Enter your postcode. E.g. 122003'),
 
                       SizedBox(
                         height: 13,
@@ -141,13 +179,16 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       TitleFieldText(titleFieldText: '*City'),
 
                       CustomFormField(
-                        textController: lastNameController,
+                        onChanged: (val) {
+                          cityController.text = val;
+                        },
+                        keyboardType: TextInputType.name,
+                        validator: (value) =>
+                            value!.isEmpty ? 'Please enter a City/town' : null,
+                        textController: cityController,
                         mediaQuery: _mediaQuery,
-                        hintText: '',
-                        validatorText: '',
+                        hintText: 'City/town',
                       ),
-
-                      SmallInfoText(txt: 'City/town'),
 
                       SizedBox(
                         height: 13,
@@ -156,57 +197,16 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       //State
                       TitleFieldText(titleFieldText: '*State'),
 
-                      Container(
-                        height: _mediaQuery.size.height * 0.05,
-                        width: _mediaQuery.size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                              _mediaQuery.size.height * 0.08),
-                          color: Colors.white,
-                        ),
-                        child: Container(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.only(left: 12.0, right: 12.0),
-                            child: DropdownButtonFormField<String>(
-                              decoration: InputDecoration(
-                                  border: UnderlineInputBorder(
-                                      borderSide: BorderSide.none)),
-                              style: kInputFormFieldsAuthPage.copyWith(
-                                  fontSize: 14),
-                              isExpanded: true,
-                              borderRadius: BorderRadius.circular(10),
-                              alignment: Alignment.centerRight,
-                              value: dropdownValue,
-                              onChanged: (value) {
-                                setState(() {
-                                  dropdownValue = value;
-                                });
-                              },
-                              validator: (value) => value!.isEmpty
-                                  ? 'Please select a gender.'
-                                  : null,
-                              items: kListIndianStaes
-                                  .map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            ),
-
-                            // validator: (value) {
-                            //   if (value == null ||
-                            //       value.isEmpty ||
-                            //       value.length < 10) {
-                            //     return 'Please enter a 10 digit Phone number.';
-                            //   }
-                            //   return null;
-                            // },
-                          ),
-                        ),
-                      ),
+                      CustomDropDownButton(
+                          listValues: kListIndianStates,
+                          txt: 'Please select a state',
+                          dropdownValue: dropdownValue,
+                          onChanged: (value) {
+                            setState(() {
+                              stateController.text = value!;
+                              dropdownValue = value;
+                            });
+                          }),
 
                       SizedBox(
                         height: 13,
@@ -215,41 +215,8 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       //Country
                       TitleFieldText(titleFieldText: '*Country'),
 
-                      Container(
-                        height: _mediaQuery.size.height * 0.05,
-                        width: _mediaQuery.size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                              _mediaQuery.size.height * 0.08),
-                          color: Colors.grey[400],
-                        ),
-                        child: Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                            child: TextFormField(
-                              enabled: false,
-                              initialValue: 'India',
-                              keyboardType: TextInputType.number,
-                              cursorColor: kColorCursorAuthPage,
-                              style: kInputFormFieldsAuthPage.copyWith(
-                                  fontSize: 14),
-                              // textAlignVertical: TextAlignVertical.center,
-                              decoration: InputDecoration(
-                                errorStyle: kErrorFormFields,
-                                border: InputBorder.none,
-                              ),
-
-                              validator: (value) {
-                                if (value == null ||
-                                    value.isEmpty ||
-                                    value.length < 10) {
-                                  return 'Please enter a 10 digit Phone number.';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                        ),
+                      DisabledFormField(
+                        txt: 'India',
                       ),
 
                       SizedBox(
@@ -260,12 +227,34 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                 ),
               ),
               SaveButton(
+                onPress: () async {
+                  FocusScope.of(context).unfocus();
+                  if (_formKey.currentState!.validate()) {
+                    await DatabaseServices().setBillingAddress(
+                      billingAddress: BillingAddress(
+                        addressLine1: addressLine1Controller.text,
+                        addressLine2: addressLine2Controller.text,
+                        pincode: num.tryParse(pincodeController.text),
+                        city: cityController.text,
+                        state: stateController.text,
+                      ),
+                    );
+                    print('billing address set');
+                    print('done baby');
+                    Navigator.of(context).pop();
+                  } else {
+                    print('fuck you failed');
+                  }
+                },
                 mediaQuery: _mediaQuery,
                 txt: 'Save',
                 color: Colors.black,
                 txtColor: Colors.white,
               ),
               CancelButton(
+                onPress: () {
+                  Navigator.of(context).pop();
+                },
                 mediaQuery: _mediaQuery,
                 txt: 'Cancel',
                 color: Colors.grey.shade200,
@@ -275,236 +264,6 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class SmallInfoText extends StatelessWidget {
-  const SmallInfoText({
-    Key? key,
-    required this.txt,
-  }) : super(key: key);
-
-  final String txt;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 2, top: 5),
-      child: Text(
-        txt,
-        style: kSemibold.copyWith(fontSize: 10).copyWith(
-              color: Colors.black45,
-            ),
-      ),
-    );
-  }
-}
-
-class SaveButton extends StatelessWidget {
-  SaveButton({
-    Key? key,
-    required this.mediaQuery,
-    required this.txt,
-    required this.color,
-    required this.txtColor,
-  }) : super(key: key);
-
-  final MediaQueryData mediaQuery;
-  final String txt;
-  final Color color;
-  final Color txtColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      style: ButtonStyle(
-        splashFactory: NoSplash.splashFactory,
-      ),
-      onPressed: () async {
-        await DatabaseServices().setBillingAddress();
-        print('billing address set');
-      },
-      child: Container(
-        margin: EdgeInsets.only(
-            // top: _mediaQuery.size.height * 0.01,
-            // bottom: _mediaQuery.size.height * 0.02,
-            ),
-        alignment: Alignment.center,
-        height: mediaQuery.size.height * 0.06,
-        width: mediaQuery.size.width,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(mediaQuery.size.height * 0.4),
-        ),
-        // color: Colors.amber,
-        child: Text(
-          txt,
-          style: kAddToCartTextStyle.copyWith(
-              color: txtColor, fontSize: mediaQuery.size.height * 0.02),
-        ),
-      ),
-    );
-  }
-}
-
-class CancelButton extends StatelessWidget {
-  CancelButton({
-    Key? key,
-    required this.mediaQuery,
-    required this.txt,
-    required this.color,
-    required this.txtColor,
-    required this.ctx,
-  }) : super(key: key);
-
-  final MediaQueryData mediaQuery;
-  final String txt;
-  final Color color;
-  final Color txtColor;
-  final BuildContext ctx;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      style: ButtonStyle(
-        splashFactory: NoSplash.splashFactory,
-      ),
-      onPressed: () {
-        Navigator.of(ctx).pop();
-      },
-      child: Container(
-        margin: EdgeInsets.only(
-            // top: _mediaQuery.size.height * 0.01,
-            // bottom: _mediaQuery.size.height * 0.02,
-            ),
-        alignment: Alignment.center,
-        height: mediaQuery.size.height * 0.06,
-        width: mediaQuery.size.width,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(mediaQuery.size.height * 0.4),
-        ),
-        // color: Colors.amber,
-        child: Text(
-          txt,
-          style: kAddToCartTextStyle.copyWith(
-              color: txtColor, fontSize: mediaQuery.size.height * 0.02),
-        ),
-      ),
-    );
-  }
-}
-
-class CustomFormField extends StatelessWidget {
-  CustomFormField({
-    Key? key,
-    required this.textController,
-    required this.mediaQuery,
-    required this.hintText,
-    required this.validatorText,
-  }) : super(key: key);
-
-  final TextEditingController textController;
-  final String hintText;
-  final String validatorText;
-  MediaQueryData mediaQuery;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: mediaQuery.size.height * 0.05,
-      margin: EdgeInsets.only(
-          // right: mediaQuery.size.width * 0.04,
-          ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(mediaQuery.size.height * 0.08),
-        color: Colors.white,
-      ),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 12.0),
-          child: TextFormField(
-            validator: (value) => value!.isEmpty ? validatorText : null,
-            onChanged: (val) {
-              textController.text = val;
-            },
-            keyboardType: TextInputType.emailAddress,
-            cursorColor: kColorCursorAuthPage,
-            style: kInputFormFieldsAuthPage.copyWith(fontSize: 14),
-            // textAlignVertical: TextAlignVertical.center,
-            decoration: InputDecoration(
-              errorStyle: kErrorFormFields,
-              border: InputBorder.none,
-              hintText: hintText,
-              hintStyle: kHintStyleFormFields.copyWith(
-                  fontSize: mediaQuery.size.height * 0.02),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class TitleFieldText extends StatelessWidget {
-  const TitleFieldText({
-    Key? key,
-    required this.titleFieldText,
-  }) : super(key: key);
-
-  final String titleFieldText;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 2),
-      child: Text(
-        titleFieldText,
-        style: kSemibold.copyWith(fontSize: 13).copyWith(
-              color: Colors.black87,
-            ),
-      ),
-    );
-  }
-}
-
-class TopHeading extends StatelessWidget {
-  const TopHeading({
-    Key? key,
-    required this.txt,
-  }) : super(key: key);
-
-  final String txt;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 20, top: 30),
-      child: Text(
-        txt,
-        style: kSemibold.copyWith(fontSize: 22),
-      ),
-    );
-  }
-}
-
-class HeadingsTitle extends StatelessWidget {
-  const HeadingsTitle({
-    Key? key,
-    required this.titleText,
-  }) : super(key: key);
-
-  final String titleText;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 30),
-      child: Text(
-        titleText,
-        style: kSemibold.copyWith(fontSize: 15),
       ),
     );
   }

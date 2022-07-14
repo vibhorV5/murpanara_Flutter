@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
+import 'package:murpanara/models/billing_address.dart';
+import 'package:murpanara/models/delivery_address.dart';
+import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/views/profile/address_book.dart';
-import 'package:murpanara/views/profile/billing_address_edit.dart';
 import 'package:murpanara/views/profile/personal_details_edit.dart';
+import 'package:murpanara/widgets/edit_widget.dart';
+import 'package:murpanara/widgets/small_info_text.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -145,6 +149,24 @@ class _ProfilePageState extends State<ProfilePage> {
                         titleField: 'Country',
                         userTitleField: '-',
                       ),
+                      // Text('data'),
+                      // StreamBuilder(
+                      //   stream: DatabaseServices().personalDetailsStream,
+                      //   builder: (context, snapshot) {
+                      //     if (snapshot.hasData) {
+                      //       PersonalDetails data =
+                      //           snapshot.data! as PersonalDetails;
+                      //       return Container(
+                      //         height: 100,
+                      //         child: Text(data.dob),
+                      //       );
+                      //     } else if (snapshot.hasError) {
+                      //       return Text('error');
+                      //     } else {
+                      //       return Text('no idea');
+                      //     }
+                      //   },
+                      // ),
                     ],
                   ),
                 ),
@@ -180,27 +202,82 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               );
                             },
-                            child: Container(
-                              // color: Colors.pink,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 15),
-                                    child: Text(
-                                      'Edit ',
-                                      style: kSemibold.copyWith(
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ),
-                                  Icon(
-                                    Icons.edit,
-                                    size: 14,
-                                  ),
-                                ],
-                              ),
+                            child: EditWidget(),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(bottom: 16),
+                            child: Text(
+                              'Billing address',
+                              style: kSemibold.copyWith(
+                                  fontSize: 13, color: Colors.black45),
                             ),
+                          ),
+                          StreamBuilder(
+                            stream: DatabaseServices().billingAddressStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Container(
+                                  // color: Colors.yellow,
+                                  height: 100,
+                                  child: SmallInfoText(
+                                      txt: 'No Billing Address found'),
+                                );
+                              } else if (snapshot.hasData) {
+                                var data = snapshot.data!;
+                                BillingAddress billingAddress =
+                                    data as BillingAddress;
+                                print(billingAddress);
+                                return (data.addressLine1.isEmpty)
+                                    ? Container(
+                                        height: 100,
+                                        child: SmallInfoText(
+                                            txt: 'No Billing Address found'))
+                                    : Container(
+                                        height: 100,
+                                        child: ListView(
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          children: [
+                                            AddressTextWidget(
+                                              txt: data.addressLine1,
+                                              mediaQuery: _mediaQuery,
+                                            ),
+                                            AddressTextWidget(
+                                              txt: data.addressLine2,
+                                              mediaQuery: _mediaQuery,
+                                            ),
+                                            AddressTextWidget(
+                                              txt: data.pincode.toString(),
+                                              mediaQuery: _mediaQuery,
+                                            ),
+                                            Row(
+                                              children: [
+                                                AddressTextWidget(
+                                                    txt: '${data.city}, ',
+                                                    mediaQuery: _mediaQuery),
+                                                AddressTextWidget(
+                                                    txt: data.state,
+                                                    mediaQuery: _mediaQuery),
+                                              ],
+                                            ),
+                                            AddressTextWidget(
+                                              txt: data.country,
+                                              mediaQuery: _mediaQuery,
+                                            ),
+                                          ],
+                                        ));
+                              } else {
+                                print('error');
+                                return SmallInfoText(
+                                    txt: 'No Billing Address found');
+                              }
+                            },
                           ),
                         ],
                       ),
@@ -212,13 +289,79 @@ class _ProfilePageState extends State<ProfilePage> {
                               fontSize: 13, color: Colors.black45),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(bottom: 16),
-                        child: Text(
-                          'Billing address',
-                          style: kSemibold.copyWith(
-                              fontSize: 13, color: Colors.black45),
-                        ),
+                      StreamBuilder(
+                        stream: DatabaseServices().deliveryAddressStream,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Container(
+                              // color: Colors.yellow,
+                              height: 100,
+                              child: SmallInfoText(
+                                  txt: 'No Delivery Address found'),
+                            );
+                          } else if (snapshot.hasData) {
+                            var data = snapshot.data!;
+                            DeliveryAddress deliveryAddress =
+                                data as DeliveryAddress;
+                            print(deliveryAddress);
+                            return (data.addressLine1.isEmpty)
+                                ? Container(
+                                    height: 100,
+                                    child: SmallInfoText(
+                                        txt: 'No Delivery Address found'))
+                                : Container(
+                                    height: 100,
+                                    child: ListView(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      children: [
+                                        Row(
+                                          children: [
+                                            AddressTextWidget(
+                                              txt: '${data.firstName} ',
+                                              mediaQuery: _mediaQuery,
+                                            ),
+                                            AddressTextWidget(
+                                              txt: data.lastName,
+                                              mediaQuery: _mediaQuery,
+                                            )
+                                          ],
+                                        ),
+                                        AddressTextWidget(
+                                          txt: data.addressLine1,
+                                          mediaQuery: _mediaQuery,
+                                        ),
+                                        AddressTextWidget(
+                                          txt: data.addressLine2,
+                                          mediaQuery: _mediaQuery,
+                                        ),
+                                        AddressTextWidget(
+                                          txt: data.pincode.toString(),
+                                          mediaQuery: _mediaQuery,
+                                        ),
+                                        Row(
+                                          children: [
+                                            AddressTextWidget(
+                                                txt: '${data.city}, ',
+                                                mediaQuery: _mediaQuery),
+                                            AddressTextWidget(
+                                                txt: data.state,
+                                                mediaQuery: _mediaQuery),
+                                          ],
+                                        ),
+                                        AddressTextWidget(
+                                          txt: data.country,
+                                          mediaQuery: _mediaQuery,
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                          } else {
+                            print('hello error');
+                            return SmallInfoText(
+                                txt: 'No Delivery Address found');
+                          }
+                        },
                       ),
                     ],
                   ),
@@ -227,37 +370,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class EditWidget extends StatelessWidget {
-  const EditWidget({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // color: Colors.amber,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: EdgeInsets.only(bottom: 15),
-            child: Text(
-              'Edit ',
-              style: kSemibold.copyWith(
-                fontSize: 13,
-              ),
-            ),
-          ),
-          Icon(
-            Icons.edit,
-            size: 14,
-          ),
-        ],
       ),
     );
   }

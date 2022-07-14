@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:murpanara/models/billing_address.dart';
 import 'package:murpanara/models/delivery_address.dart';
+import 'package:murpanara/models/personal_details.dart';
 import 'package:murpanara/models/product.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/services/auth.dart';
@@ -29,6 +30,35 @@ class DatabaseServices {
   //Collection Reference for delivery address
   CollectionReference deliveryAddressCollection =
       FirebaseFirestore.instance.collection('deliveryAddress');
+
+  CollectionReference personalDetailsCollection =
+      FirebaseFirestore.instance.collection('personalDetails');
+
+  PersonalDetails _getPersonalDetails(DocumentSnapshot snapshot) {
+    return PersonalDetails(
+      firstName: snapshot.data().toString().contains('firstName')
+          ? snapshot.get('firstName')
+          : '',
+      lastName: snapshot.data().toString().contains('lastName')
+          ? snapshot.get('lastName')
+          : '',
+      dob:
+          snapshot.data().toString().contains('dob') ? snapshot.get('dob') : '',
+      phoneNumber: snapshot.data().toString().contains('phoneNumber')
+          ? snapshot.get('phoneNumber')
+          : 0,
+      gender: snapshot.data().toString().contains('gender')
+          ? snapshot.get('gender')
+          : '',
+    );
+  }
+
+  Stream<PersonalDetails> get personalDetailsStream {
+    var user = AuthService().currentUser!;
+    return personalDetailsCollection.doc(user.uid).snapshots().map(
+          (event) => _getPersonalDetails(event),
+        );
+  }
 
   ///FETCHING DATA
 
@@ -241,13 +271,14 @@ class DatabaseServices {
     return await ref.set(data, SetOptions(merge: true));
   }
 
-  Future<void> setBillingAddress() async {
+  Future<void> setBillingAddress(
+      {required BillingAddress billingAddress}) async {
     final data = {
-      'addressLine1': '677',
-      'addressLine2': 'New Sainik Colony',
-      'pincode': 250001,
-      'city': 'Meerut',
-      'state': 'Uttar Pradesh',
+      'addressLine1': billingAddress.addressLine1,
+      'addressLine2': billingAddress.addressLine2,
+      'pincode': billingAddress.pincode,
+      'city': billingAddress.city,
+      'state': billingAddress.state,
       'country': 'India',
     };
 
@@ -257,20 +288,37 @@ class DatabaseServices {
     return await ref.set(data);
   }
 
-  Future<void> setDeliveryAddress() async {
+  Future<void> setDeliveryAddress(
+      {required DeliveryAddress deliveryAddress}) async {
     final data = {
-      'firstName': 'Vibhor',
-      'lastName': 'Vats',
-      'addressLine1': '677',
-      'addressLine2': 'New Sainik Colony',
-      'pincode': 250001,
-      'city': 'Meerut',
-      'state': 'Uttar Pradesh',
+      'firstName': deliveryAddress.firstName,
+      'lastName': deliveryAddress.lastName,
+      'addressLine1': deliveryAddress.addressLine1,
+      'addressLine2': deliveryAddress.addressLine2,
+      'pincode': deliveryAddress.pincode,
+      'city': deliveryAddress.city,
+      'state': deliveryAddress.state,
       'country': 'India',
     };
 
     var user = AuthService().currentUser!;
     var ref = deliveryAddressCollection.doc(user.uid);
+
+    return await ref.set(data);
+  }
+
+  Future<void> setPersonalDetails(
+      {required PersonalDetails personalDetails}) async {
+    final data = {
+      'firstName': personalDetails.firstName,
+      'lastName': personalDetails.lastName,
+      'dob': personalDetails.dob,
+      'phoneNumber': personalDetails.phoneNumber,
+      'gender': personalDetails.gender,
+    };
+
+    var user = AuthService().currentUser!;
+    var ref = personalDetailsCollection.doc(user.uid);
 
     return await ref.set(data);
   }

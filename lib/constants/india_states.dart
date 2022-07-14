@@ -1,4 +1,5 @@
-List<String> kListIndianStaes = [
+List<String> kListIndianStates = [
+  "Select State",
   "Andaman and Nicobar Islands",
   "Andhra Pradesh",
   "Arunachal Pradesh",
