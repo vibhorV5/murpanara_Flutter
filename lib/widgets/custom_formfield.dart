@@ -11,10 +11,12 @@ class CustomFormField extends StatelessWidget {
     required this.validator,
     required this.keyboardType,
     required this.onChanged,
+    required this.initialText,
   }) : super(key: key);
 
   final TextEditingController textController;
   final String hintText;
+  final String initialText;
   MediaQueryData mediaQuery;
   String? Function(String?)? validator;
   TextInputType? keyboardType;
@@ -23,6 +25,7 @@ class CustomFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialText,
       validator: validator,
       onChanged: onChanged,
       keyboardType: keyboardType,

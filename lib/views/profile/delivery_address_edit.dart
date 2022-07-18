@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/india_states.dart';
+import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/widgets/cancel_button.dart';
@@ -11,6 +12,7 @@ import 'package:murpanara/widgets/headings_title.dart';
 import 'package:murpanara/widgets/save_button.dart';
 import 'package:murpanara/widgets/title_field_text.dart';
 import 'package:murpanara/widgets/top_heading.dart';
+import 'package:provider/provider.dart';
 
 class DeliveryAddressEdit extends StatefulWidget {
   const DeliveryAddressEdit({Key? key}) : super(key: key);
@@ -47,6 +49,8 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
 
   @override
   Widget build(BuildContext context) {
+    DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
+
     final _mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -123,6 +127,7 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
 
                       TitleFieldText(titleFieldText: '*First name'),
                       CustomFormField(
+                        initialText: deliveryAddressData.firstName,
                         onChanged: (val) {
                           firstNameController.text = val;
                         },
@@ -140,6 +145,7 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
 
                       TitleFieldText(titleFieldText: '*Last name'),
                       CustomFormField(
+                        initialText: deliveryAddressData.lastName,
                         onChanged: (val) {
                           lastNameController.text = val;
                         },
@@ -157,6 +163,7 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
 
                       TitleFieldText(titleFieldText: '*Address line 1'),
                       CustomFormField(
+                        initialText: deliveryAddressData.addressLine1,
                         onChanged: (val) {
                           addressLine1Controller.text = val;
                         },
@@ -175,6 +182,7 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
 
                       TitleFieldText(titleFieldText: 'Address line 2'),
                       CustomFormField(
+                        initialText: deliveryAddressData.addressLine2,
                         onChanged: (val) {
                           addressLine2Controller.text = val;
                         },
@@ -194,6 +202,8 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
                       TitleFieldText(titleFieldText: 'Pin code'),
 
                       CustomFormField(
+                        initialText: UserMethods.checkNumField(
+                            deliveryAddressData.pincode!),
                         onChanged: (val) {
                           pincodeController.text = val;
                         },
@@ -218,6 +228,7 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
                       TitleFieldText(titleFieldText: '*City'),
 
                       CustomFormField(
+                        initialText: deliveryAddressData.city,
                         onChanged: (val) {
                           cityController.text = val;
                         },

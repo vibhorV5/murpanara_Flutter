@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/india_states.dart';
+import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/billing_address.dart';
+import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/widgets/cancel_button.dart';
 import 'package:murpanara/widgets/custom_formfield.dart';
@@ -11,6 +13,7 @@ import 'package:murpanara/widgets/headings_title.dart';
 import 'package:murpanara/widgets/save_button.dart';
 import 'package:murpanara/widgets/title_field_text.dart';
 import 'package:murpanara/widgets/top_heading.dart';
+import 'package:provider/provider.dart';
 
 class BillingAddressEdit extends StatefulWidget {
   const BillingAddressEdit({Key? key}) : super(key: key);
@@ -43,6 +46,8 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
 
   @override
   Widget build(BuildContext context) {
+    BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
+
     final _mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -118,6 +123,7 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       HeadingsTitle(titleText: 'Billing Address'),
                       TitleFieldText(titleFieldText: '*Address line 1'),
                       CustomFormField(
+                        initialText: billingAddressData.addressLine1,
                         onChanged: (val) {
                           addressLine1Controller.text = val;
                         },
@@ -136,6 +142,7 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
 
                       TitleFieldText(titleFieldText: 'Address line 2'),
                       CustomFormField(
+                        initialText: billingAddressData.addressLine2,
                         onChanged: (val) {
                           addressLine2Controller.text = val;
                         },
@@ -155,6 +162,8 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       TitleFieldText(titleFieldText: 'Pin code'),
 
                       CustomFormField(
+                        initialText: UserMethods.checkNumField(
+                            billingAddressData.pincode!),
                         onChanged: (val) {
                           pincodeController.text = val;
                         },
@@ -179,6 +188,7 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       TitleFieldText(titleFieldText: '*City'),
 
                       CustomFormField(
+                        initialText: billingAddressData.city,
                         onChanged: (val) {
                           cityController.text = val;
                         },

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
+import 'package:murpanara/models/billing_address.dart';
+import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/services/database_services.dart';
-import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:murpanara/views/checkout/checkout_page.dart';
+import 'package:provider/provider.dart';
 import 'package:murpanara/views/shoppingcart/shoppping_cart_item_tile.dart';
 
 class ShoppingCart extends StatefulWidget {
@@ -14,68 +17,11 @@ class ShoppingCart extends StatefulWidget {
 }
 
 class _ShoppingCartState extends State<ShoppingCart> {
-  late Razorpay _razorpay;
-
-  @override
-  void initState() {
-    super.initState();
-    initializeRazorpay();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _razorpay.clear();
-  }
-
-  void initializeRazorpay() {
-    _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
-  }
-
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    // Do something when payment succeeds
-    print('Payment Successfvdfull');
-
-    print(
-        'hello = ${response.orderId} \n ${response.paymentId} \n ${response.signature}');
-  }
-
-  void _handlePaymentError(PaymentFailureResponse response) {
-    // Do something when payment fails
-    print('Payment Failed');
-
-    print('${response.code} \n ${response.message}');
-  }
-
-  void _handleExternalWallet(ExternalWalletResponse response) {
-    // Do something when an external wallet was selected
-    print('Payment Failed');
-  }
-
-  void launchRazorpay() {
-    var options = {
-      'key': 'rzp_test_Afbk6Y8rJy3NHQ',
-      'amount': 50000, //in the smallest currency sub-unit.
-      'name': 'Acme Corp.',
-      // 'order_id': 'order_EMBFqjDHEEn80l', // Generate order_id using Orders API
-      'description': 'Fine T-Shirt',
-      'timeout': 60, // in seconds
-      'prefill': {'contact': '9123456789', 'email': 'gaurav.kumar@example.com'}
-    };
-
-    try {
-      _razorpay.open(options);
-    } catch (e) {
-      print('Error = $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
+    DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
+
     final _mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -126,7 +72,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   List<ShoppingCartProduct> product =
                       data as List<ShoppingCartProduct>;
 
-                  _getSum(data);
+                  getSum(data);
 
                   return data.isEmpty
                       ? Container(
@@ -238,7 +184,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                     ),
                                     Container(
                                       child: Text(
-                                        '₹${_getSum(data)}',
+                                        '₹${getSum(data)}',
                                         style: kTotalSumTextStyle2.copyWith(
                                             fontSize:
                                                 _mediaQuery.size.height * 0.03),
@@ -249,9 +195,114 @@ class _ShoppingCartState extends State<ShoppingCart> {
                               ),
 
                               //Checkout Button
-                              CartButton(
-                                  mediaQuery: _mediaQuery,
-                                  cartFunction: launchRazorpay),
+                              TextButton(
+                                style: ButtonStyle(
+                                  splashFactory: NoSplash.splashFactory,
+                                ),
+                                onPressed: () {
+                                  if (deliveryAddressData.addressLine1.isEmpty ||
+                                      deliveryAddressData
+                                          .addressLine1.isEmpty ||
+                                      deliveryAddressData.firstName.isEmpty ||
+                                      deliveryAddressData.pincode
+                                          .toString()
+                                          .isEmpty) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return Center(
+                                            child: Container(
+                                              height: 150,
+                                              padding: EdgeInsets.all(20),
+                                              width: _mediaQuery.size.width,
+                                              color: Colors.white,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'No Delivery address found',
+                                                    style: kSemibold.copyWith(
+                                                        fontSize: 15),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 30,
+                                                  ),
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                      Navigator.pushNamed(
+                                                          context,
+                                                          'deliveryAddressEdit');
+                                                    },
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                        color: Colors
+                                                            .grey.shade300,
+                                                      ),
+                                                      padding:
+                                                          EdgeInsets.all(15),
+                                                      child: Row(
+                                                        children: [
+                                                          Container(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    right: 5,
+                                                                    left: 5),
+                                                            child:
+                                                                Icon(Icons.add),
+                                                          ),
+                                                          Text(
+                                                            'Add Delivery address',
+                                                            style: kSemibold
+                                                                .copyWith(
+                                                                    fontSize:
+                                                                        13),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                  } else {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const CheckoutPage(),
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      top: _mediaQuery.size.height * 0.02,
+                                      // bottom: _mediaQuery.size.height * 0.02,
+                                      left: _mediaQuery.size.width * 0.06,
+                                      right: _mediaQuery.size.width * 0.06),
+                                  alignment: Alignment.center,
+                                  height: _mediaQuery.size.height * 0.065,
+                                  width: _mediaQuery.size.width,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(
+                                        _mediaQuery.size.height * 0.5),
+                                  ),
+                                  // color: Colors.amber,
+                                  child: Text(
+                                    'Continue to Checkout',
+                                    style: kAddToCartTextStyle.copyWith(
+                                        color: Colors.white,
+                                        fontSize:
+                                            _mediaQuery.size.height * 0.02),
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                         );
@@ -272,7 +323,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
     );
   }
 
-  num _getSum(List<ShoppingCartProduct> data) {
+  num getSum(List<ShoppingCartProduct> data) {
     num sum = 0;
     for (ShoppingCartProduct item in data) {
       sum = sum + (item.price * item.quantity);
@@ -280,49 +331,5 @@ class _ShoppingCartState extends State<ShoppingCart> {
 
     print(sum);
     return sum;
-  }
-}
-
-class CartButton extends StatelessWidget {
-  CartButton(
-      {Key? key,
-      required MediaQueryData mediaQuery,
-      required this.cartFunction})
-      : _mediaQuery = mediaQuery,
-        super(key: key);
-
-  final MediaQueryData _mediaQuery;
-  Function cartFunction;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton(
-      style: ButtonStyle(
-        splashFactory: NoSplash.splashFactory,
-      ),
-      onPressed: () {
-        cartFunction();
-      },
-      child: Container(
-        margin: EdgeInsets.only(
-            top: _mediaQuery.size.height * 0.02,
-            // bottom: _mediaQuery.size.height * 0.02,
-            left: _mediaQuery.size.width * 0.06,
-            right: _mediaQuery.size.width * 0.06),
-        alignment: Alignment.center,
-        height: _mediaQuery.size.height * 0.065,
-        width: _mediaQuery.size.width,
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(_mediaQuery.size.height * 0.5),
-        ),
-        // color: Colors.amber,
-        child: Text(
-          'Checkout',
-          style: kAddToCartTextStyle.copyWith(
-              color: Colors.white, fontSize: _mediaQuery.size.height * 0.02),
-        ),
-      ),
-    );
   }
 }

@@ -366,6 +366,16 @@ class DatabaseServices {
     });
   }
 
+  Future<void> removeBillingAddress() async {
+    var user = AuthService().currentUser!;
+    await billingAddressCollection.doc(user.uid).delete();
+  }
+
+  Future<void> removeDeliveryAddress() async {
+    var user = AuthService().currentUser!;
+    await deliveryAddressCollection.doc(user.uid).delete();
+  }
+
   ///Checks
 
   //Check SubProducts item on wishlist on firestore wishlist collection

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
+import 'package:murpanara/methods/user_methods.dart';
+import 'package:murpanara/models/billing_address.dart';
+import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/models/personal_details.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/widgets/cancel_button.dart';
@@ -12,6 +15,7 @@ import 'package:murpanara/widgets/save_button.dart';
 import 'package:murpanara/widgets/small_info_text.dart';
 import 'package:murpanara/widgets/title_field_text.dart';
 import 'package:murpanara/widgets/top_heading.dart';
+import 'package:provider/provider.dart';
 
 class PersonalDetailsEdit extends StatefulWidget {
   const PersonalDetailsEdit({Key? key}) : super(key: key);
@@ -49,6 +53,10 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
 
   @override
   Widget build(BuildContext context) {
+    PersonalDetails personalDetailsData = Provider.of<PersonalDetails>(context);
+    BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
+    DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
+
     final _mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -124,6 +132,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                       HeadingsTitle(titleText: 'Personal details'),
                       TitleFieldText(titleFieldText: '*First name'),
                       CustomFormField(
+                        initialText: personalDetailsData.firstName,
                         onChanged: (val) {
                           firstNameController.text = val;
                         },
@@ -141,6 +150,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
 
                       TitleFieldText(titleFieldText: '*Last name'),
                       CustomFormField(
+                        initialText: personalDetailsData.lastName,
                         onChanged: (val) {
                           lastNameController.text = val;
                         },
@@ -167,6 +177,8 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                       TitleFieldText(titleFieldText: '*Phone number'),
 
                       CustomFormField(
+                        initialText: UserMethods.checkNumField(
+                            personalDetailsData.phoneNumber!),
                         textController: phoneNumberController,
                         mediaQuery: _mediaQuery,
                         hintText: '10 digit Phone number',
@@ -210,7 +222,10 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                       // //Postal Code
                       TitleFieldText(titleFieldText: '*Postal Code'),
 
-                      DisabledFormField(txt: '250001'),
+                      DisabledFormField(
+                        txt: UserMethods.checkNumField(
+                            deliveryAddressData.pincode!),
+                      ),
 
                       SmallInfoText(
                           txt:

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
+import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/billing_address.dart';
 import 'package:murpanara/models/delivery_address.dart';
-import 'package:murpanara/services/database_services.dart';
+import 'package:murpanara/models/personal_details.dart';
 import 'package:murpanara/views/profile/address_book.dart';
 import 'package:murpanara/views/profile/personal_details_edit.dart';
-import 'package:murpanara/widgets/edit_widget.dart';
-import 'package:murpanara/widgets/small_info_text.dart';
+import 'package:murpanara/widgets/address_text_widget.dart';
+import 'package:murpanara/widgets/edit_or_remove_widget.dart';
+import 'package:murpanara/widgets/personal_info_field.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -19,11 +22,11 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    PersonalDetails personalDetailsData = Provider.of<PersonalDetails>(context);
+    BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
+    DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
 
     final _mediaQuery = MediaQuery.of(context);
-
-    TextEditingController nameController = TextEditingController();
 
     return Scaffold(
       // backgroundColor: Colors.white,
@@ -80,7 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Hi Member',
+                  'Hi, ${UserMethods.checkUserName(personalDetailsData.firstName)}',
                   style:
                       kBold.copyWith(fontSize: _mediaQuery.size.height * 0.05),
                 ),
@@ -117,56 +120,46 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               );
                             },
-                            child: EditWidget(),
+                            child: EditOrRemoveWidget(
+                              label: 'Edit ',
+                              icon: Icon(
+                                Icons.edit,
+                                size: 14,
+                              ),
+                            ),
                           ),
                         ],
                       ),
                       PersonalInfoField(
                         titleField: 'First name',
-                        userTitleField: 'Member',
+                        userTitleField: personalDetailsData.firstName,
                       ),
                       PersonalInfoField(
                         titleField: 'Last name',
-                        userTitleField: '-',
+                        userTitleField: personalDetailsData.lastName,
                       ),
                       PersonalInfoField(
                         titleField: 'Date of birth',
-                        userTitleField: '-',
+                        userTitleField: personalDetailsData.dob,
                       ),
                       PersonalInfoField(
                         titleField: 'Phone number',
-                        userTitleField: '-',
+                        userTitleField: UserMethods.checkNumField(
+                            personalDetailsData.phoneNumber!),
                       ),
                       PersonalInfoField(
                         titleField: 'Gender',
-                        userTitleField: '-',
+                        userTitleField: personalDetailsData.gender,
                       ),
                       PersonalInfoField(
                         titleField: 'Postal Code',
-                        userTitleField: '-',
+                        userTitleField: UserMethods.checkNumField(
+                            deliveryAddressData.pincode!),
                       ),
                       PersonalInfoField(
                         titleField: 'Country',
-                        userTitleField: '-',
+                        userTitleField: 'India',
                       ),
-                      // Text('data'),
-                      // StreamBuilder(
-                      //   stream: DatabaseServices().personalDetailsStream,
-                      //   builder: (context, snapshot) {
-                      //     if (snapshot.hasData) {
-                      //       PersonalDetails data =
-                      //           snapshot.data! as PersonalDetails;
-                      //       return Container(
-                      //         height: 100,
-                      //         child: Text(data.dob),
-                      //       );
-                      //     } else if (snapshot.hasError) {
-                      //       return Text('error');
-                      //     } else {
-                      //       return Text('no idea');
-                      //     }
-                      //   },
-                      // ),
                     ],
                   ),
                 ),
@@ -202,7 +195,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               );
                             },
-                            child: EditWidget(),
+                            child: EditOrRemoveWidget(
+                              label: 'Edit ',
+                              icon: Icon(
+                                Icons.edit,
+                                size: 14,
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -217,68 +216,48 @@ class _ProfilePageState extends State<ProfilePage> {
                                   fontSize: 13, color: Colors.black45),
                             ),
                           ),
-                          StreamBuilder(
-                            stream: DatabaseServices().billingAddressStream,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Container(
-                                  // color: Colors.yellow,
+                          (billingAddressData.addressLine1.isEmpty ||
+                                  billingAddressData.addressLine2.isEmpty ||
+                                  billingAddressData.city.isEmpty ||
+                                  billingAddressData.pincode == 0)
+                              ? Container()
+                              : Container(
                                   height: 100,
-                                  child: SmallInfoText(
-                                      txt: 'No Billing Address found'),
-                                );
-                              } else if (snapshot.hasData) {
-                                var data = snapshot.data!;
-                                BillingAddress billingAddress =
-                                    data as BillingAddress;
-                                print(billingAddress);
-                                return (data.addressLine1.isEmpty)
-                                    ? Container(
-                                        height: 100,
-                                        child: SmallInfoText(
-                                            txt: 'No Billing Address found'))
-                                    : Container(
-                                        height: 100,
-                                        child: ListView(
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
-                                          children: [
-                                            AddressTextWidget(
-                                              txt: data.addressLine1,
-                                              mediaQuery: _mediaQuery,
-                                            ),
-                                            AddressTextWidget(
-                                              txt: data.addressLine2,
-                                              mediaQuery: _mediaQuery,
-                                            ),
-                                            AddressTextWidget(
-                                              txt: data.pincode.toString(),
-                                              mediaQuery: _mediaQuery,
-                                            ),
-                                            Row(
-                                              children: [
-                                                AddressTextWidget(
-                                                    txt: '${data.city}, ',
-                                                    mediaQuery: _mediaQuery),
-                                                AddressTextWidget(
-                                                    txt: data.state,
-                                                    mediaQuery: _mediaQuery),
-                                              ],
-                                            ),
-                                            AddressTextWidget(
-                                              txt: data.country,
-                                              mediaQuery: _mediaQuery,
-                                            ),
-                                          ],
-                                        ));
-                              } else {
-                                print('error');
-                                return SmallInfoText(
-                                    txt: 'No Billing Address found');
-                              }
-                            },
-                          ),
+                                  // color: Colors.purple,
+                                  child: ListView(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    children: [
+                                      AddressTextWidget(
+                                        txt: billingAddressData.addressLine1,
+                                        mediaQuery: _mediaQuery,
+                                      ),
+                                      AddressTextWidget(
+                                        txt: billingAddressData.addressLine2,
+                                        mediaQuery: _mediaQuery,
+                                      ),
+                                      AddressTextWidget(
+                                        txt: billingAddressData.pincode
+                                            .toString(),
+                                        mediaQuery: _mediaQuery,
+                                      ),
+                                      Row(
+                                        children: [
+                                          AddressTextWidget(
+                                              txt:
+                                                  '${billingAddressData.city}, ',
+                                              mediaQuery: _mediaQuery),
+                                          AddressTextWidget(
+                                              txt: billingAddressData.state,
+                                              mediaQuery: _mediaQuery),
+                                        ],
+                                      ),
+                                      AddressTextWidget(
+                                        txt: billingAddressData.country,
+                                        mediaQuery: _mediaQuery,
+                                      ),
+                                    ],
+                                  ),
+                                ),
                         ],
                       ),
                       Container(
@@ -289,80 +268,58 @@ class _ProfilePageState extends State<ProfilePage> {
                               fontSize: 13, color: Colors.black45),
                         ),
                       ),
-                      StreamBuilder(
-                        stream: DatabaseServices().deliveryAddressStream,
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Container(
-                              // color: Colors.yellow,
+                      (deliveryAddressData.addressLine1.isEmpty ||
+                              deliveryAddressData.addressLine2.isEmpty ||
+                              deliveryAddressData.city.isEmpty ||
+                              deliveryAddressData.pincode == 0)
+                          ? Container()
+                          : Container(
                               height: 100,
-                              child: SmallInfoText(
-                                  txt: 'No Delivery Address found'),
-                            );
-                          } else if (snapshot.hasData) {
-                            var data = snapshot.data!;
-                            DeliveryAddress deliveryAddress =
-                                data as DeliveryAddress;
-                            print(deliveryAddress);
-                            return (data.addressLine1.isEmpty)
-                                ? Container(
-                                    height: 100,
-                                    child: SmallInfoText(
-                                        txt: 'No Delivery Address found'))
-                                : Container(
-                                    height: 100,
-                                    child: ListView(
-                                      physics: NeverScrollableScrollPhysics(),
-                                      children: [
-                                        Row(
-                                          children: [
-                                            AddressTextWidget(
-                                              txt: '${data.firstName} ',
-                                              mediaQuery: _mediaQuery,
-                                            ),
-                                            AddressTextWidget(
-                                              txt: data.lastName,
-                                              mediaQuery: _mediaQuery,
-                                            )
-                                          ],
-                                        ),
-                                        AddressTextWidget(
-                                          txt: data.addressLine1,
-                                          mediaQuery: _mediaQuery,
-                                        ),
-                                        AddressTextWidget(
-                                          txt: data.addressLine2,
-                                          mediaQuery: _mediaQuery,
-                                        ),
-                                        AddressTextWidget(
-                                          txt: data.pincode.toString(),
-                                          mediaQuery: _mediaQuery,
-                                        ),
-                                        Row(
-                                          children: [
-                                            AddressTextWidget(
-                                                txt: '${data.city}, ',
-                                                mediaQuery: _mediaQuery),
-                                            AddressTextWidget(
-                                                txt: data.state,
-                                                mediaQuery: _mediaQuery),
-                                          ],
-                                        ),
-                                        AddressTextWidget(
-                                          txt: data.country,
-                                          mediaQuery: _mediaQuery,
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                          } else {
-                            print('hello error');
-                            return SmallInfoText(
-                                txt: 'No Delivery Address found');
-                          }
-                        },
-                      ),
+                              child: ListView(
+                                physics: NeverScrollableScrollPhysics(),
+                                children: [
+                                  Row(
+                                    children: [
+                                      AddressTextWidget(
+                                        txt:
+                                            '${deliveryAddressData.firstName} ',
+                                        mediaQuery: _mediaQuery,
+                                      ),
+                                      AddressTextWidget(
+                                        txt: deliveryAddressData.lastName,
+                                        mediaQuery: _mediaQuery,
+                                      )
+                                    ],
+                                  ),
+                                  AddressTextWidget(
+                                    txt: deliveryAddressData.addressLine1,
+                                    mediaQuery: _mediaQuery,
+                                  ),
+                                  AddressTextWidget(
+                                    txt: deliveryAddressData.addressLine2,
+                                    mediaQuery: _mediaQuery,
+                                  ),
+                                  AddressTextWidget(
+                                    txt: deliveryAddressData.pincode.toString(),
+                                    mediaQuery: _mediaQuery,
+                                  ),
+                                  Row(
+                                    children: [
+                                      AddressTextWidget(
+                                          txt: '${deliveryAddressData.city}, ',
+                                          mediaQuery: _mediaQuery),
+                                      AddressTextWidget(
+                                          txt: deliveryAddressData.state,
+                                          mediaQuery: _mediaQuery),
+                                    ],
+                                  ),
+                                  AddressTextWidget(
+                                    txt: deliveryAddressData.country,
+                                    mediaQuery: _mediaQuery,
+                                  ),
+                                ],
+                              ),
+                            ),
                     ],
                   ),
                 ),
@@ -388,40 +345,6 @@ class HeadingsTitle extends StatelessWidget {
         titleText,
         style: kSemibold.copyWith(fontSize: 18),
       ),
-    );
-  }
-}
-
-class PersonalInfoField extends StatelessWidget {
-  const PersonalInfoField(
-      {Key? key, required this.titleField, required this.userTitleField})
-      : super(key: key);
-
-  final String titleField;
-  final String userTitleField;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          margin: EdgeInsets.only(bottom: 2),
-          child: Text(
-            titleField,
-            style: kSemibold.copyWith(fontSize: 13).copyWith(
-                  color: Colors.black45,
-                ),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.only(bottom: 16),
-          child: Text(
-            userTitleField,
-            style: kSemibold.copyWith(fontSize: 13, color: Colors.black),
-          ),
-        ),
-      ],
     );
   }
 }

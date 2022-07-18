@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/styles.dart';
 
-class EditWidget extends StatelessWidget {
-  const EditWidget({
+class EditOrRemoveWidget extends StatelessWidget {
+  const EditOrRemoveWidget({
     Key? key,
+    required this.label,
+    this.icon,
   }) : super(key: key);
+
+  final String label;
+  final Icon? icon;
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +24,14 @@ class EditWidget extends StatelessWidget {
               left: 15,
             ),
             child: Text(
-              'Edit ',
+              label,
               style: kSemibold.copyWith(
                 fontSize: 13,
               ),
             ),
           ),
-          Icon(
-            Icons.edit,
-            size: 14,
+          Container(
+            child: icon,
           ),
         ],
       ),

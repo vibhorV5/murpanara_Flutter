@@ -65,7 +65,7 @@ class ShoppingCartItemTile extends StatelessWidget {
                 Container(
                   // color: Colors.amber,
                   child: Text(
-                    'Price: ₹ ${product.price}',
+                    'Price: ₹ ${product.price}.00',
                     style: kShoppingCartSubTitlesTextStyle.copyWith(
                         fontSize: _mediaQuery.size.height * 0.018),
                   ),
