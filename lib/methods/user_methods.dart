@@ -14,4 +14,8 @@ class UserMethods {
       return name;
     }
   }
+
+  static String getCurrentDateTime(DateTime orderTime) {
+    return orderTime.toString();
+  }
 }

@@ -3,7 +3,9 @@ import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/billing_address.dart';
 import 'package:murpanara/models/delivery_address.dart';
+import 'package:murpanara/models/personal_details.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
+import 'package:murpanara/providers/checkout_details_provider.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/views/checkout/checkout_page.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +23,13 @@ class _ShoppingCartState extends State<ShoppingCart> {
   Widget build(BuildContext context) {
     BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
     DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
+    CheckoutDetailsProvider checkoutDetailsProvider =
+        Provider.of<CheckoutDetailsProvider>(context);
+    PersonalDetails personalDetailsData = Provider.of<PersonalDetails>(context);
+    List<ShoppingCartProduct> shoppingCartProductsList =
+        Provider.of<List<ShoppingCartProduct>>(context);
+    CheckoutDetailsProvider checkoutDetailsProviderData =
+        Provider.of<CheckoutDetailsProvider>(context);
 
     final _mediaQuery = MediaQuery.of(context);
 
@@ -273,8 +282,26 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            const CheckoutPage(),
+                                        builder: (context) => CheckoutPage(
+                                          email: checkoutDetailsProvider
+                                              .userEmailID,
+                                          phone:
+                                              personalDetailsData.phoneNumber!,
+                                          deliveryAddress: deliveryAddressData,
+                                          shoppingList:
+                                              shoppingCartProductsList,
+                                          totalSum: getSum(data),
+                                          productListDesc:
+                                              checkoutDetailsProvider
+                                                  .getDescription(
+                                                      shoppingCartProductsList),
+                                          generatedOrderID:
+                                              checkoutDetailsProvider
+                                                  .generateOrderId(),
+                                          personalDetails: personalDetailsData,
+                                          checkoutDetailsProvider:
+                                              checkoutDetailsProviderData,
+                                        ),
                                       ),
                                     );
                                   }

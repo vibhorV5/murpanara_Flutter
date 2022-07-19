@@ -4,6 +4,7 @@ import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/models/personal_details.dart';
 import 'package:murpanara/models/product.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
+import 'package:murpanara/models/user_orders.dart';
 import 'package:murpanara/services/auth.dart';
 
 class DatabaseServices {
@@ -31,8 +32,38 @@ class DatabaseServices {
   CollectionReference deliveryAddressCollection =
       FirebaseFirestore.instance.collection('deliveryAddress');
 
+  //Collection Reference for personal details
   CollectionReference personalDetailsCollection =
       FirebaseFirestore.instance.collection('personalDetails');
+
+  //Collection Reference for user orders
+  CollectionReference orderCollection =
+      FirebaseFirestore.instance.collection('userOrders');
+
+//set user order
+  Future<void> setUserOrder({required UserOrders userOrders}) async {
+    var user = AuthService().currentUser!;
+    var nestedData = {
+      'firstName': userOrders.firstName,
+      'lastName': userOrders.lastName,
+      'phone': userOrders.phone,
+      'emailId': userOrders.emailId,
+      'deliveryAddress': userOrders.deliveryAddress,
+      'amountPaid': userOrders.amountPaid,
+      'orderStatus': userOrders.orderStatus,
+      'modeOfPayment': userOrders.modeOfPayment,
+      'orderedProducts': userOrders.orderedProducts,
+      'orderTime': userOrders.orderTime,
+      'orderId': userOrders.orderId,
+    };
+
+    var ref = orderCollection.doc(user.uid);
+    var data = {
+      'userOrders': FieldValue.arrayUnion([nestedData])
+    };
+
+    await ref.set(data, SetOptions(merge: true));
+  }
 
   PersonalDetails _getPersonalDetails(DocumentSnapshot snapshot) {
     return PersonalDetails(

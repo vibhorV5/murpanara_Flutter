@@ -6,6 +6,7 @@ import 'package:murpanara/models/personal_details.dart';
 import 'package:murpanara/models/product.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
+import 'package:murpanara/providers/checkout_details_provider.dart';
 import 'package:murpanara/providers/quantity_provider.dart';
 import 'package:murpanara/providers/size_provider.dart';
 import 'package:murpanara/services/database_services.dart';
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => QuantityProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CheckoutDetailsProvider(),
         ),
         StreamProvider<List<Product>>(
           create: (_) => DatabaseServices().productsStream,

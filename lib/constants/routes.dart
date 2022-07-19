@@ -21,5 +21,4 @@ var appRoutes = {
   'ordersPage': (context) => const OrdersPage(),
   'settingsPage': (context) => const SettingsPage(),
   'deliveryAddressEdit': (context) => const DeliveryAddressEdit(),
-  'checkoutPage': (context) => const CheckoutPage(),
 };

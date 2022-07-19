@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
+import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/delivery_address.dart';
+import 'package:murpanara/models/personal_details.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
+import 'package:murpanara/models/user_orders.dart';
+import 'package:murpanara/providers/checkout_details_provider.dart';
+import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/widgets/address_text_widget.dart';
 import 'package:murpanara/widgets/save_button.dart';
 import 'package:murpanara/widgets/simple_heading.dart';
@@ -11,7 +16,28 @@ import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class CheckoutPage extends StatefulWidget {
-  const CheckoutPage({Key? key}) : super(key: key);
+  CheckoutPage({
+    Key? key,
+    required this.email,
+    required this.phone,
+    required this.deliveryAddress,
+    required this.shoppingList,
+    required this.totalSum,
+    required this.productListDesc,
+    required this.generatedOrderID,
+    required this.personalDetails,
+    required this.checkoutDetailsProvider,
+  }) : super(key: key);
+
+  String email;
+  num phone;
+  DeliveryAddress deliveryAddress;
+  num totalSum;
+  List<ShoppingCartProduct> shoppingList;
+  List<dynamic> productListDesc;
+  String generatedOrderID;
+  PersonalDetails personalDetails;
+  CheckoutDetailsProvider checkoutDetailsProvider;
 
   @override
   State<CheckoutPage> createState() => _CheckoutPageState();
@@ -20,6 +46,8 @@ class CheckoutPage extends StatefulWidget {
 enum ModeOfPayment { razorPay, cashOnDelivery }
 
 class _CheckoutPageState extends State<CheckoutPage> {
+  ModeOfPayment? paymentModeSelect = ModeOfPayment.razorPay;
+
   late Razorpay _razorpay;
 
   @override
@@ -41,12 +69,36 @@ class _CheckoutPageState extends State<CheckoutPage> {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     // Do something when payment succeeds
     print('Payment Successfvdfull');
+    print('Order created with OrderId:${widget.generatedOrderID}');
+    // print('TIME: ${UserMethods.getCurrentDateTime(orderTime)}');
 
     print(
         'hello = ${response.orderId} \n ${response.paymentId} \n ${response.signature}');
+
+    await DatabaseServices().setUserOrder(
+      userOrders: UserOrders(
+        firstName: widget.personalDetails.firstName,
+        lastName: widget.personalDetails.lastName,
+        modeOfPayment: widget
+            .checkoutDetailsProvider.currentSelectedModeOfPayment
+            .toString(),
+        orderId: widget.checkoutDetailsProvider.generateOrderId(),
+        orderStatus: 'Order Placed',
+        orderTime: widget.checkoutDetailsProvider.currentOrderTime().toString(),
+        orderedProducts: ['f', 'f', 'fff', 'fe'],
+        phone: widget.phone,
+        amountPaid: widget.totalSum,
+        deliveryAddress:
+            ('FIRST NAME - ${widget.deliveryAddress.firstName},LAST NAME - ${widget.deliveryAddress.lastName},HOUSE/FLAT NO. - ${widget.deliveryAddress.addressLine1},STREET - ${widget.deliveryAddress.addressLine2},CITY - ${widget.deliveryAddress.city},STATE - ${widget.deliveryAddress.state},PINCODE - ${widget.deliveryAddress.pincode},COUNTRY - ${widget.deliveryAddress.country}'),
+        emailId: widget.email,
+      ),
+    );
+    print('Orders set');
+
+    print('User order set success');
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -64,15 +116,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void launchRazorpay() {
     var options = {
       'key': 'rzp_test_Afbk6Y8rJy3NHQ',
-      'amount': 50000, //in the smallest currency sub-unit.
-      'name': 'Acme Corp.',
-      // 'order_id': 'order_EMBFqjDHEEn80l', // Generate order_id using Orders API
-      'description': 'Fine T-Shirt',
-      'timeout': 60, // in seconds
+      'amount': widget.totalSum * 100, //in the smallest currency sub-unit.
+      'name': 'murpanara',
+      // 'order_id': widget.generatedOrderID, // Generate order_id using Orders API
+      'description':
+          'Order ID: ${widget.generatedOrderID} Details: ${widget.productListDesc.toString()}',
+      'timeout': 120, // in seconds
       'prefill': {
-        'contact': '9123456789',
-        'email': 'gaurav.kumar@example.com',
-        'orderdetails': 'bla bla bla'
+        'contact': widget.phone,
+        'email': widget.email,
+        'orderdetails': 'widget.shoppingList.toString()',
       }
     };
 
@@ -85,10 +138,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
-    List<ShoppingCartProduct> shoppingCartProductsList =
-        Provider.of<List<ShoppingCartProduct>>(context);
-
+    CheckoutDetailsProvider checkoutDetailsProviderData =
+        Provider.of<CheckoutDetailsProvider>(context);
     final _mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -212,10 +263,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       SizedBox(
                         height: 20,
                       ),
-                      (deliveryAddressData.addressLine1.isEmpty ||
-                              deliveryAddressData.addressLine2.isEmpty ||
-                              deliveryAddressData.city.isEmpty ||
-                              deliveryAddressData.pincode == 0)
+                      (widget.deliveryAddress.addressLine1.isEmpty ||
+                              widget.deliveryAddress.addressLine2.isEmpty ||
+                              widget.deliveryAddress.city.isEmpty ||
+                              widget.deliveryAddress.pincode == 0)
                           ? Container(
                               child: SmallInfoText(
                                   txt: 'No Delivery address found'),
@@ -235,25 +286,28 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                         children: [
                                           AddressTextWidget(
                                             txt:
-                                                '${deliveryAddressData.firstName} ',
+                                                '${widget.deliveryAddress.firstName} ',
                                             mediaQuery: _mediaQuery,
                                           ),
                                           AddressTextWidget(
-                                            txt: deliveryAddressData.lastName,
+                                            txt:
+                                                widget.deliveryAddress.lastName,
                                             mediaQuery: _mediaQuery,
                                           )
                                         ],
                                       ),
                                       AddressTextWidget(
-                                        txt: deliveryAddressData.addressLine1,
+                                        txt:
+                                            widget.deliveryAddress.addressLine1,
                                         mediaQuery: _mediaQuery,
                                       ),
                                       AddressTextWidget(
-                                        txt: deliveryAddressData.addressLine2,
+                                        txt:
+                                            widget.deliveryAddress.addressLine2,
                                         mediaQuery: _mediaQuery,
                                       ),
                                       AddressTextWidget(
-                                        txt: deliveryAddressData.pincode
+                                        txt: widget.deliveryAddress.pincode
                                             .toString(),
                                         mediaQuery: _mediaQuery,
                                       ),
@@ -261,15 +315,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                         children: [
                                           AddressTextWidget(
                                               txt:
-                                                  '${deliveryAddressData.city} ',
+                                                  '${widget.deliveryAddress.city} ',
                                               mediaQuery: _mediaQuery),
                                           AddressTextWidget(
-                                              txt: deliveryAddressData.state,
+                                              txt: widget.deliveryAddress.state,
                                               mediaQuery: _mediaQuery),
                                         ],
                                       ),
                                       AddressTextWidget(
-                                        txt: deliveryAddressData.country,
+                                        txt: widget.deliveryAddress.country,
                                         mediaQuery: _mediaQuery,
                                       ),
                                     ],
@@ -314,7 +368,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               height: 10,
                             );
                           },
-                          itemCount: shoppingCartProductsList.length,
+                          itemCount: widget.shoppingList.length,
                           itemBuilder: (context, index) {
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -323,8 +377,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   // color: Colors.red,
                                   height: 70,
                                   child: Image.network(
-                                      shoppingCartProductsList[index]
-                                          .imagefront),
+                                      widget.shoppingList[index].imagefront),
                                 ),
                                 Row(
                                   children: [
@@ -337,18 +390,18 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           AddressTextWidget(
-                                            txt: shoppingCartProductsList[index]
-                                                .name,
+                                            txt:
+                                                widget.shoppingList[index].name,
                                             mediaQuery: _mediaQuery,
                                           ),
                                           AddressTextWidget(
                                             txt:
-                                                'Size: ${shoppingCartProductsList[index].size}',
+                                                'Size: ${widget.shoppingList[index].size}',
                                             mediaQuery: _mediaQuery,
                                           ),
                                           AddressTextWidget(
                                             txt:
-                                                'Price: ${shoppingCartProductsList[index].price.toString()}.00',
+                                                'Price: ${widget.shoppingList[index].price.toString()}.00',
                                             mediaQuery: _mediaQuery,
                                           ),
                                         ],
@@ -359,7 +412,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     ),
                                     AddressTextWidget(
                                       txt:
-                                          'x ${shoppingCartProductsList[index].quantity.toString()}',
+                                          'x ${widget.shoppingList[index].quantity.toString()}',
                                       mediaQuery: _mediaQuery,
                                     ),
                                     SizedBox(
@@ -367,7 +420,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     ),
                                     AddressTextWidget(
                                       txt:
-                                          '${getProductPrice(price: shoppingCartProductsList[index].price, quantity: shoppingCartProductsList[index].quantity)}.00',
+                                          '${getProductPrice(price: widget.shoppingList[index].price, quantity: widget.shoppingList[index].quantity)}.00',
                                       mediaQuery: _mediaQuery,
                                     ),
                                   ],
@@ -385,10 +438,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         children: [
                           SimpleHeading(txt: 'Total'),
                           SimpleHeading(
-                            txt: '${getSum(shoppingCartProductsList)}.00',
+                            txt: '${getSum(widget.shoppingList)}.00',
                           )
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -405,38 +458,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         BorderRadius.circular(_mediaQuery.size.width * 0.04),
                     color: Colors.grey.shade200,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SimpleHeading(
-                        txt: 'Mode of Payment',
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      ListTile(
-                        title: Text('RazorPay'),
-                      ),
-                      ListTile(
-                        title: Text('Cash on Delivery'),
-                      ),
-                      // SimpleSmallHeading(
-                      //   txt: 'Email',
-                      // ),
-                      // SimpleText(
-                      //   txt: 'vibhor.stav@gmail.com',
-                      // ),
-                      // SizedBox(
-                      //   height: 20,
-                      // ),
-                      // SimpleSmallHeading(
-                      //   txt: 'Phone',
-                      // ),
-                      // SimpleText(
-                      //   txt: '+91 8126793405',
-                      // ),
-                    ],
-                  ),
+                  child: CustomRadioTileWidget(),
                 ),
 
                 SaveButton(
@@ -444,8 +466,43 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   txt: 'CONTINUE TO PAYMENT',
                   color: Colors.black,
                   txtColor: Colors.white,
-                  onPress: () {
-                    launchRazorpay();
+                  onPress: () async {
+                    if (checkoutDetailsProviderData
+                            .currentSelectedModeOfPayment ==
+                        ModeOfPayment.razorPay) {
+                      launchRazorpay();
+                    } else if (checkoutDetailsProviderData
+                            .currentSelectedModeOfPayment ==
+                        ModeOfPayment.cashOnDelivery) {
+                      await DatabaseServices().setUserOrder(
+                        userOrders: UserOrders(
+                          firstName: widget.personalDetails.firstName,
+                          lastName: widget.personalDetails.lastName,
+                          modeOfPayment: widget.checkoutDetailsProvider
+                              .currentSelectedModeOfPayment
+                              .toString(),
+                          orderId:
+                              widget.checkoutDetailsProvider.generateOrderId(),
+                          orderStatus: 'Order Placed',
+                          orderTime: widget.checkoutDetailsProvider
+                              .currentOrderTime()
+                              .toString(),
+                          orderedProducts: [
+                            'd',
+                            'f',
+                            'f',
+                            'f',
+                            'f',
+                          ],
+                          phone: widget.phone,
+                          amountPaid: widget.totalSum,
+                          deliveryAddress:
+                              ('FIRST NAME - ${widget.deliveryAddress.firstName},LAST NAME - ${widget.deliveryAddress.lastName},HOUSE/FLAT NO. - ${widget.deliveryAddress.addressLine1},STREET - ${widget.deliveryAddress.addressLine2},CITY - ${widget.deliveryAddress.city},STATE - ${widget.deliveryAddress.state},PINCODE - ${widget.deliveryAddress.pincode},COUNTRY - ${widget.deliveryAddress.country}'),
+                          emailId: widget.email,
+                        ),
+                      );
+                      print('COD SELECTED SUCCESS');
+                    }
                   },
                 )
               ],
@@ -468,5 +525,73 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
     print(sum);
     return sum;
+  }
+}
+
+class CustomRadioTileWidget extends StatefulWidget {
+  const CustomRadioTileWidget({Key? key}) : super(key: key);
+
+  @override
+  State<CustomRadioTileWidget> createState() => _CustomRadioTileWidgetState();
+}
+
+class _CustomRadioTileWidgetState extends State<CustomRadioTileWidget> {
+  ModeOfPayment? paymentModeSelect = ModeOfPayment.razorPay;
+
+  @override
+  Widget build(BuildContext context) {
+    CheckoutDetailsProvider checkoutDetailsProviderData =
+        Provider.of<CheckoutDetailsProvider>(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SimpleHeading(
+          txt: 'Mode of Payment',
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        RadioListTile<ModeOfPayment>(
+          value: ModeOfPayment.razorPay,
+          groupValue: paymentModeSelect,
+          onChanged: (ModeOfPayment? value) {
+            setState(() {
+              checkoutDetailsProviderData.modeOfPaymentValue(value!);
+              paymentModeSelect = value;
+              print(checkoutDetailsProviderData.currentSelectedModeOfPayment);
+            });
+          },
+          title: Text('RazorPay'),
+        ),
+        RadioListTile<ModeOfPayment>(
+          value: ModeOfPayment.cashOnDelivery,
+          groupValue: paymentModeSelect,
+          onChanged: (ModeOfPayment? value) {
+            setState(() {
+              paymentModeSelect = value;
+              checkoutDetailsProviderData.modeOfPaymentValue(value!);
+              print(checkoutDetailsProviderData.currentSelectedModeOfPayment);
+            });
+          },
+          title: Text('Cash on Delivery'),
+        ),
+        // SimpleSmallHeading(
+        //   txt: 'Email',
+        // ),
+        // SimpleText(
+        //   txt: 'vibhor.stav@gmail.com',
+        // ),
+        // SizedBox(
+        //   height: 20,
+        // ),
+        // SimpleSmallHeading(
+        //   txt: 'Phone',
+        // ),
+        // SimpleText(
+        //   txt: '+91 8126793405',
+        // ),
+      ],
+    );
   }
 }
