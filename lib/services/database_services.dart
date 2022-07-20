@@ -25,71 +25,71 @@ class DatabaseServices {
       FirebaseFirestore.instance.collection('shoppingcart');
 
   //Collection Reference for billing address
-  CollectionReference billingAddressCollection =
-      FirebaseFirestore.instance.collection('billingAddress');
+  // CollectionReference billingAddressCollection =
+  //     FirebaseFirestore.instance.collection('billingAddress');
 
   //Collection Reference for delivery address
-  CollectionReference deliveryAddressCollection =
-      FirebaseFirestore.instance.collection('deliveryAddress');
+  // CollectionReference deliveryAddressCollection =
+  //     FirebaseFirestore.instance.collection('deliveryAddress');
 
   //Collection Reference for personal details
-  CollectionReference personalDetailsCollection =
-      FirebaseFirestore.instance.collection('personalDetails');
+  // CollectionReference personalDetailsCollection =
+  //     FirebaseFirestore.instance.collection('personalDetails');
 
   //Collection Reference for user orders
-  CollectionReference orderCollection =
-      FirebaseFirestore.instance.collection('userOrders');
+  // CollectionReference orderCollection =
+  //     FirebaseFirestore.instance.collection('userOrders');
 
 //set user order
-  Future<void> setUserOrder({required UserOrders userOrders}) async {
-    var user = AuthService().currentUser!;
-    var nestedData = {
-      'firstName': userOrders.firstName,
-      'lastName': userOrders.lastName,
-      'phone': userOrders.phone,
-      'emailId': userOrders.emailId,
-      'deliveryAddress': userOrders.deliveryAddress,
-      'amountPaid': userOrders.amountPaid,
-      'orderStatus': userOrders.orderStatus,
-      'modeOfPayment': userOrders.modeOfPayment,
-      'orderedProducts': userOrders.orderedProducts,
-      'orderTime': userOrders.orderTime,
-      'orderId': userOrders.orderId,
-    };
+  // Future<void> setUserOrder({required UserOrders userOrders}) async {
+  //   var user = AuthService().currentUser!;
+  //   var nestedData = {
+  //     'firstName': userOrders.firstName,
+  //     'lastName': userOrders.lastName,
+  //     'phone': userOrders.phone,
+  //     'emailId': userOrders.emailId,
+  //     'deliveryAddress': userOrders.deliveryAddress,
+  //     'amountPaid': userOrders.amountPaid,
+  //     'orderStatus': userOrders.orderStatus,
+  //     'modeOfPayment': userOrders.modeOfPayment,
+  //     'orderedProducts': userOrders.orderedProducts,
+  //     'orderTime': userOrders.orderTime,
+  //     'orderId': userOrders.orderId,
+  //   };
 
-    var ref = orderCollection.doc(user.uid);
-    var data = {
-      'userOrders': FieldValue.arrayUnion([nestedData])
-    };
+  //   var ref = orderCollection.doc(user.uid);
+  //   var data = {
+  //     'userOrders': FieldValue.arrayUnion([nestedData])
+  //   };
 
-    await ref.set(data, SetOptions(merge: true));
-  }
+  //   await ref.set(data, SetOptions(merge: true));
+  // }
 
-  PersonalDetails _getPersonalDetails(DocumentSnapshot snapshot) {
-    return PersonalDetails(
-      firstName: snapshot.data().toString().contains('firstName')
-          ? snapshot.get('firstName')
-          : '',
-      lastName: snapshot.data().toString().contains('lastName')
-          ? snapshot.get('lastName')
-          : '',
-      dob:
-          snapshot.data().toString().contains('dob') ? snapshot.get('dob') : '',
-      phoneNumber: snapshot.data().toString().contains('phoneNumber')
-          ? snapshot.get('phoneNumber')
-          : 0,
-      gender: snapshot.data().toString().contains('gender')
-          ? snapshot.get('gender')
-          : '',
-    );
-  }
+  // PersonalDetails _getPersonalDetails(DocumentSnapshot snapshot) {
+  //   return PersonalDetails(
+  //     firstName: snapshot.data().toString().contains('firstName')
+  //         ? snapshot.get('firstName')
+  //         : '',
+  //     lastName: snapshot.data().toString().contains('lastName')
+  //         ? snapshot.get('lastName')
+  //         : '',
+  //     dob:
+  //         snapshot.data().toString().contains('dob') ? snapshot.get('dob') : '',
+  //     phoneNumber: snapshot.data().toString().contains('phoneNumber')
+  //         ? snapshot.get('phoneNumber')
+  //         : 0,
+  //     gender: snapshot.data().toString().contains('gender')
+  //         ? snapshot.get('gender')
+  //         : '',
+  //   );
+  // }
 
-  Stream<PersonalDetails> get personalDetailsStream {
-    var user = AuthService().currentUser!;
-    return personalDetailsCollection.doc(user.uid).snapshots().map(
-          (event) => _getPersonalDetails(event),
-        );
-  }
+  // Stream<PersonalDetails> get personalDetailsStream {
+  //   var user = AuthService().currentUser!;
+  //   return personalDetailsCollection.doc(user.uid).snapshots().map(
+  //         (event) => _getPersonalDetails(event),
+  //       );
+  // }
 
   ///FETCHING DATA
 
@@ -152,75 +152,76 @@ class DatabaseServices {
         .snapshots()
         .map(_getwishListSubproductsfromsnapshot);
   }
+//Billing Address
+  // BillingAddress _getBillingAddress(DocumentSnapshot snapshot) {
+  //   return BillingAddress(
+  //     addressLine1: snapshot.data().toString().contains('addressLine1')
+  //         ? snapshot.get('addressLine1')
+  //         : '',
+  //     addressLine2: snapshot.data().toString().contains('addressLine2')
+  //         ? snapshot.get('addressLine2')
+  //         : '',
+  //     pincode: snapshot.data().toString().contains('pincode')
+  //         ? snapshot.get('pincode')
+  //         : 0,
+  //     city: snapshot.data().toString().contains('city')
+  //         ? snapshot.get('city')
+  //         : '',
+  //     state: snapshot.data().toString().contains('state')
+  //         ? snapshot.get('state')
+  //         : '',
+  //     country: snapshot.data().toString().contains('country')
+  //         ? snapshot.get('country')
+  //         : '',
+  //   );
+  // }
 
-  BillingAddress _getBillingAddress(DocumentSnapshot snapshot) {
-    return BillingAddress(
-      addressLine1: snapshot.data().toString().contains('addressLine1')
-          ? snapshot.get('addressLine1')
-          : '',
-      addressLine2: snapshot.data().toString().contains('addressLine2')
-          ? snapshot.get('addressLine2')
-          : '',
-      pincode: snapshot.data().toString().contains('pincode')
-          ? snapshot.get('pincode')
-          : 0,
-      city: snapshot.data().toString().contains('city')
-          ? snapshot.get('city')
-          : '',
-      state: snapshot.data().toString().contains('state')
-          ? snapshot.get('state')
-          : '',
-      country: snapshot.data().toString().contains('country')
-          ? snapshot.get('country')
-          : '',
-    );
-  }
+  // Stream<BillingAddress> get billingAddressStream {
+  //   var user = AuthService().currentUser!;
+  //   return billingAddressCollection
+  //       .doc(user.uid)
+  //       .snapshots()
+  //       .map(_getBillingAddress);
+  // }
 
-  Stream<BillingAddress> get billingAddressStream {
-    var user = AuthService().currentUser!;
-    return billingAddressCollection
-        .doc(user.uid)
-        .snapshots()
-        .map(_getBillingAddress);
-  }
+//Delivery Address
+  // DeliveryAddress _getDeliveryAddress(DocumentSnapshot snapshot) {
+  //   return DeliveryAddress(
+  //     firstName: snapshot.data().toString().contains('firstName')
+  //         ? snapshot.get('firstName')
+  //         : '',
+  //     lastName: snapshot.data().toString().contains('lastName')
+  //         ? snapshot.get('lastName')
+  //         : '',
+  //     addressLine1: snapshot.data().toString().contains('addressLine1')
+  //         ? snapshot.get('addressLine1')
+  //         : '',
+  //     addressLine2: snapshot.data().toString().contains('addressLine2')
+  //         ? snapshot.get('addressLine2')
+  //         : '',
+  //     pincode: snapshot.data().toString().contains('pincode')
+  //         ? snapshot.get('pincode')
+  //         : 0,
+  //     city: snapshot.data().toString().contains('city')
+  //         ? snapshot.get('city')
+  //         : '',
+  //     state: snapshot.data().toString().contains('state')
+  //         ? snapshot.get('state')
+  //         : '',
+  //     country: snapshot.data().toString().contains('country')
+  //         ? snapshot.get('country')
+  //         : '',
+  //   );
+  // }
 
-  DeliveryAddress _getDeliveryAddress(DocumentSnapshot snapshot) {
-    return DeliveryAddress(
-      firstName: snapshot.data().toString().contains('firstName')
-          ? snapshot.get('firstName')
-          : '',
-      lastName: snapshot.data().toString().contains('lastName')
-          ? snapshot.get('lastName')
-          : '',
-      addressLine1: snapshot.data().toString().contains('addressLine1')
-          ? snapshot.get('addressLine1')
-          : '',
-      addressLine2: snapshot.data().toString().contains('addressLine2')
-          ? snapshot.get('addressLine2')
-          : '',
-      pincode: snapshot.data().toString().contains('pincode')
-          ? snapshot.get('pincode')
-          : 0,
-      city: snapshot.data().toString().contains('city')
-          ? snapshot.get('city')
-          : '',
-      state: snapshot.data().toString().contains('state')
-          ? snapshot.get('state')
-          : '',
-      country: snapshot.data().toString().contains('country')
-          ? snapshot.get('country')
-          : '',
-    );
-  }
+  // Stream<DeliveryAddress> get deliveryAddressStream {
+  //   var user = AuthService().currentUser!;
 
-  Stream<DeliveryAddress> get deliveryAddressStream {
-    var user = AuthService().currentUser!;
-
-    return deliveryAddressCollection
-        .doc(user.uid)
-        .snapshots()
-        .map(_getDeliveryAddress);
-  }
+  //   return deliveryAddressCollection
+  //       .doc(user.uid)
+  //       .snapshots()
+  //       .map(_getDeliveryAddress);
+  // }
 
   //List of ShoppingCartProduct from document snapshot
   List<ShoppingCartProduct> _getShoppingCartProductsfromSnapshot(
@@ -302,57 +303,60 @@ class DatabaseServices {
     return await ref.set(data, SetOptions(merge: true));
   }
 
-  Future<void> setBillingAddress(
-      {required BillingAddress billingAddress}) async {
-    final data = {
-      'addressLine1': billingAddress.addressLine1,
-      'addressLine2': billingAddress.addressLine2,
-      'pincode': billingAddress.pincode,
-      'city': billingAddress.city,
-      'state': billingAddress.state,
-      'country': 'India',
-    };
+//Set Billing Address
+  // Future<void> setBillingAddress(
+  //     {required BillingAddress billingAddress}) async {
+  //   final data = {
+  //     'addressLine1': billingAddress.addressLine1,
+  //     'addressLine2': billingAddress.addressLine2,
+  //     'pincode': billingAddress.pincode,
+  //     'city': billingAddress.city,
+  //     'state': billingAddress.state,
+  //     'country': 'India',
+  //   };
 
-    var user = AuthService().currentUser!;
-    var ref = billingAddressCollection.doc(user.uid);
+  //   var user = AuthService().currentUser!;
+  //   var ref = billingAddressCollection.doc(user.uid);
 
-    return await ref.set(data);
-  }
+  //   return await ref.set(data);
+  // }
 
-  Future<void> setDeliveryAddress(
-      {required DeliveryAddress deliveryAddress}) async {
-    final data = {
-      'firstName': deliveryAddress.firstName,
-      'lastName': deliveryAddress.lastName,
-      'addressLine1': deliveryAddress.addressLine1,
-      'addressLine2': deliveryAddress.addressLine2,
-      'pincode': deliveryAddress.pincode,
-      'city': deliveryAddress.city,
-      'state': deliveryAddress.state,
-      'country': 'India',
-    };
+//Set Delivery address
+  // Future<void> setDeliveryAddress(
+  //     {required DeliveryAddress deliveryAddress}) async {
+  //   final data = {
+  //     'firstName': deliveryAddress.firstName,
+  //     'lastName': deliveryAddress.lastName,
+  //     'addressLine1': deliveryAddress.addressLine1,
+  //     'addressLine2': deliveryAddress.addressLine2,
+  //     'pincode': deliveryAddress.pincode,
+  //     'city': deliveryAddress.city,
+  //     'state': deliveryAddress.state,
+  //     'country': 'India',
+  //   };
 
-    var user = AuthService().currentUser!;
-    var ref = deliveryAddressCollection.doc(user.uid);
+  //   var user = AuthService().currentUser!;
+  //   var ref = deliveryAddressCollection.doc(user.uid);
 
-    return await ref.set(data);
-  }
+  //   return await ref.set(data);
+  // }
 
-  Future<void> setPersonalDetails(
-      {required PersonalDetails personalDetails}) async {
-    final data = {
-      'firstName': personalDetails.firstName,
-      'lastName': personalDetails.lastName,
-      'dob': personalDetails.dob,
-      'phoneNumber': personalDetails.phoneNumber,
-      'gender': personalDetails.gender,
-    };
+//Set Personal Details
+  // Future<void> setPersonalDetails(
+  //     {required PersonalDetails personalDetails}) async {
+  //   final data = {
+  //     'firstName': personalDetails.firstName,
+  //     'lastName': personalDetails.lastName,
+  //     'dob': personalDetails.dob,
+  //     'phoneNumber': personalDetails.phoneNumber,
+  //     'gender': personalDetails.gender,
+  //   };
 
-    var user = AuthService().currentUser!;
-    var ref = personalDetailsCollection.doc(user.uid);
+  //   var user = AuthService().currentUser!;
+  //   var ref = personalDetailsCollection.doc(user.uid);
 
-    return await ref.set(data);
-  }
+  //   return await ref.set(data);
+  // }
 
   ///DELETING DATA
 
@@ -397,15 +401,16 @@ class DatabaseServices {
     });
   }
 
-  Future<void> removeBillingAddress() async {
-    var user = AuthService().currentUser!;
-    await billingAddressCollection.doc(user.uid).delete();
-  }
+//Remove billing and delivery address
+  // Future<void> removeBillingAddress() async {
+  //   var user = AuthService().currentUser!;
+  //   await billingAddressCollection.doc(user.uid).delete();
+  // }
 
-  Future<void> removeDeliveryAddress() async {
-    var user = AuthService().currentUser!;
-    await deliveryAddressCollection.doc(user.uid).delete();
-  }
+  // Future<void> removeDeliveryAddress() async {
+  //   var user = AuthService().currentUser!;
+  //   await deliveryAddressCollection.doc(user.uid).delete();
+  // }
 
   ///Checks
 

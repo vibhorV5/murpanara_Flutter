@@ -42,18 +42,18 @@ class MyApp extends StatelessWidget {
           create: (_) => DatabaseServices().shoppingCartProductStream,
           initialData: const [],
         ),
-        StreamProvider<PersonalDetails>(
-          create: (_) => DatabaseServices().personalDetailsStream,
-          initialData: PersonalDetails(),
-        ),
-        StreamProvider<BillingAddress>(
-          create: (_) => DatabaseServices().billingAddressStream,
-          initialData: BillingAddress(),
-        ),
-        StreamProvider<DeliveryAddress>(
-          create: (_) => DatabaseServices().deliveryAddressStream,
-          initialData: DeliveryAddress(),
-        ),
+        // StreamProvider<PersonalDetails>(
+        //   create: (_) => DatabaseServices().personalDetailsStream,
+        //   initialData: PersonalDetails(),
+        // ),
+        // StreamProvider<BillingAddress>(
+        //   create: (_) => DatabaseServices().billingAddressStream,
+        //   initialData: BillingAddress(),
+        // ),
+        // StreamProvider<DeliveryAddress>(
+        //   create: (_) => DatabaseServices().deliveryAddressStream,
+        //   initialData: DeliveryAddress(),
+        // ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

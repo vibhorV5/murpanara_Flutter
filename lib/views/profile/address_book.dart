@@ -25,8 +25,8 @@ class _AddressBookState extends State<AddressBook> {
 
   @override
   Widget build(BuildContext context) {
-    BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
-    DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
+    // BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
+    // DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
     final _mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -123,68 +123,67 @@ class _AddressBookState extends State<AddressBook> {
                         ),
                       ],
                     ),
-                    (billingAddressData.addressLine1.isEmpty ||
-                            billingAddressData.addressLine2.isEmpty ||
-                            billingAddressData.city.isEmpty ||
-                            billingAddressData.pincode == 0)
-                        ? Container(
-                            child:
-                                SmallInfoText(txt: 'No Billing Address found'),
-                          )
-                        : Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    // (billingAddressData.addressLine1.isEmpty ||
+                    //         billingAddressData.addressLine2.isEmpty ||
+                    //         billingAddressData.city.isEmpty ||
+                    //         billingAddressData.pincode == 0)
+                    //     ? Container(
+                    //         child:
+                    //             SmallInfoText(txt: 'No Billing Address found'),
+                    //       ) :
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          height: 100,
+                          width: 180,
+                          // color: Colors.purple,
+                          child: ListView(
+                            physics: NeverScrollableScrollPhysics(),
                             children: [
-                              Container(
-                                height: 100,
-                                width: 180,
-                                // color: Colors.purple,
-                                child: ListView(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  children: [
-                                    AddressTextWidget(
-                                      txt: billingAddressData.addressLine1,
-                                      mediaQuery: _mediaQuery,
-                                    ),
-                                    AddressTextWidget(
-                                      txt: billingAddressData.addressLine2,
-                                      mediaQuery: _mediaQuery,
-                                    ),
-                                    AddressTextWidget(
-                                      txt:
-                                          billingAddressData.pincode.toString(),
-                                      mediaQuery: _mediaQuery,
-                                    ),
-                                    Row(
-                                      children: [
-                                        AddressTextWidget(
-                                            txt: '${billingAddressData.city} ',
-                                            mediaQuery: _mediaQuery),
-                                        AddressTextWidget(
-                                            txt: billingAddressData.state,
-                                            mediaQuery: _mediaQuery),
-                                      ],
-                                    ),
-                                    AddressTextWidget(
-                                      txt: billingAddressData.country,
-                                      mediaQuery: _mediaQuery,
-                                    ),
-                                  ],
-                                ),
+                              AddressTextWidget(
+                                txt: 'billingAddressData.addressLine1',
+                                mediaQuery: _mediaQuery,
                               ),
-                              InkWell(
-                                onTap: () async {
-                                  await DatabaseServices()
-                                      .removeBillingAddress();
-
-                                  print('Delivery Address removed');
-                                },
-                                child: EditOrRemoveWidget(
-                                  label: 'Remove Address',
-                                ),
+                              AddressTextWidget(
+                                txt: 'billingAddressData.addressLine2',
+                                mediaQuery: _mediaQuery,
+                              ),
+                              AddressTextWidget(
+                                txt: 'billingAddressData.pincode.toString()',
+                                mediaQuery: _mediaQuery,
+                              ),
+                              Row(
+                                children: [
+                                  AddressTextWidget(
+                                      txt: '{billingAddressData.city} ',
+                                      mediaQuery: _mediaQuery),
+                                  AddressTextWidget(
+                                      txt: ' billingAddressData.state',
+                                      mediaQuery: _mediaQuery),
+                                ],
+                              ),
+                              AddressTextWidget(
+                                txt: 'billingAddressData.country',
+                                mediaQuery: _mediaQuery,
                               ),
                             ],
                           ),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            // await DatabaseServices()
+                            //     .removeBillingAddress();
+
+                            // print('Delivery Address removed');
+                          },
+                          child: EditOrRemoveWidget(
+                            label: 'Remove Address',
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -226,81 +225,79 @@ class _AddressBookState extends State<AddressBook> {
                         ),
                       ],
                     ),
-                    (deliveryAddressData.addressLine1.isEmpty ||
-                            deliveryAddressData.addressLine2.isEmpty ||
-                            deliveryAddressData.city.isEmpty ||
-                            deliveryAddressData.pincode == 0)
-                        ? Container(
-                            child:
-                                SmallInfoText(txt: 'No Delivery address found'),
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    // (deliveryAddressData.addressLine1.isEmpty ||
+                    //         deliveryAddressData.addressLine2.isEmpty ||
+                    //         deliveryAddressData.city.isEmpty ||
+                    //         deliveryAddressData.pincode == 0)
+                    //     ? Container(
+                    //         child:
+                    //             SmallInfoText(txt: 'No Delivery address found'),
+                    //       ) :
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          // color: Colors.redAccent.withOpacity(0.4),
+                          height: 100,
+                          width: 180,
+                          child: ListView(
+                            physics: NeverScrollableScrollPhysics(),
                             children: [
-                              Container(
-                                // color: Colors.redAccent.withOpacity(0.4),
-                                height: 100,
-                                width: 180,
-                                child: ListView(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  children: [
-                                    Row(
-                                      children: [
-                                        AddressTextWidget(
-                                          txt:
-                                              '${deliveryAddressData.firstName} ',
-                                          mediaQuery: _mediaQuery,
-                                        ),
-                                        AddressTextWidget(
-                                          txt: deliveryAddressData.lastName,
-                                          mediaQuery: _mediaQuery,
-                                        )
-                                      ],
-                                    ),
-                                    AddressTextWidget(
-                                      txt: deliveryAddressData.addressLine1,
-                                      mediaQuery: _mediaQuery,
-                                    ),
-                                    AddressTextWidget(
-                                      txt: deliveryAddressData.addressLine2,
-                                      mediaQuery: _mediaQuery,
-                                    ),
-                                    AddressTextWidget(
-                                      txt: deliveryAddressData.pincode
-                                          .toString(),
-                                      mediaQuery: _mediaQuery,
-                                    ),
-                                    Row(
-                                      children: [
-                                        AddressTextWidget(
-                                            txt: '${deliveryAddressData.city} ',
-                                            mediaQuery: _mediaQuery),
-                                        AddressTextWidget(
-                                            txt: deliveryAddressData.state,
-                                            mediaQuery: _mediaQuery),
-                                      ],
-                                    ),
-                                    AddressTextWidget(
-                                      txt: deliveryAddressData.country,
-                                      mediaQuery: _mediaQuery,
-                                    ),
-                                  ],
-                                ),
+                              Row(
+                                children: [
+                                  AddressTextWidget(
+                                    txt: '{deliveryAddressData.firstName} ',
+                                    mediaQuery: _mediaQuery,
+                                  ),
+                                  AddressTextWidget(
+                                    txt: 'deliveryAddressData.lastName',
+                                    mediaQuery: _mediaQuery,
+                                  )
+                                ],
                               ),
-                              InkWell(
-                                onTap: () async {
-                                  await DatabaseServices()
-                                      .removeDeliveryAddress();
-
-                                  print('Delivery Address removed');
-                                },
-                                child: EditOrRemoveWidget(
-                                  label: 'Remove Address',
-                                ),
+                              AddressTextWidget(
+                                txt: 'deliveryAddressData.addressLine1',
+                                mediaQuery: _mediaQuery,
+                              ),
+                              AddressTextWidget(
+                                txt: 'deliveryAddressData.addressLine2',
+                                mediaQuery: _mediaQuery,
+                              ),
+                              AddressTextWidget(
+                                txt: 'deliveryAddressData.pincode'.toString(),
+                                mediaQuery: _mediaQuery,
+                              ),
+                              Row(
+                                children: [
+                                  AddressTextWidget(
+                                      txt: '{deliveryAddressData.city} ',
+                                      mediaQuery: _mediaQuery),
+                                  AddressTextWidget(
+                                      txt: 'deliveryAddressData.state',
+                                      mediaQuery: _mediaQuery),
+                                ],
+                              ),
+                              AddressTextWidget(
+                                txt: 'deliveryAddressData.country',
+                                mediaQuery: _mediaQuery,
                               ),
                             ],
                           ),
+                        ),
+                        InkWell(
+                          onTap: () async {
+                            // await DatabaseServices()
+                            //     .removeDeliveryAddress();
+
+                            // print('Delivery Address removed');
+                          },
+                          child: EditOrRemoveWidget(
+                            label: 'Remove Address',
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

@@ -251,15 +251,15 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                 onPress: () async {
                   FocusScope.of(context).unfocus();
                   if (_formKey.currentState!.validate()) {
-                    await DatabaseServices().setPersonalDetails(
-                      personalDetails: PersonalDetails(
-                        firstName: firstNameController.text,
-                        lastName: lastNameController.text,
-                        dob: dateController.text,
-                        gender: genderController.text,
-                        phoneNumber: num.tryParse(phoneNumberController.text),
-                      ),
-                    );
+                    // await DatabaseServices().setPersonalDetails(
+                    //   personalDetails: PersonalDetails(
+                    //     firstName: firstNameController.text,
+                    //     lastName: lastNameController.text,
+                    //     dob: dateController.text,
+                    //     gender: genderController.text,
+                    //     phoneNumber: num.tryParse(phoneNumberController.text),
+                    //   ),
+                    // );
                     print('successfully set personal details');
                     Navigator.of(context).pop();
                   } else {

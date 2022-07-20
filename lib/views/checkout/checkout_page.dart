@@ -18,26 +18,26 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 class CheckoutPage extends StatefulWidget {
   CheckoutPage({
     Key? key,
-    required this.email,
-    required this.phone,
-    required this.deliveryAddress,
-    required this.shoppingList,
-    required this.totalSum,
-    required this.productListDesc,
-    required this.generatedOrderID,
-    required this.personalDetails,
-    required this.checkoutDetailsProvider,
+    // required this.email,
+    // required this.phone,
+    // required this.deliveryAddress,
+    // required this.shoppingList,
+    // required this.totalSum,
+    // required this.productListDesc,
+    // required this.generatedOrderID,
+    // required this.personalDetails,
+    // required this.checkoutDetailsProvider,
   }) : super(key: key);
 
-  String email;
-  num phone;
-  DeliveryAddress deliveryAddress;
-  num totalSum;
-  List<ShoppingCartProduct> shoppingList;
-  List<dynamic> productListDesc;
-  String generatedOrderID;
-  PersonalDetails personalDetails;
-  CheckoutDetailsProvider checkoutDetailsProvider;
+  // String email;
+  // num phone;
+  // DeliveryAddress deliveryAddress;
+  // num totalSum;
+  // List<ShoppingCartProduct> shoppingList;
+  // List<dynamic> productListDesc;
+  // String generatedOrderID;
+  // PersonalDetails personalDetails;
+  // CheckoutDetailsProvider checkoutDetailsProvider;
 
   @override
   State<CheckoutPage> createState() => _CheckoutPageState();
@@ -72,30 +72,30 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     // Do something when payment succeeds
     print('Payment Successfvdfull');
-    print('Order created with OrderId:${widget.generatedOrderID}');
+    // print('Order created with OrderId:${widget.generatedOrderID}');
     // print('TIME: ${UserMethods.getCurrentDateTime(orderTime)}');
 
     print(
         'hello = ${response.orderId} \n ${response.paymentId} \n ${response.signature}');
 
-    await DatabaseServices().setUserOrder(
-      userOrders: UserOrders(
-        firstName: widget.personalDetails.firstName,
-        lastName: widget.personalDetails.lastName,
-        modeOfPayment: widget
-            .checkoutDetailsProvider.currentSelectedModeOfPayment
-            .toString(),
-        orderId: widget.checkoutDetailsProvider.generateOrderId(),
-        orderStatus: 'Order Placed',
-        orderTime: widget.checkoutDetailsProvider.currentOrderTime().toString(),
-        orderedProducts: ['f', 'f', 'fff', 'fe'],
-        phone: widget.phone,
-        amountPaid: widget.totalSum,
-        deliveryAddress:
-            ('FIRST NAME - ${widget.deliveryAddress.firstName},LAST NAME - ${widget.deliveryAddress.lastName},HOUSE/FLAT NO. - ${widget.deliveryAddress.addressLine1},STREET - ${widget.deliveryAddress.addressLine2},CITY - ${widget.deliveryAddress.city},STATE - ${widget.deliveryAddress.state},PINCODE - ${widget.deliveryAddress.pincode},COUNTRY - ${widget.deliveryAddress.country}'),
-        emailId: widget.email,
-      ),
-    );
+    // await DatabaseServices().setUserOrder(
+    //   userOrders: UserOrders(
+    //     firstName: widget.personalDetails.firstName,
+    //     lastName: widget.personalDetails.lastName,
+    //     modeOfPayment: widget
+    //         .checkoutDetailsProvider.currentSelectedModeOfPayment
+    //         .toString(),
+    //     orderId: widget.checkoutDetailsProvider.generateOrderId(),
+    //     orderStatus: 'Order Placed',
+    //     orderTime: widget.checkoutDetailsProvider.currentOrderTime().toString(),
+    //     orderedProducts: ['f', 'f', 'fff', 'fe'],
+    //     phone: widget.phone,
+    //     amountPaid: widget.totalSum,
+    //     deliveryAddress:
+    //         ('FIRST NAME - ${widget.deliveryAddress.firstName},LAST NAME - ${widget.deliveryAddress.lastName},HOUSE/FLAT NO. - ${widget.deliveryAddress.addressLine1},STREET - ${widget.deliveryAddress.addressLine2},CITY - ${widget.deliveryAddress.city},STATE - ${widget.deliveryAddress.state},PINCODE - ${widget.deliveryAddress.pincode},COUNTRY - ${widget.deliveryAddress.country}'),
+    //     emailId: widget.email,
+    //   ),
+    // );
     print('Orders set');
 
     print('User order set success');
@@ -116,16 +116,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void launchRazorpay() {
     var options = {
       'key': 'rzp_test_Afbk6Y8rJy3NHQ',
-      'amount': widget.totalSum * 100, //in the smallest currency sub-unit.
+      // 'amount': widget.totalSum * 100, //in the smallest currency sub-unit.
+      'amount': 100,
       'name': 'murpanara',
       // 'order_id': widget.generatedOrderID, // Generate order_id using Orders API
-      'description':
-          'Order ID: ${widget.generatedOrderID} Details: ${widget.productListDesc.toString()}',
+      'description': '',
+      // 'Order ID: ${widget.generatedOrderID} Details: ${widget.productListDesc.toString()}',
       'timeout': 120, // in seconds
       'prefill': {
-        'contact': widget.phone,
-        'email': widget.email,
-        'orderdetails': 'widget.shoppingList.toString()',
+        // 'contact': widget.phone,
+        // 'email': widget.email,
+        // 'orderdetails': 'widget.shoppingList.toString()',
+        'contact': 'd',
+        'email': 'f',
       }
     };
 
@@ -138,8 +141,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    CheckoutDetailsProvider checkoutDetailsProviderData =
-        Provider.of<CheckoutDetailsProvider>(context);
+    // CheckoutDetailsProvider checkoutDetailsProviderData =
+    //     Provider.of<CheckoutDetailsProvider>(context);
     final _mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -263,74 +266,70 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       SizedBox(
                         height: 20,
                       ),
-                      (widget.deliveryAddress.addressLine1.isEmpty ||
-                              widget.deliveryAddress.addressLine2.isEmpty ||
-                              widget.deliveryAddress.city.isEmpty ||
-                              widget.deliveryAddress.pincode == 0)
-                          ? Container(
-                              child: SmallInfoText(
-                                  txt: 'No Delivery address found'),
-                            )
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                      // (widget.deliveryAddress.addressLine1.isEmpty ||
+                      //         widget.deliveryAddress.addressLine2.isEmpty ||
+                      //         widget.deliveryAddress.city.isEmpty ||
+                      //         widget.deliveryAddress.pincode == 0)
+                      //     ? Container(
+                      //         child: SmallInfoText(
+                      //             txt: 'No Delivery address found'),
+                      //       ):
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            // color: Colors.redAccent.withOpacity(0.4),
+                            height: 100,
+                            width: 180,
+                            child: ListView(
+                              physics: NeverScrollableScrollPhysics(),
                               children: [
-                                Container(
-                                  // color: Colors.redAccent.withOpacity(0.4),
-                                  height: 100,
-                                  width: 180,
-                                  child: ListView(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    children: [
-                                      Row(
-                                        children: [
-                                          AddressTextWidget(
-                                            txt:
-                                                '${widget.deliveryAddress.firstName} ',
-                                            mediaQuery: _mediaQuery,
-                                          ),
-                                          AddressTextWidget(
-                                            txt:
-                                                widget.deliveryAddress.lastName,
-                                            mediaQuery: _mediaQuery,
-                                          )
-                                        ],
-                                      ),
-                                      AddressTextWidget(
-                                        txt:
-                                            widget.deliveryAddress.addressLine1,
-                                        mediaQuery: _mediaQuery,
-                                      ),
-                                      AddressTextWidget(
-                                        txt:
-                                            widget.deliveryAddress.addressLine2,
-                                        mediaQuery: _mediaQuery,
-                                      ),
-                                      AddressTextWidget(
-                                        txt: widget.deliveryAddress.pincode
-                                            .toString(),
-                                        mediaQuery: _mediaQuery,
-                                      ),
-                                      Row(
-                                        children: [
-                                          AddressTextWidget(
-                                              txt:
-                                                  '${widget.deliveryAddress.city} ',
-                                              mediaQuery: _mediaQuery),
-                                          AddressTextWidget(
-                                              txt: widget.deliveryAddress.state,
-                                              mediaQuery: _mediaQuery),
-                                        ],
-                                      ),
-                                      AddressTextWidget(
-                                        txt: widget.deliveryAddress.country,
-                                        mediaQuery: _mediaQuery,
-                                      ),
-                                    ],
-                                  ),
+                                Row(
+                                  children: [
+                                    AddressTextWidget(
+                                      txt:
+                                          '{widget.deliveryAddress.firstName} ',
+                                      mediaQuery: _mediaQuery,
+                                    ),
+                                    AddressTextWidget(
+                                      txt: 'widget.deliveryAddress.lastName',
+                                      mediaQuery: _mediaQuery,
+                                    )
+                                  ],
+                                ),
+                                AddressTextWidget(
+                                  txt: 'widget.deliveryAddress.addressLine1',
+                                  mediaQuery: _mediaQuery,
+                                ),
+                                AddressTextWidget(
+                                  txt: 'widget.deliveryAddress.addressLine2',
+                                  mediaQuery: _mediaQuery,
+                                ),
+                                AddressTextWidget(
+                                  txt: 'widget.deliveryAddress.pincode'
+                                      .toString(),
+                                  mediaQuery: _mediaQuery,
+                                ),
+                                Row(
+                                  children: [
+                                    AddressTextWidget(
+                                        txt: '{widget.deliveryAddress.city} ',
+                                        mediaQuery: _mediaQuery),
+                                    AddressTextWidget(
+                                        txt: ' widget.deliveryAddress.state',
+                                        mediaQuery: _mediaQuery),
+                                  ],
+                                ),
+                                AddressTextWidget(
+                                  txt: ' widget.deliveryAddress.country',
+                                  mediaQuery: _mediaQuery,
                                 ),
                               ],
                             ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -361,74 +360,74 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15)),
                         height: 180,
-                        child: ListView.separated(
-                          physics: BouncingScrollPhysics(),
-                          separatorBuilder: (context, index) {
-                            return SizedBox(
-                              height: 10,
-                            );
-                          },
-                          itemCount: widget.shoppingList.length,
-                          itemBuilder: (context, index) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Container(
-                                  // color: Colors.red,
-                                  height: 70,
-                                  child: Image.network(
-                                      widget.shoppingList[index].imagefront),
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(20),
-                                      width: 150,
-                                      // color: Colors.pink,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          AddressTextWidget(
-                                            txt:
-                                                widget.shoppingList[index].name,
-                                            mediaQuery: _mediaQuery,
-                                          ),
-                                          AddressTextWidget(
-                                            txt:
-                                                'Size: ${widget.shoppingList[index].size}',
-                                            mediaQuery: _mediaQuery,
-                                          ),
-                                          AddressTextWidget(
-                                            txt:
-                                                'Price: ${widget.shoppingList[index].price.toString()}.00',
-                                            mediaQuery: _mediaQuery,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 40,
-                                    ),
-                                    AddressTextWidget(
-                                      txt:
-                                          'x ${widget.shoppingList[index].quantity.toString()}',
-                                      mediaQuery: _mediaQuery,
-                                    ),
-                                    SizedBox(
-                                      width: 40,
-                                    ),
-                                    AddressTextWidget(
-                                      txt:
-                                          '${getProductPrice(price: widget.shoppingList[index].price, quantity: widget.shoppingList[index].quantity)}.00',
-                                      mediaQuery: _mediaQuery,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            );
-                          },
-                        ),
+                        // child: ListView.separated(
+                        //   physics: BouncingScrollPhysics(),
+                        //   separatorBuilder: (context, index) {
+                        //     return SizedBox(
+                        //       height: 10,
+                        //     );
+                        //   },
+                        //   itemCount: widget.shoppingList.length,
+                        //   itemBuilder: (context, index) {
+                        //     return Row(
+                        //       mainAxisAlignment: MainAxisAlignment.start,
+                        //       children: [
+                        //         Container(
+                        //           // color: Colors.red,
+                        //           height: 70,
+                        //           child: Image.network(
+                        //               widget.shoppingList[index].imagefront),
+                        //         ),
+                        //         Row(
+                        //           children: [
+                        //             Container(
+                        //               padding: EdgeInsets.all(20),
+                        //               width: 150,
+                        //               // color: Colors.pink,
+                        //               child: Column(
+                        //                 crossAxisAlignment:
+                        //                     CrossAxisAlignment.start,
+                        //                 children: [
+                        //                   AddressTextWidget(
+                        //                     txt:
+                        //                         widget.shoppingList[index].name,
+                        //                     mediaQuery: _mediaQuery,
+                        //                   ),
+                        //                   AddressTextWidget(
+                        //                     txt:
+                        //                         'Size: ${widget.shoppingList[index].size}',
+                        //                     mediaQuery: _mediaQuery,
+                        //                   ),
+                        //                   AddressTextWidget(
+                        //                     txt:
+                        //                         'Price: ${widget.shoppingList[index].price.toString()}.00',
+                        //                     mediaQuery: _mediaQuery,
+                        //                   ),
+                        //                 ],
+                        //               ),
+                        //             ),
+                        //             SizedBox(
+                        //               width: 40,
+                        //             ),
+                        //             AddressTextWidget(
+                        //               txt:
+                        //                   'x ${widget.shoppingList[index].quantity.toString()}',
+                        //               mediaQuery: _mediaQuery,
+                        //             ),
+                        //             SizedBox(
+                        //               width: 40,
+                        //             ),
+                        //             AddressTextWidget(
+                        //               txt:
+                        //                   '${getProductPrice(price: widget.shoppingList[index].price, quantity: widget.shoppingList[index].quantity)}.00',
+                        //               mediaQuery: _mediaQuery,
+                        //             ),
+                        //           ],
+                        //         ),
+                        //       ],
+                        //     );
+                        //   },
+                        // ),
                       ),
                       SizedBox(
                         height: 40,
@@ -438,7 +437,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         children: [
                           SimpleHeading(txt: 'Total'),
                           SimpleHeading(
-                            txt: '${getSum(widget.shoppingList)}.00',
+                            txt: '{getSum(widget.shoppingList)}.00',
                           )
                         ],
                       ),
@@ -467,42 +466,42 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   color: Colors.black,
                   txtColor: Colors.white,
                   onPress: () async {
-                    if (checkoutDetailsProviderData
-                            .currentSelectedModeOfPayment ==
-                        ModeOfPayment.razorPay) {
-                      launchRazorpay();
-                    } else if (checkoutDetailsProviderData
-                            .currentSelectedModeOfPayment ==
-                        ModeOfPayment.cashOnDelivery) {
-                      await DatabaseServices().setUserOrder(
-                        userOrders: UserOrders(
-                          firstName: widget.personalDetails.firstName,
-                          lastName: widget.personalDetails.lastName,
-                          modeOfPayment: widget.checkoutDetailsProvider
-                              .currentSelectedModeOfPayment
-                              .toString(),
-                          orderId:
-                              widget.checkoutDetailsProvider.generateOrderId(),
-                          orderStatus: 'Order Placed',
-                          orderTime: widget.checkoutDetailsProvider
-                              .currentOrderTime()
-                              .toString(),
-                          orderedProducts: [
-                            'd',
-                            'f',
-                            'f',
-                            'f',
-                            'f',
-                          ],
-                          phone: widget.phone,
-                          amountPaid: widget.totalSum,
-                          deliveryAddress:
-                              ('FIRST NAME - ${widget.deliveryAddress.firstName},LAST NAME - ${widget.deliveryAddress.lastName},HOUSE/FLAT NO. - ${widget.deliveryAddress.addressLine1},STREET - ${widget.deliveryAddress.addressLine2},CITY - ${widget.deliveryAddress.city},STATE - ${widget.deliveryAddress.state},PINCODE - ${widget.deliveryAddress.pincode},COUNTRY - ${widget.deliveryAddress.country}'),
-                          emailId: widget.email,
-                        ),
-                      );
-                      print('COD SELECTED SUCCESS');
-                    }
+                    // if (checkoutDetailsProviderData
+                    //         .currentSelectedModeOfPayment ==
+                    //     ModeOfPayment.razorPay) {
+                    //   launchRazorpay();
+                    // } else if (checkoutDetailsProviderData
+                    //         .currentSelectedModeOfPayment ==
+                    //     ModeOfPayment.cashOnDelivery) {
+                    //   await DatabaseServices().setUserOrder(
+                    //     userOrders: UserOrders(
+                    //       firstName: widget.personalDetails.firstName,
+                    //       lastName: widget.personalDetails.lastName,
+                    //       modeOfPayment: widget.checkoutDetailsProvider
+                    //           .currentSelectedModeOfPayment
+                    //           .toString(),
+                    //       orderId:
+                    //           widget.checkoutDetailsProvider.generateOrderId(),
+                    //       orderStatus: 'Order Placed',
+                    //       orderTime: widget.checkoutDetailsProvider
+                    //           .currentOrderTime()
+                    //           .toString(),
+                    //       orderedProducts: [
+                    //         'd',
+                    //         'f',
+                    //         'f',
+                    //         'f',
+                    //         'f',
+                    //       ],
+                    //       phone: widget.phone,
+                    //       amountPaid: widget.totalSum,
+                    //       deliveryAddress:
+                    //           ('FIRST NAME - ${widget.deliveryAddress.firstName},LAST NAME - ${widget.deliveryAddress.lastName},HOUSE/FLAT NO. - ${widget.deliveryAddress.addressLine1},STREET - ${widget.deliveryAddress.addressLine2},CITY - ${widget.deliveryAddress.city},STATE - ${widget.deliveryAddress.state},PINCODE - ${widget.deliveryAddress.pincode},COUNTRY - ${widget.deliveryAddress.country}'),
+                    //       emailId: widget.email,
+                    //     ),
+                    //   );
+                    //   print('COD SELECTED SUCCESS');
+                    // }
                   },
                 )
               ],
@@ -540,8 +539,8 @@ class _CustomRadioTileWidgetState extends State<CustomRadioTileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    CheckoutDetailsProvider checkoutDetailsProviderData =
-        Provider.of<CheckoutDetailsProvider>(context);
+    // CheckoutDetailsProvider checkoutDetailsProviderData =
+    //     Provider.of<CheckoutDetailsProvider>(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -557,9 +556,9 @@ class _CustomRadioTileWidgetState extends State<CustomRadioTileWidget> {
           groupValue: paymentModeSelect,
           onChanged: (ModeOfPayment? value) {
             setState(() {
-              checkoutDetailsProviderData.modeOfPaymentValue(value!);
+              // checkoutDetailsProviderData.modeOfPaymentValue(value!);
               paymentModeSelect = value;
-              print(checkoutDetailsProviderData.currentSelectedModeOfPayment);
+              // print(checkoutDetailsProviderData.currentSelectedModeOfPayment);
             });
           },
           title: Text('RazorPay'),
@@ -570,8 +569,8 @@ class _CustomRadioTileWidgetState extends State<CustomRadioTileWidget> {
           onChanged: (ModeOfPayment? value) {
             setState(() {
               paymentModeSelect = value;
-              checkoutDetailsProviderData.modeOfPaymentValue(value!);
-              print(checkoutDetailsProviderData.currentSelectedModeOfPayment);
+              // checkoutDetailsProviderData.modeOfPaymentValue(value!);
+              // print(checkoutDetailsProviderData.currentSelectedModeOfPayment);
             });
           },
           title: Text('Cash on Delivery'),

@@ -46,7 +46,7 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
 
   @override
   Widget build(BuildContext context) {
-    BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
+    // BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
 
     final _mediaQuery = MediaQuery.of(context);
 
@@ -123,7 +123,7 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       HeadingsTitle(titleText: 'Billing Address'),
                       TitleFieldText(titleFieldText: '*Address line 1'),
                       CustomFormField(
-                        initialText: billingAddressData.addressLine1,
+                        initialText: 'billingAddressData.addressLine1',
                         onChanged: (val) {
                           addressLine1Controller.text = val;
                         },
@@ -142,7 +142,7 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
 
                       TitleFieldText(titleFieldText: 'Address line 2'),
                       CustomFormField(
-                        initialText: billingAddressData.addressLine2,
+                        initialText: 'billingAddressData.addressLine2',
                         onChanged: (val) {
                           addressLine2Controller.text = val;
                         },
@@ -162,8 +162,9 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       TitleFieldText(titleFieldText: 'Pin code'),
 
                       CustomFormField(
-                        initialText: UserMethods.checkNumField(
-                            billingAddressData.pincode!),
+                        initialText: '',
+                        // initialText: UserMethods.checkNumField(
+                        //     billingAddressData.pincode!),
                         onChanged: (val) {
                           pincodeController.text = val;
                         },
@@ -188,7 +189,7 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       TitleFieldText(titleFieldText: '*City'),
 
                       CustomFormField(
-                        initialText: billingAddressData.city,
+                        initialText: 'billingAddressData.city',
                         onChanged: (val) {
                           cityController.text = val;
                         },
@@ -240,15 +241,15 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                 onPress: () async {
                   FocusScope.of(context).unfocus();
                   if (_formKey.currentState!.validate()) {
-                    await DatabaseServices().setBillingAddress(
-                      billingAddress: BillingAddress(
-                        addressLine1: addressLine1Controller.text,
-                        addressLine2: addressLine2Controller.text,
-                        pincode: num.tryParse(pincodeController.text),
-                        city: cityController.text,
-                        state: stateController.text,
-                      ),
-                    );
+                    // await DatabaseServices().setBillingAddress(
+                    //   billingAddress: BillingAddress(
+                    //     addressLine1: addressLine1Controller.text,
+                    //     addressLine2: addressLine2Controller.text,
+                    //     pincode: num.tryParse(pincodeController.text),
+                    //     city: cityController.text,
+                    //     state: stateController.text,
+                    //   ),
+                    // );
                     print('billing address set');
                     print('done baby');
                     Navigator.of(context).pop();

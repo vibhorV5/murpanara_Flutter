@@ -22,9 +22,9 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    PersonalDetails personalDetailsData = Provider.of<PersonalDetails>(context);
-    BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
-    DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
+    // PersonalDetails personalDetailsData = Provider.of<PersonalDetails>(context);
+    // BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
+    // DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
 
     final _mediaQuery = MediaQuery.of(context);
 
@@ -83,7 +83,7 @@ class _ProfilePageState extends State<ProfilePage> {
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Hi, ${UserMethods.checkUserName(personalDetailsData.firstName)}',
+                  'Hi, {UserMethods.checkUserName(personalDetailsData.firstName)}',
                   style:
                       kBold.copyWith(fontSize: _mediaQuery.size.height * 0.05),
                 ),
@@ -132,29 +132,31 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       PersonalInfoField(
                         titleField: 'First name',
-                        userTitleField: personalDetailsData.firstName,
+                        userTitleField: 'personalDetailsData.firstName',
                       ),
                       PersonalInfoField(
                         titleField: 'Last name',
-                        userTitleField: personalDetailsData.lastName,
+                        userTitleField: 'personalDetailsData.lastName',
                       ),
                       PersonalInfoField(
                         titleField: 'Date of birth',
-                        userTitleField: personalDetailsData.dob,
+                        userTitleField: 'personalDetailsData.dob',
                       ),
                       PersonalInfoField(
                         titleField: 'Phone number',
-                        userTitleField: UserMethods.checkNumField(
-                            personalDetailsData.phoneNumber!),
+                        userTitleField: '',
+                        // userTitleField: UserMethods.checkNumField(
+                        //     personalDetailsData.phoneNumber!),
                       ),
                       PersonalInfoField(
                         titleField: 'Gender',
-                        userTitleField: personalDetailsData.gender,
+                        userTitleField: 'personalDetailsData.gender',
                       ),
                       PersonalInfoField(
                         titleField: 'Postal Code',
-                        userTitleField: UserMethods.checkNumField(
-                            deliveryAddressData.pincode!),
+                        userTitleField: '',
+                        // userTitleField: UserMethods.checkNumField(
+                        //     deliveryAddressData.pincode!),
                       ),
                       PersonalInfoField(
                         titleField: 'Country',
@@ -216,48 +218,46 @@ class _ProfilePageState extends State<ProfilePage> {
                                   fontSize: 13, color: Colors.black45),
                             ),
                           ),
-                          (billingAddressData.addressLine1.isEmpty ||
-                                  billingAddressData.addressLine2.isEmpty ||
-                                  billingAddressData.city.isEmpty ||
-                                  billingAddressData.pincode == 0)
-                              ? Container()
-                              : Container(
-                                  height: 100,
-                                  // color: Colors.purple,
-                                  child: ListView(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    children: [
-                                      AddressTextWidget(
-                                        txt: billingAddressData.addressLine1,
-                                        mediaQuery: _mediaQuery,
-                                      ),
-                                      AddressTextWidget(
-                                        txt: billingAddressData.addressLine2,
-                                        mediaQuery: _mediaQuery,
-                                      ),
-                                      AddressTextWidget(
-                                        txt: billingAddressData.pincode
-                                            .toString(),
-                                        mediaQuery: _mediaQuery,
-                                      ),
-                                      Row(
-                                        children: [
-                                          AddressTextWidget(
-                                              txt:
-                                                  '${billingAddressData.city}, ',
-                                              mediaQuery: _mediaQuery),
-                                          AddressTextWidget(
-                                              txt: billingAddressData.state,
-                                              mediaQuery: _mediaQuery),
-                                        ],
-                                      ),
-                                      AddressTextWidget(
-                                        txt: billingAddressData.country,
-                                        mediaQuery: _mediaQuery,
-                                      ),
-                                    ],
-                                  ),
+                          // (billingAddressData.addressLine1.isEmpty ||
+                          //         billingAddressData.addressLine2.isEmpty ||
+                          //         billingAddressData.city.isEmpty ||
+                          //         billingAddressData.pincode == 0)
+                          //     ? Container() :
+                          Container(
+                            height: 100,
+                            // color: Colors.purple,
+                            child: ListView(
+                              physics: NeverScrollableScrollPhysics(),
+                              children: [
+                                AddressTextWidget(
+                                  txt: ' billingAddressData.addressLine1',
+                                  mediaQuery: _mediaQuery,
                                 ),
+                                AddressTextWidget(
+                                  txt: 'billingAddressData.addressLine2',
+                                  mediaQuery: _mediaQuery,
+                                ),
+                                AddressTextWidget(
+                                  txt: 'billingAddressData.pincode'.toString(),
+                                  mediaQuery: _mediaQuery,
+                                ),
+                                Row(
+                                  children: [
+                                    AddressTextWidget(
+                                        txt: '{billingAddressData.city}, ',
+                                        mediaQuery: _mediaQuery),
+                                    AddressTextWidget(
+                                        txt: 'billingAddressData.state',
+                                        mediaQuery: _mediaQuery),
+                                  ],
+                                ),
+                                AddressTextWidget(
+                                  txt: 'billingAddressData.country',
+                                  mediaQuery: _mediaQuery,
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                       Container(
@@ -268,58 +268,57 @@ class _ProfilePageState extends State<ProfilePage> {
                               fontSize: 13, color: Colors.black45),
                         ),
                       ),
-                      (deliveryAddressData.addressLine1.isEmpty ||
-                              deliveryAddressData.addressLine2.isEmpty ||
-                              deliveryAddressData.city.isEmpty ||
-                              deliveryAddressData.pincode == 0)
-                          ? Container()
-                          : Container(
-                              height: 100,
-                              child: ListView(
-                                physics: NeverScrollableScrollPhysics(),
-                                children: [
-                                  Row(
-                                    children: [
-                                      AddressTextWidget(
-                                        txt:
-                                            '${deliveryAddressData.firstName} ',
-                                        mediaQuery: _mediaQuery,
-                                      ),
-                                      AddressTextWidget(
-                                        txt: deliveryAddressData.lastName,
-                                        mediaQuery: _mediaQuery,
-                                      )
-                                    ],
-                                  ),
-                                  AddressTextWidget(
-                                    txt: deliveryAddressData.addressLine1,
-                                    mediaQuery: _mediaQuery,
-                                  ),
-                                  AddressTextWidget(
-                                    txt: deliveryAddressData.addressLine2,
-                                    mediaQuery: _mediaQuery,
-                                  ),
-                                  AddressTextWidget(
-                                    txt: deliveryAddressData.pincode.toString(),
-                                    mediaQuery: _mediaQuery,
-                                  ),
-                                  Row(
-                                    children: [
-                                      AddressTextWidget(
-                                          txt: '${deliveryAddressData.city}, ',
-                                          mediaQuery: _mediaQuery),
-                                      AddressTextWidget(
-                                          txt: deliveryAddressData.state,
-                                          mediaQuery: _mediaQuery),
-                                    ],
-                                  ),
-                                  AddressTextWidget(
-                                    txt: deliveryAddressData.country,
-                                    mediaQuery: _mediaQuery,
-                                  ),
-                                ],
-                              ),
+                      // (deliveryAddressData.addressLine1.isEmpty ||
+                      //         deliveryAddressData.addressLine2.isEmpty ||
+                      //         deliveryAddressData.city.isEmpty ||
+                      //         deliveryAddressData.pincode == 0)
+                      //     ? Container() :
+                      Container(
+                        height: 100,
+                        child: ListView(
+                          physics: NeverScrollableScrollPhysics(),
+                          children: [
+                            Row(
+                              children: [
+                                AddressTextWidget(
+                                  txt: '{deliveryAddressData.firstName} ',
+                                  mediaQuery: _mediaQuery,
+                                ),
+                                AddressTextWidget(
+                                  txt: 'deliveryAddressData.lastName',
+                                  mediaQuery: _mediaQuery,
+                                )
+                              ],
                             ),
+                            AddressTextWidget(
+                              txt: 'deliveryAddressData.addressLine1',
+                              mediaQuery: _mediaQuery,
+                            ),
+                            AddressTextWidget(
+                              txt: 'deliveryAddressData.addressLine2',
+                              mediaQuery: _mediaQuery,
+                            ),
+                            AddressTextWidget(
+                              txt: 'deliveryAddressData.pincode.toString()',
+                              mediaQuery: _mediaQuery,
+                            ),
+                            Row(
+                              children: [
+                                AddressTextWidget(
+                                    txt: '{deliveryAddressData.city}, ',
+                                    mediaQuery: _mediaQuery),
+                                AddressTextWidget(
+                                    txt: 'deliveryAddressData.state',
+                                    mediaQuery: _mediaQuery),
+                              ],
+                            ),
+                            AddressTextWidget(
+                              txt: 'deliveryAddressData.country',
+                              mediaQuery: _mediaQuery,
+                            ),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

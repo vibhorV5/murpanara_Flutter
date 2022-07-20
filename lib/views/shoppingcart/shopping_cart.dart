@@ -21,15 +21,15 @@ class ShoppingCart extends StatefulWidget {
 class _ShoppingCartState extends State<ShoppingCart> {
   @override
   Widget build(BuildContext context) {
-    BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
-    DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
-    CheckoutDetailsProvider checkoutDetailsProvider =
-        Provider.of<CheckoutDetailsProvider>(context);
-    PersonalDetails personalDetailsData = Provider.of<PersonalDetails>(context);
-    List<ShoppingCartProduct> shoppingCartProductsList =
-        Provider.of<List<ShoppingCartProduct>>(context);
-    CheckoutDetailsProvider checkoutDetailsProviderData =
-        Provider.of<CheckoutDetailsProvider>(context);
+    // BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
+    // DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
+    // CheckoutDetailsProvider checkoutDetailsProvider =
+    //     Provider.of<CheckoutDetailsProvider>(context);
+    // PersonalDetails personalDetailsData = Provider.of<PersonalDetails>(context);
+    // List<ShoppingCartProduct> shoppingCartProductsList =
+    //     Provider.of<List<ShoppingCartProduct>>(context);
+    // CheckoutDetailsProvider checkoutDetailsProviderData =
+    //     Provider.of<CheckoutDetailsProvider>(context);
 
     final _mediaQuery = MediaQuery.of(context);
 
@@ -209,102 +209,103 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                   splashFactory: NoSplash.splashFactory,
                                 ),
                                 onPressed: () {
-                                  if (deliveryAddressData.addressLine1.isEmpty ||
-                                      deliveryAddressData
-                                          .addressLine1.isEmpty ||
-                                      deliveryAddressData.firstName.isEmpty ||
-                                      deliveryAddressData.pincode
-                                          .toString()
-                                          .isEmpty) {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return Center(
-                                            child: Container(
-                                              height: 150,
-                                              padding: EdgeInsets.all(20),
-                                              width: _mediaQuery.size.width,
-                                              color: Colors.white,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'No Delivery address found',
-                                                    style: kSemibold.copyWith(
-                                                        fontSize: 15),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 30,
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                      Navigator.pushNamed(
-                                                          context,
-                                                          'deliveryAddressEdit');
-                                                    },
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        color: Colors
-                                                            .grey.shade300,
-                                                      ),
-                                                      padding:
-                                                          EdgeInsets.all(15),
-                                                      child: Row(
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    right: 5,
-                                                                    left: 5),
-                                                            child:
-                                                                Icon(Icons.add),
-                                                          ),
-                                                          Text(
-                                                            'Add Delivery address',
-                                                            style: kSemibold
-                                                                .copyWith(
-                                                                    fontSize:
-                                                                        13),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          );
-                                        });
-                                  } else {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => CheckoutPage(
-                                          email: checkoutDetailsProvider
-                                              .userEmailID,
-                                          phone:
-                                              personalDetailsData.phoneNumber!,
-                                          deliveryAddress: deliveryAddressData,
-                                          shoppingList:
-                                              shoppingCartProductsList,
-                                          totalSum: getSum(data),
-                                          productListDesc:
-                                              checkoutDetailsProvider
-                                                  .getDescription(
-                                                      shoppingCartProductsList),
-                                          generatedOrderID:
-                                              checkoutDetailsProvider
-                                                  .generateOrderId(),
-                                          personalDetails: personalDetailsData,
-                                          checkoutDetailsProvider:
-                                              checkoutDetailsProviderData,
-                                        ),
-                                      ),
-                                    );
-                                  }
+                                  // deliveryAddressData.addressLine1.isEmpty ||
+                                  //     deliveryAddressData
+                                  //         .addressLine1.isEmpty ||
+                                  //     deliveryAddressData.firstName.isEmpty ||
+                                  //     deliveryAddressData.pincode
+                                  //         .toString()
+                                  //         .isEmpty
+                                  // if (9) {
+                                  //   showDialog(
+                                  //       context: context,
+                                  //       builder: (context) {
+                                  //         return Center(
+                                  //           child: Container(
+                                  //             height: 150,
+                                  //             padding: EdgeInsets.all(20),
+                                  //             width: _mediaQuery.size.width,
+                                  //             color: Colors.white,
+                                  //             child: Column(
+                                  //               crossAxisAlignment:
+                                  //                   CrossAxisAlignment.start,
+                                  //               children: [
+                                  //                 Text(
+                                  //                   'No Delivery address found',
+                                  //                   style: kSemibold.copyWith(
+                                  //                       fontSize: 15),
+                                  //                 ),
+                                  //                 SizedBox(
+                                  //                   height: 30,
+                                  //                 ),
+                                  //                 GestureDetector(
+                                  //                   onTap: () {
+                                  //                     Navigator.of(context)
+                                  //                         .pop();
+                                  //                     Navigator.pushNamed(
+                                  //                         context,
+                                  //                         'deliveryAddressEdit');
+                                  //                   },
+                                  //                   child: Container(
+                                  //                     decoration: BoxDecoration(
+                                  //                       color: Colors
+                                  //                           .grey.shade300,
+                                  //                     ),
+                                  //                     padding:
+                                  //                         EdgeInsets.all(15),
+                                  //                     child: Row(
+                                  //                       children: [
+                                  //                         Container(
+                                  //                           padding:
+                                  //                               EdgeInsets.only(
+                                  //                                   right: 5,
+                                  //                                   left: 5),
+                                  //                           child:
+                                  //                               Icon(Icons.add),
+                                  //                         ),
+                                  //                         Text(
+                                  //                           'Add Delivery address',
+                                  //                           style: kSemibold
+                                  //                               .copyWith(
+                                  //                                   fontSize:
+                                  //                                       13),
+                                  //                         ),
+                                  //                       ],
+                                  //                     ),
+                                  //                   ),
+                                  //                 )
+                                  //               ],
+                                  //             ),
+                                  //           ),
+                                  //         );
+                                  //       });
+                                  // } else {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CheckoutPage(
+                                          //   email: checkoutDetailsProvider
+                                          //       .userEmailID,
+                                          //   phone:
+                                          //       personalDetailsData.phoneNumber!,
+                                          //   deliveryAddress: deliveryAddressData,
+                                          //   shoppingList:
+                                          //       shoppingCartProductsList,
+                                          //   totalSum: getSum(data),
+                                          //   productListDesc:
+                                          //       checkoutDetailsProvider
+                                          //           .getDescription(
+                                          //               shoppingCartProductsList),
+                                          //   generatedOrderID:
+                                          //       checkoutDetailsProvider
+                                          //           .generateOrderId(),
+                                          //   personalDetails: personalDetailsData,
+                                          //   checkoutDetailsProvider:
+                                          //       checkoutDetailsProviderData,
+                                          // ),
+                                          ),
+                                    ),
+                                  );
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(
