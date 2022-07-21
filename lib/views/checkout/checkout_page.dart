@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
+import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/models/personal_details.dart';
@@ -7,6 +8,7 @@ import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/models/user_orders.dart';
 import 'package:murpanara/providers/checkout_details_provider.dart';
 import 'package:murpanara/services/database_services.dart';
+import 'package:murpanara/views/profile/personal_details_edit.dart';
 import 'package:murpanara/widgets/address_text_widget.dart';
 import 'package:murpanara/widgets/save_button.dart';
 import 'package:murpanara/widgets/simple_heading.dart';
@@ -19,7 +21,6 @@ class CheckoutPage extends StatefulWidget {
   CheckoutPage({
     Key? key,
     required this.email,
-    required this.phone,
     required this.deliveryAddress,
     required this.shoppingList,
     required this.totalSum,
@@ -30,7 +31,6 @@ class CheckoutPage extends StatefulWidget {
   }) : super(key: key);
 
   String email;
-  num phone;
   DeliveryAddress deliveryAddress;
   num totalSum;
   List<ShoppingCartProduct> shoppingList;
@@ -89,7 +89,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         orderStatus: 'Order Placed',
         orderTime: widget.checkoutDetailsProvider.currentOrderTime().toString(),
         orderedProducts: ['f', 'f', 'fff', 'fe'],
-        phone: widget.phone,
+        phone: widget.deliveryAddress.phone,
         amountPaid: widget.totalSum,
         deliveryAddress:
             ('FIRST NAME - ${widget.deliveryAddress.firstName},LAST NAME - ${widget.deliveryAddress.lastName},HOUSE/FLAT NO. - ${widget.deliveryAddress.addressLine1},STREET - ${widget.deliveryAddress.addressLine2},CITY - ${widget.deliveryAddress.city},STATE - ${widget.deliveryAddress.state},PINCODE - ${widget.deliveryAddress.pincode},COUNTRY - ${widget.deliveryAddress.country}'),
@@ -123,7 +123,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
           'Order ID: ${widget.generatedOrderID} Details: ${widget.productListDesc.toString()}',
       'timeout': 120, // in seconds
       'prefill': {
-        'contact': widget.phone,
+        'contact': widget.deliveryAddress.phone,
         'email': widget.email,
         'orderdetails': 'widget.shoppingList.toString()',
       }
@@ -226,7 +226,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       ),
                       AddressTextWidget(
                         mediaQuery: _mediaQuery,
-                        txt: 'vibhor.stav@gmail.com',
+                        // txt: 'vibhor.stav@gmail.com',
+                        txt: widget.email,
                       ),
                       SizedBox(
                         height: 20,
@@ -236,7 +237,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       ),
                       AddressTextWidget(
                         mediaQuery: _mediaQuery,
-                        txt: '+91 8126793405',
+                        // txt: '+91 8126793405',
+                        txt:
+                            '+91 ${UserMethods.checkNumField(widget.deliveryAddress.phone!)}',
                       ),
                     ],
                   ),
@@ -467,41 +470,43 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   color: Colors.black,
                   txtColor: Colors.white,
                   onPress: () async {
-                    if (checkoutDetailsProviderData
-                            .currentSelectedModeOfPayment ==
-                        ModeOfPayment.razorPay) {
-                      launchRazorpay();
-                    } else if (checkoutDetailsProviderData
-                            .currentSelectedModeOfPayment ==
-                        ModeOfPayment.cashOnDelivery) {
-                      await DatabaseServices().setUserOrder(
-                        userOrders: UserOrders(
-                          firstName: widget.personalDetails.firstName,
-                          lastName: widget.personalDetails.lastName,
-                          modeOfPayment: widget.checkoutDetailsProvider
-                              .currentSelectedModeOfPayment
-                              .toString(),
-                          orderId:
-                              widget.checkoutDetailsProvider.generateOrderId(),
-                          orderStatus: 'Order Placed',
-                          orderTime: widget.checkoutDetailsProvider
-                              .currentOrderTime()
-                              .toString(),
-                          orderedProducts: [
-                            'd',
-                            'f',
-                            'f',
-                            'f',
-                            'f',
-                          ],
-                          phone: widget.phone,
-                          amountPaid: widget.totalSum,
-                          deliveryAddress:
-                              ('FIRST NAME - ${widget.deliveryAddress.firstName},LAST NAME - ${widget.deliveryAddress.lastName},HOUSE/FLAT NO. - ${widget.deliveryAddress.addressLine1},STREET - ${widget.deliveryAddress.addressLine2},CITY - ${widget.deliveryAddress.city},STATE - ${widget.deliveryAddress.state},PINCODE - ${widget.deliveryAddress.pincode},COUNTRY - ${widget.deliveryAddress.country}'),
-                          emailId: widget.email,
-                        ),
-                      );
-                      print('COD SELECTED SUCCESS');
+                    {
+                      if (checkoutDetailsProviderData
+                              .currentSelectedModeOfPayment ==
+                          ModeOfPayment.razorPay) {
+                        launchRazorpay();
+                      } else if (checkoutDetailsProviderData
+                              .currentSelectedModeOfPayment ==
+                          ModeOfPayment.cashOnDelivery) {
+                        await DatabaseServices().setUserOrder(
+                          userOrders: UserOrders(
+                            firstName: widget.personalDetails.firstName,
+                            lastName: widget.personalDetails.lastName,
+                            modeOfPayment: widget.checkoutDetailsProvider
+                                .currentSelectedModeOfPayment
+                                .toString(),
+                            orderId: widget.checkoutDetailsProvider
+                                .generateOrderId(),
+                            orderStatus: 'Order Placed',
+                            orderTime: widget.checkoutDetailsProvider
+                                .currentOrderTime()
+                                .toString(),
+                            orderedProducts: [
+                              'd',
+                              'f',
+                              'f',
+                              'f',
+                              'f',
+                            ],
+                            phone: widget.deliveryAddress.phone,
+                            amountPaid: widget.totalSum,
+                            deliveryAddress:
+                                ('FIRST NAME - ${widget.deliveryAddress.firstName},LAST NAME - ${widget.deliveryAddress.lastName},HOUSE/FLAT NO. - ${widget.deliveryAddress.addressLine1},STREET - ${widget.deliveryAddress.addressLine2},CITY - ${widget.deliveryAddress.city},STATE - ${widget.deliveryAddress.state},PINCODE - ${widget.deliveryAddress.pincode},COUNTRY - ${widget.deliveryAddress.country}'),
+                            emailId: widget.email,
+                          ),
+                        );
+                        print('COD SELECTED SUCCESS');
+                      }
                     }
                   },
                 )

@@ -132,7 +132,8 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                       HeadingsTitle(titleText: 'Personal details'),
                       TitleFieldText(titleFieldText: '*First name'),
                       CustomFormField(
-                        initialText: personalDetailsData.firstName,
+                        // initialText: personalDetailsData.firstName,
+                        initialText: '',
                         onChanged: (val) {
                           firstNameController.text = val;
                         },
@@ -150,7 +151,8 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
 
                       TitleFieldText(titleFieldText: '*Last name'),
                       CustomFormField(
-                        initialText: personalDetailsData.lastName,
+                        // initialText: personalDetailsData.lastName,
+                        initialText: '',
                         onChanged: (val) {
                           lastNameController.text = val;
                         },
@@ -177,14 +179,14 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                       TitleFieldText(titleFieldText: '*Phone number'),
 
                       CustomFormField(
-                        initialText: UserMethods.checkNumField(
-                            personalDetailsData.phoneNumber!),
+                        // initialText: UserMethods.checkNumField(
+                        //     personalDetailsData.phoneNumber!),
+                        initialText: '',
                         textController: phoneNumberController,
                         mediaQuery: _mediaQuery,
                         hintText: '10 digit Phone number',
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
+                          if (value!.isEmpty ||
                               value.length != 10 ||
                               !(RegExp(r'(^[0-9])').hasMatch(value))) {
                             return 'Please enter a 10 digit Phone number';

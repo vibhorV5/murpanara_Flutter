@@ -7,6 +7,7 @@ class DeliveryAddress {
   final String city;
   final String state;
   final String country;
+  final num? phone;
 
   DeliveryAddress({
     this.firstName = '',
@@ -17,5 +18,6 @@ class DeliveryAddress {
     this.city = '',
     this.state = '',
     this.country = '',
+    this.phone = 0,
   });
 }

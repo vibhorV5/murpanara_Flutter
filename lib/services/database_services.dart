@@ -6,6 +6,7 @@ import 'package:murpanara/models/product.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/models/user_orders.dart';
 import 'package:murpanara/services/auth.dart';
+import 'package:rxdart/rxdart.dart';
 
 class DatabaseServices {
   final String? uid;
@@ -85,10 +86,20 @@ class DatabaseServices {
   }
 
   Stream<PersonalDetails> get personalDetailsStream {
+    // var user = AuthService().currentUser!;
+    // return personalDetailsCollection.doc(user.uid).snapshots().map(
+    //       (event) => _getPersonalDetails(event),
+    //     );
     var user = AuthService().currentUser!;
-    return personalDetailsCollection.doc(user.uid).snapshots().map(
-          (event) => _getPersonalDetails(event),
-        );
+
+    return AuthService().userStream.switchMap((user) {
+      if (user != null) {
+        var ref = personalDetailsCollection.doc(user.uid);
+        return ref.snapshots().map(_getPersonalDetails);
+      } else {
+        return Stream.fromIterable([PersonalDetails()]);
+      }
+    });
   }
 
   ///FETCHING DATA
@@ -177,11 +188,22 @@ class DatabaseServices {
   }
 
   Stream<BillingAddress> get billingAddressStream {
+    // var user = AuthService().currentUser!;
+    // return billingAddressCollection
+    //     .doc(user.uid)
+    //     .snapshots()
+    //     .map(_getBillingAddress);
+
     var user = AuthService().currentUser!;
-    return billingAddressCollection
-        .doc(user.uid)
-        .snapshots()
-        .map(_getBillingAddress);
+
+    return AuthService().userStream.switchMap((user) {
+      if (user != null) {
+        var ref = billingAddressCollection.doc(user.uid);
+        return ref.snapshots().map(_getBillingAddress);
+      } else {
+        return Stream.fromIterable([BillingAddress()]);
+      }
+    });
   }
 
   DeliveryAddress _getDeliveryAddress(DocumentSnapshot snapshot) {
@@ -201,6 +223,9 @@ class DatabaseServices {
       pincode: snapshot.data().toString().contains('pincode')
           ? snapshot.get('pincode')
           : 0,
+      phone: snapshot.data().toString().contains('phone')
+          ? snapshot.get('phone')
+          : 0,
       city: snapshot.data().toString().contains('city')
           ? snapshot.get('city')
           : '',
@@ -213,13 +238,31 @@ class DatabaseServices {
     );
   }
 
+  // Stream<DeliveryAddress> get deliveryAddressStream {
+  //   var user = AuthService().currentUser!;
+
+  //   return deliveryAddressCollection
+  //       .doc(user.uid)
+  //       .snapshots()
+  //       .map(_getDeliveryAddress);
+  // }
+
   Stream<DeliveryAddress> get deliveryAddressStream {
     var user = AuthService().currentUser!;
 
-    return deliveryAddressCollection
-        .doc(user.uid)
-        .snapshots()
-        .map(_getDeliveryAddress);
+    return AuthService().userStream.switchMap((user) {
+      if (user != null) {
+        var ref = deliveryAddressCollection.doc(user.uid);
+        return ref.snapshots().map(_getDeliveryAddress);
+      } else {
+        return Stream.fromIterable([DeliveryAddress()]);
+      }
+    });
+
+    // return deliveryAddressCollection
+    //     .doc(user.uid)
+    //     .snapshots()
+    //     .map(_getDeliveryAddress);
   }
 
   //List of ShoppingCartProduct from document snapshot
@@ -244,11 +287,21 @@ class DatabaseServices {
 
   //Get shoppingcart Stream from firestore
   Stream<List<ShoppingCartProduct>> get shoppingCartProductStream {
+    // var user = AuthService().currentUser!;
+    // return shoppingcartCollection
+    //     .doc(user.uid)
+    //     .snapshots()
+    //     .map(_getShoppingCartProductsfromSnapshot);
     var user = AuthService().currentUser!;
-    return shoppingcartCollection
-        .doc(user.uid)
-        .snapshots()
-        .map(_getShoppingCartProductsfromSnapshot);
+
+    return AuthService().userStream.switchMap((user) {
+      if (user != null) {
+        var ref = shoppingcartCollection.doc(user.uid);
+        return ref.snapshots().map(_getShoppingCartProductsfromSnapshot);
+      } else {
+        return Stream.fromIterable([]);
+      }
+    });
   }
 
   ///SETTING DATA
@@ -327,6 +380,7 @@ class DatabaseServices {
       'addressLine1': deliveryAddress.addressLine1,
       'addressLine2': deliveryAddress.addressLine2,
       'pincode': deliveryAddress.pincode,
+      'phone': deliveryAddress.phone,
       'city': deliveryAddress.city,
       'state': deliveryAddress.state,
       'country': 'India',

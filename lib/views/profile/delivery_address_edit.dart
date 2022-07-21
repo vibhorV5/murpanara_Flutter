@@ -32,6 +32,8 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
     pincodeController.dispose();
     cityController.dispose();
     stateController.dispose();
+    phoneNumberController.dispose();
+
     super.dispose();
   }
 
@@ -44,12 +46,13 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
   TextEditingController pincodeController = TextEditingController();
   TextEditingController cityController = TextEditingController();
   TextEditingController stateController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
 
   String? dropdownValue;
 
   @override
   Widget build(BuildContext context) {
-    DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
+    // DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
 
     final _mediaQuery = MediaQuery.of(context);
 
@@ -125,9 +128,37 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
                     children: [
                       HeadingsTitle(titleText: 'Delivery Address'),
 
+                      // //Phone number
+                      TitleFieldText(titleFieldText: '*Phone number'),
+
+                      CustomFormField(
+                        // initialText: UserMethods.checkNumField(
+                        //     personalDetailsData.phoneNumber!),
+                        initialText: '',
+                        textController: phoneNumberController,
+                        mediaQuery: _mediaQuery,
+                        hintText: '10 digit Phone number',
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              value.length != 10 ||
+                              !(RegExp(r'(^[0-9])').hasMatch(value))) {
+                            return 'Please enter a 10 digit Phone number';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.number,
+                        onChanged: (val) {
+                          phoneNumberController.text = val;
+                        },
+                      ),
+
+                      SizedBox(
+                        height: 13,
+                      ),
+
                       TitleFieldText(titleFieldText: '*First name'),
                       CustomFormField(
-                        initialText: deliveryAddressData.firstName,
+                        initialText: '',
                         onChanged: (val) {
                           firstNameController.text = val;
                         },
@@ -145,7 +176,7 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
 
                       TitleFieldText(titleFieldText: '*Last name'),
                       CustomFormField(
-                        initialText: deliveryAddressData.lastName,
+                        initialText: '',
                         onChanged: (val) {
                           lastNameController.text = val;
                         },
@@ -163,7 +194,7 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
 
                       TitleFieldText(titleFieldText: '*Address line 1'),
                       CustomFormField(
-                        initialText: deliveryAddressData.addressLine1,
+                        initialText: '',
                         onChanged: (val) {
                           addressLine1Controller.text = val;
                         },
@@ -182,7 +213,7 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
 
                       TitleFieldText(titleFieldText: 'Address line 2'),
                       CustomFormField(
-                        initialText: deliveryAddressData.addressLine2,
+                        initialText: '',
                         onChanged: (val) {
                           addressLine2Controller.text = val;
                         },
@@ -202,16 +233,15 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
                       TitleFieldText(titleFieldText: 'Pin code'),
 
                       CustomFormField(
-                        initialText: UserMethods.checkNumField(
-                            deliveryAddressData.pincode!),
+                        initialText: '',
+                        // initialText: UserMethods.checkNumField(
+                        //     deliveryAddressData.pincode!),
                         onChanged: (val) {
                           pincodeController.text = val;
                         },
                         keyboardType: TextInputType.number,
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.length != 6) {
+                          if (value!.isEmpty || value.length != 6) {
                             return 'Please enter a valid pincode';
                           }
                           return null;
@@ -228,7 +258,7 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
                       TitleFieldText(titleFieldText: '*City'),
 
                       CustomFormField(
-                        initialText: deliveryAddressData.city,
+                        initialText: '',
                         onChanged: (val) {
                           cityController.text = val;
                         },
@@ -284,14 +314,14 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
                   if (_formKey.currentState!.validate()) {
                     await DatabaseServices().setDeliveryAddress(
                       deliveryAddress: DeliveryAddress(
-                        firstName: firstNameController.text,
-                        lastName: lastNameController.text,
-                        addressLine1: addressLine1Controller.text,
-                        addressLine2: addressLine2Controller.text,
-                        pincode: num.tryParse(pincodeController.text),
-                        city: cityController.text,
-                        state: stateController.text,
-                      ),
+                          firstName: firstNameController.text,
+                          lastName: lastNameController.text,
+                          addressLine1: addressLine1Controller.text,
+                          addressLine2: addressLine2Controller.text,
+                          pincode: num.tryParse(pincodeController.text),
+                          city: cityController.text,
+                          state: stateController.text,
+                          phone: num.tryParse(phoneNumberController.text)),
                     );
                     print('delivery address set');
                     print('done baby');

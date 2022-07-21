@@ -217,67 +217,64 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                           .toString()
                                           .isEmpty) {
                                     showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return Center(
-                                            child: Container(
-                                              height: 150,
-                                              padding: EdgeInsets.all(20),
-                                              width: _mediaQuery.size.width,
-                                              color: Colors.white,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'No Delivery address found',
-                                                    style: kSemibold.copyWith(
-                                                        fontSize: 15),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 30,
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                      Navigator.pushNamed(
-                                                          context,
-                                                          'deliveryAddressEdit');
-                                                    },
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                        color: Colors
-                                                            .grey.shade300,
-                                                      ),
-                                                      padding:
-                                                          EdgeInsets.all(15),
-                                                      child: Row(
-                                                        children: [
-                                                          Container(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    right: 5,
-                                                                    left: 5),
-                                                            child:
-                                                                Icon(Icons.add),
-                                                          ),
-                                                          Text(
-                                                            'Add Delivery address',
-                                                            style: kSemibold
-                                                                .copyWith(
-                                                                    fontSize:
-                                                                        13),
-                                                          ),
-                                                        ],
-                                                      ),
+                                      context: context,
+                                      builder: (context) {
+                                        return Center(
+                                          child: Container(
+                                            height: 150,
+                                            padding: EdgeInsets.all(20),
+                                            width: _mediaQuery.size.width,
+                                            color: Colors.white,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'No Delivery address found',
+                                                  style: kSemibold.copyWith(
+                                                      fontSize: 15),
+                                                ),
+                                                SizedBox(
+                                                  height: 30,
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.of(context).pop();
+                                                    Navigator.pushNamed(context,
+                                                        'deliveryAddressEdit');
+                                                  },
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          Colors.grey.shade300,
                                                     ),
-                                                  )
-                                                ],
-                                              ),
+                                                    padding: EdgeInsets.all(15),
+                                                    child: Row(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              EdgeInsets.only(
+                                                                  right: 5,
+                                                                  left: 5),
+                                                          child:
+                                                              Icon(Icons.add),
+                                                        ),
+                                                        Text(
+                                                          'Add Delivery address',
+                                                          style: kSemibold
+                                                              .copyWith(
+                                                                  fontSize: 13),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
                                             ),
-                                          );
-                                        });
+                                          ),
+                                        );
+                                      },
+                                    );
                                   } else {
                                     Navigator.push(
                                       context,
@@ -285,8 +282,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                         builder: (context) => CheckoutPage(
                                           email: checkoutDetailsProvider
                                               .userEmailID,
-                                          phone:
-                                              personalDetailsData.phoneNumber!,
                                           deliveryAddress: deliveryAddressData,
                                           shoppingList:
                                               shoppingCartProductsList,

@@ -123,7 +123,8 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       HeadingsTitle(titleText: 'Billing Address'),
                       TitleFieldText(titleFieldText: '*Address line 1'),
                       CustomFormField(
-                        initialText: billingAddressData.addressLine1,
+                        // initialText: billingAddressData.addressLine1,
+                        initialText: '',
                         onChanged: (val) {
                           addressLine1Controller.text = val;
                         },
@@ -142,7 +143,8 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
 
                       TitleFieldText(titleFieldText: 'Address line 2'),
                       CustomFormField(
-                        initialText: billingAddressData.addressLine2,
+                        // initialText: billingAddressData.addressLine2,
+                        initialText: '',
                         onChanged: (val) {
                           addressLine2Controller.text = val;
                         },
@@ -162,16 +164,15 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       TitleFieldText(titleFieldText: 'Pin code'),
 
                       CustomFormField(
-                        initialText: UserMethods.checkNumField(
-                            billingAddressData.pincode!),
+                        // initialText: UserMethods.checkNumField(
+                        //     billingAddressData.pincode!),
+                        initialText: '',
                         onChanged: (val) {
                           pincodeController.text = val;
                         },
                         keyboardType: TextInputType.number,
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.length != 6) {
+                          if (value!.isEmpty || value.length != 6) {
                             return 'Please enter a valid pincode';
                           }
                           return null;
@@ -188,7 +189,8 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       TitleFieldText(titleFieldText: '*City'),
 
                       CustomFormField(
-                        initialText: billingAddressData.city,
+                        // initialText: billingAddressData.city,
+                        initialText: '',
                         onChanged: (val) {
                           cityController.text = val;
                         },

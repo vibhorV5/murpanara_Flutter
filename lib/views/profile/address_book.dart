@@ -285,6 +285,22 @@ class _AddressBookState extends State<AddressBook> {
                                       txt: deliveryAddressData.country,
                                       mediaQuery: _mediaQuery,
                                     ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.phone_android_outlined,
+                                          size: 10,
+                                        ),
+                                        SizedBox(
+                                          width: 2,
+                                        ),
+                                        AddressTextWidget(
+                                          txt:
+                                              '+91 ${deliveryAddressData.phone.toString()}',
+                                          mediaQuery: _mediaQuery,
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
                               ),
