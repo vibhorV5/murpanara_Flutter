@@ -53,9 +53,9 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
 
   @override
   Widget build(BuildContext context) {
-    PersonalDetails personalDetailsData = Provider.of<PersonalDetails>(context);
-    BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
-    DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
+    // PersonalDetails personalDetailsData = Provider.of<PersonalDetails>(context);
+    // BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
+    // DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
 
     final _mediaQuery = MediaQuery.of(context);
 
@@ -132,7 +132,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                       HeadingsTitle(titleText: 'Personal details'),
                       TitleFieldText(titleFieldText: '*First name'),
                       CustomFormField(
-                        initialText: personalDetailsData.firstName,
+                        initialText: 'personalDetailsData.firstName',
                         onChanged: (val) {
                           firstNameController.text = val;
                         },
@@ -150,7 +150,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
 
                       TitleFieldText(titleFieldText: '*Last name'),
                       CustomFormField(
-                        initialText: personalDetailsData.lastName,
+                        initialText: 'personalDetailsData.lastName',
                         onChanged: (val) {
                           lastNameController.text = val;
                         },
@@ -177,8 +177,9 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                       TitleFieldText(titleFieldText: '*Phone number'),
 
                       CustomFormField(
-                        initialText: UserMethods.checkNumField(
-                            personalDetailsData.phoneNumber!),
+                        initialText: '',
+                        // initialText: UserMethods.checkNumField(
+                        //     personalDetailsData.phoneNumber!),
                         textController: phoneNumberController,
                         mediaQuery: _mediaQuery,
                         hintText: '10 digit Phone number',
@@ -223,8 +224,9 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                       TitleFieldText(titleFieldText: '*Postal Code'),
 
                       DisabledFormField(
-                        txt: UserMethods.checkNumField(
-                            deliveryAddressData.pincode!),
+                        txt: '',
+                        // txt: UserMethods.checkNumField(
+                        //     deliveryAddressData.pincode!),
                       ),
 
                       SmallInfoText(

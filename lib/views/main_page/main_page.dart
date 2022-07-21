@@ -6,6 +6,7 @@ import 'package:murpanara/views/shoppingcart/shopping_cart.dart';
 import 'package:murpanara/views/home/home_page.dart';
 import 'package:murpanara/views/wishlist/wishlist_page.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);

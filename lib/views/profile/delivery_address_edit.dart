@@ -127,7 +127,7 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
 
                       TitleFieldText(titleFieldText: '*First name'),
                       CustomFormField(
-                        initialText: 'deliveryAddressData.firstName',
+                        initialText: '',
                         onChanged: (val) {
                           firstNameController.text = val;
                         },
@@ -145,7 +145,7 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
 
                       TitleFieldText(titleFieldText: '*Last name'),
                       CustomFormField(
-                        initialText: 'deliveryAddressData.lastName',
+                        initialText: '',
                         onChanged: (val) {
                           lastNameController.text = val;
                         },
@@ -163,7 +163,7 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
 
                       TitleFieldText(titleFieldText: '*Address line 1'),
                       CustomFormField(
-                        initialText: 'deliveryAddressData.addressLine1',
+                        initialText: '',
                         onChanged: (val) {
                           addressLine1Controller.text = val;
                         },
@@ -182,7 +182,7 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
 
                       TitleFieldText(titleFieldText: 'Address line 2'),
                       CustomFormField(
-                        initialText: 'deliveryAddressData.addressLine2',
+                        initialText: '',
                         onChanged: (val) {
                           addressLine2Controller.text = val;
                         },
@@ -229,7 +229,7 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
                       TitleFieldText(titleFieldText: '*City'),
 
                       CustomFormField(
-                        initialText: 'deliveryAddressData.city',
+                        initialText: '',
                         onChanged: (val) {
                           cityController.text = val;
                         },
@@ -283,17 +283,17 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
                 onPress: () async {
                   FocusScope.of(context).unfocus();
                   if (_formKey.currentState!.validate()) {
-                    // await DatabaseServices().setDeliveryAddress(
-                    //   deliveryAddress: DeliveryAddress(
-                    //     firstName: firstNameController.text,
-                    //     lastName: lastNameController.text,
-                    //     addressLine1: addressLine1Controller.text,
-                    //     addressLine2: addressLine2Controller.text,
-                    //     pincode: num.tryParse(pincodeController.text),
-                    //     city: cityController.text,
-                    //     state: stateController.text,
-                    //   ),
-                    // );
+                    await DatabaseServices().setDeliveryAddress(
+                      deliveryAddress: DeliveryAddress(
+                        firstName: firstNameController.text,
+                        lastName: lastNameController.text,
+                        addressLine1: addressLine1Controller.text,
+                        addressLine2: addressLine2Controller.text,
+                        pincode: num.tryParse(pincodeController.text),
+                        city: cityController.text,
+                        state: stateController.text,
+                      ),
+                    );
                     print('delivery address set');
                     print('done baby');
                     Navigator.of(context).pop();

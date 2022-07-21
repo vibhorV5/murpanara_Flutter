@@ -50,10 +50,10 @@ class MyApp extends StatelessWidget {
         //   create: (_) => DatabaseServices().billingAddressStream,
         //   initialData: BillingAddress(),
         // ),
-        // StreamProvider<DeliveryAddress>(
-        //   create: (_) => DatabaseServices().deliveryAddressStream,
-        //   initialData: DeliveryAddress(),
-        // ),
+        StreamProvider<DeliveryAddress>(
+          create: (_) => DatabaseServices().deliveryAddressStream,
+          initialData: DeliveryAddress(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

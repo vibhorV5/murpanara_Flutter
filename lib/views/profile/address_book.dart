@@ -26,7 +26,8 @@ class _AddressBookState extends State<AddressBook> {
   @override
   Widget build(BuildContext context) {
     // BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
-    // DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
+    DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
+
     final _mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -247,39 +248,39 @@ class _AddressBookState extends State<AddressBook> {
                               Row(
                                 children: [
                                   AddressTextWidget(
-                                    txt: '{deliveryAddressData.firstName} ',
+                                    txt: '${deliveryAddressData.firstName} ',
                                     mediaQuery: _mediaQuery,
                                   ),
                                   AddressTextWidget(
-                                    txt: 'deliveryAddressData.lastName',
+                                    txt: deliveryAddressData.lastName,
                                     mediaQuery: _mediaQuery,
                                   )
                                 ],
                               ),
                               AddressTextWidget(
-                                txt: 'deliveryAddressData.addressLine1',
+                                txt: deliveryAddressData.addressLine1,
                                 mediaQuery: _mediaQuery,
                               ),
                               AddressTextWidget(
-                                txt: 'deliveryAddressData.addressLine2',
+                                txt: deliveryAddressData.addressLine2,
                                 mediaQuery: _mediaQuery,
                               ),
                               AddressTextWidget(
-                                txt: 'deliveryAddressData.pincode'.toString(),
+                                txt: deliveryAddressData.pincode.toString(),
                                 mediaQuery: _mediaQuery,
                               ),
                               Row(
                                 children: [
                                   AddressTextWidget(
-                                      txt: '{deliveryAddressData.city} ',
+                                      txt: '${deliveryAddressData.city} ',
                                       mediaQuery: _mediaQuery),
                                   AddressTextWidget(
-                                      txt: 'deliveryAddressData.state',
+                                      txt: deliveryAddressData.state,
                                       mediaQuery: _mediaQuery),
                                 ],
                               ),
                               AddressTextWidget(
-                                txt: 'deliveryAddressData.country',
+                                txt: deliveryAddressData.country,
                                 mediaQuery: _mediaQuery,
                               ),
                             ],
@@ -297,6 +298,31 @@ class _AddressBookState extends State<AddressBook> {
                           ),
                         ),
                       ],
+                    ),
+                    Container(
+                      height: 500,
+                      width: _mediaQuery.size.width,
+                      color: Colors.pink,
+                      child: StreamBuilder(
+                        stream: DatabaseServices().deliveryAddressStream,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            DeliveryAddress data =
+                                snapshot.data! as DeliveryAddress;
+
+                            return ListView(
+                              children: [
+                                Text(data.addressLine1),
+                                Text(data.addressLine2),
+                                Text(data.firstName),
+                                Text(data.firstName),
+                              ],
+                            );
+                          } else {
+                            return Text('Fetching');
+                          }
+                        },
+                      ),
                     ),
                   ],
                 ),

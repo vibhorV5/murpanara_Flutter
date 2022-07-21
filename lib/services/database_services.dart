@@ -6,6 +6,7 @@ import 'package:murpanara/models/product.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/models/user_orders.dart';
 import 'package:murpanara/services/auth.dart';
+import 'package:rxdart/rxdart.dart';
 
 class DatabaseServices {
   final String? uid;
@@ -29,8 +30,8 @@ class DatabaseServices {
   //     FirebaseFirestore.instance.collection('billingAddress');
 
   //Collection Reference for delivery address
-  // CollectionReference deliveryAddressCollection =
-  //     FirebaseFirestore.instance.collection('deliveryAddress');
+  CollectionReference deliveryAddressCollection =
+      FirebaseFirestore.instance.collection('deliveryAddress');
 
   //Collection Reference for personal details
   // CollectionReference personalDetailsCollection =
@@ -185,43 +186,52 @@ class DatabaseServices {
   // }
 
 //Delivery Address
-  // DeliveryAddress _getDeliveryAddress(DocumentSnapshot snapshot) {
-  //   return DeliveryAddress(
-  //     firstName: snapshot.data().toString().contains('firstName')
-  //         ? snapshot.get('firstName')
-  //         : '',
-  //     lastName: snapshot.data().toString().contains('lastName')
-  //         ? snapshot.get('lastName')
-  //         : '',
-  //     addressLine1: snapshot.data().toString().contains('addressLine1')
-  //         ? snapshot.get('addressLine1')
-  //         : '',
-  //     addressLine2: snapshot.data().toString().contains('addressLine2')
-  //         ? snapshot.get('addressLine2')
-  //         : '',
-  //     pincode: snapshot.data().toString().contains('pincode')
-  //         ? snapshot.get('pincode')
-  //         : 0,
-  //     city: snapshot.data().toString().contains('city')
-  //         ? snapshot.get('city')
-  //         : '',
-  //     state: snapshot.data().toString().contains('state')
-  //         ? snapshot.get('state')
-  //         : '',
-  //     country: snapshot.data().toString().contains('country')
-  //         ? snapshot.get('country')
-  //         : '',
-  //   );
-  // }
+  DeliveryAddress _getDeliveryAddress(DocumentSnapshot snapshot) {
+    return DeliveryAddress(
+      firstName: snapshot.data().toString().contains('firstName')
+          ? snapshot.get('firstName')
+          : '',
+      lastName: snapshot.data().toString().contains('lastName')
+          ? snapshot.get('lastName')
+          : '',
+      addressLine1: snapshot.data().toString().contains('addressLine1')
+          ? snapshot.get('addressLine1')
+          : '',
+      addressLine2: snapshot.data().toString().contains('addressLine2')
+          ? snapshot.get('addressLine2')
+          : '',
+      pincode: snapshot.data().toString().contains('pincode')
+          ? snapshot.get('pincode')
+          : 0,
+      city: snapshot.data().toString().contains('city')
+          ? snapshot.get('city')
+          : '',
+      state: snapshot.data().toString().contains('state')
+          ? snapshot.get('state')
+          : '',
+      country: snapshot.data().toString().contains('country')
+          ? snapshot.get('country')
+          : '',
+    );
+  }
 
-  // Stream<DeliveryAddress> get deliveryAddressStream {
-  //   var user = AuthService().currentUser!;
+  Stream<DeliveryAddress> get deliveryAddressStream {
+    var user = AuthService().currentUser!;
 
-  //   return deliveryAddressCollection
-  //       .doc(user.uid)
-  //       .snapshots()
-  //       .map(_getDeliveryAddress);
-  // }
+    return AuthService().userStream.switchMap((user) {
+      if (user != null) {
+        var ref = deliveryAddressCollection.doc(user.uid);
+        return ref.snapshots().map(_getDeliveryAddress);
+      } else {
+        return Stream.fromIterable([DeliveryAddress()]);
+      }
+    });
+
+    // return deliveryAddressCollection
+    //     .doc(user.uid)
+    //     .snapshots()
+    //     .map(_getDeliveryAddress);
+  }
 
   //List of ShoppingCartProduct from document snapshot
   List<ShoppingCartProduct> _getShoppingCartProductsfromSnapshot(
@@ -322,24 +332,24 @@ class DatabaseServices {
   // }
 
 //Set Delivery address
-  // Future<void> setDeliveryAddress(
-  //     {required DeliveryAddress deliveryAddress}) async {
-  //   final data = {
-  //     'firstName': deliveryAddress.firstName,
-  //     'lastName': deliveryAddress.lastName,
-  //     'addressLine1': deliveryAddress.addressLine1,
-  //     'addressLine2': deliveryAddress.addressLine2,
-  //     'pincode': deliveryAddress.pincode,
-  //     'city': deliveryAddress.city,
-  //     'state': deliveryAddress.state,
-  //     'country': 'India',
-  //   };
+  Future<void> setDeliveryAddress(
+      {required DeliveryAddress deliveryAddress}) async {
+    final data = {
+      'firstName': deliveryAddress.firstName,
+      'lastName': deliveryAddress.lastName,
+      'addressLine1': deliveryAddress.addressLine1,
+      'addressLine2': deliveryAddress.addressLine2,
+      'pincode': deliveryAddress.pincode,
+      'city': deliveryAddress.city,
+      'state': deliveryAddress.state,
+      'country': 'India',
+    };
 
-  //   var user = AuthService().currentUser!;
-  //   var ref = deliveryAddressCollection.doc(user.uid);
+    var user = AuthService().currentUser!;
+    var ref = deliveryAddressCollection.doc(user.uid);
 
-  //   return await ref.set(data);
-  // }
+    return await ref.set(data);
+  }
 
 //Set Personal Details
   // Future<void> setPersonalDetails(
