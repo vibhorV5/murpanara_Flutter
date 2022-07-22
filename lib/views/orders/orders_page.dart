@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:murpanara/models/user_orders.dart';
+import 'package:murpanara/services/database_services.dart';
 
 class OrdersPage extends StatelessWidget {
   const OrdersPage({Key? key}) : super(key: key);
@@ -12,7 +15,25 @@ class OrdersPage extends StatelessWidget {
       ),
       body: Center(
         child: Container(
-          child: Text('Orders page'),
+          child: StreamBuilder(
+            stream: DatabaseServices().userOrdersStream(),
+            builder: ((context, snapshot) {
+              if (snapshot.hasData) {
+                List<UserOrders> data = snapshot.data! as List<UserOrders>;
+                print('DATA HAI = ${data}');
+                return Column(
+                  children: [
+                    Text(data.length.toString()),
+                    Text(data[0].orderedProducts.first.name)
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Text('Error');
+              } else {
+                return Text('no data found');
+              }
+            }),
+          ),
         ),
       ),
     );

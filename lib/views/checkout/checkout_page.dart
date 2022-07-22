@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
-import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/delivery_address.dart';
-import 'package:murpanara/models/personal_details.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/models/user_orders.dart';
 import 'package:murpanara/providers/checkout_details_provider.dart';
 import 'package:murpanara/services/database_services.dart';
-import 'package:murpanara/views/profile/personal_details_edit.dart';
 import 'package:murpanara/widgets/address_text_widget.dart';
 import 'package:murpanara/widgets/save_button.dart';
 import 'package:murpanara/widgets/simple_heading.dart';
@@ -26,7 +23,6 @@ class CheckoutPage extends StatefulWidget {
     required this.totalSum,
     required this.productListDesc,
     required this.generatedOrderID,
-    required this.personalDetails,
     required this.checkoutDetailsProvider,
   }) : super(key: key);
 
@@ -36,7 +32,6 @@ class CheckoutPage extends StatefulWidget {
   List<ShoppingCartProduct> shoppingList;
   List<dynamic> productListDesc;
   String generatedOrderID;
-  PersonalDetails personalDetails;
   CheckoutDetailsProvider checkoutDetailsProvider;
 
   @override
@@ -80,15 +75,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
     await DatabaseServices().setUserOrder(
       userOrders: UserOrders(
-        firstName: widget.personalDetails.firstName,
-        lastName: widget.personalDetails.lastName,
+        firstName: widget.deliveryAddress.firstName,
+        lastName: widget.deliveryAddress.lastName,
         modeOfPayment: widget
             .checkoutDetailsProvider.currentSelectedModeOfPayment
             .toString(),
         orderId: widget.checkoutDetailsProvider.generateOrderId(),
         orderStatus: 'Order Placed',
         orderTime: widget.checkoutDetailsProvider.currentOrderTime().toString(),
-        orderedProducts: ['f', 'f', 'fff', 'fe'],
+        orderedProducts: widget.shoppingList,
         phone: widget.deliveryAddress.phone,
         amountPaid: widget.totalSum,
         deliveryAddress:
@@ -480,8 +475,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           ModeOfPayment.cashOnDelivery) {
                         await DatabaseServices().setUserOrder(
                           userOrders: UserOrders(
-                            firstName: widget.personalDetails.firstName,
-                            lastName: widget.personalDetails.lastName,
+                            firstName: widget.deliveryAddress.firstName,
+                            lastName: widget.deliveryAddress.lastName,
                             modeOfPayment: widget.checkoutDetailsProvider
                                 .currentSelectedModeOfPayment
                                 .toString(),
@@ -491,13 +486,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             orderTime: widget.checkoutDetailsProvider
                                 .currentOrderTime()
                                 .toString(),
-                            orderedProducts: [
-                              'd',
-                              'f',
-                              'f',
-                              'f',
-                              'f',
-                            ],
+                            orderedProducts: widget.shoppingList,
                             phone: widget.deliveryAddress.phone,
                             amountPaid: widget.totalSum,
                             deliveryAddress:

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
-import 'package:murpanara/models/billing_address.dart';
 import 'package:murpanara/models/delivery_address.dart';
-import 'package:murpanara/models/personal_details.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/providers/checkout_details_provider.dart';
 import 'package:murpanara/services/database_services.dart';
@@ -21,11 +19,9 @@ class ShoppingCart extends StatefulWidget {
 class _ShoppingCartState extends State<ShoppingCart> {
   @override
   Widget build(BuildContext context) {
-    BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
     DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
     CheckoutDetailsProvider checkoutDetailsProvider =
         Provider.of<CheckoutDetailsProvider>(context);
-    PersonalDetails personalDetailsData = Provider.of<PersonalDetails>(context);
     List<ShoppingCartProduct> shoppingCartProductsList =
         Provider.of<List<ShoppingCartProduct>>(context);
     CheckoutDetailsProvider checkoutDetailsProviderData =
@@ -293,7 +289,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                           generatedOrderID:
                                               checkoutDetailsProvider
                                                   .generateOrderId(),
-                                          personalDetails: personalDetailsData,
                                           checkoutDetailsProvider:
                                               checkoutDetailsProviderData,
                                         ),

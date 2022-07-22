@@ -38,12 +38,78 @@ class DatabaseServices {
       FirebaseFirestore.instance.collection('personalDetails');
 
   //Collection Reference for user orders
-  CollectionReference orderCollection =
+  CollectionReference userOrdersCollection =
       FirebaseFirestore.instance.collection('userOrders');
+
+//Fetch userOrders
+  List<UserOrders> _getUserOrders(DocumentSnapshot snapshot) {
+    return snapshot.data().toString().contains('userOrders')
+        ? (snapshot.get('userOrders') as List).map((field) {
+            return UserOrders(
+              amountPaid: field['amountPaid'],
+              deliveryAddress: field['deliveryAddress'],
+              emailId: field['emailId'],
+              firstName: field['firstName'],
+              lastName: field['lastName'],
+              modeOfPayment: field['modeOfPayment'],
+              orderId: field['orderId'],
+              orderStatus: field['orderStatus'],
+              orderTime: field['orderTime'],
+              phone: field['phone'],
+              orderedProducts: ((field['orderedProducts']) as List)
+                  .map((p) => ShoppingCartProduct(
+                        productId: p['productId'],
+                        name: p['name'],
+                        imagefront: p['imagefront'],
+                        imageback: p['imageback'],
+                        price: p['price'],
+                        fit: p['fit'],
+                        composition: p['composition'],
+                        size: p['size'],
+                        quantity: p['quantity'],
+                      ))
+                  .toList(),
+            );
+          }).toList()
+        : const [];
+  }
+
+  Stream<List<UserOrders>> userOrdersStream() {
+    // var user = AuthService().currentUser!;
+    // return personalDetailsCollection.doc(user.uid).snapshots().map(
+    //       (event) => _getPersonalDetails(event),
+    //     );
+    var user = AuthService().currentUser!;
+
+    return AuthService().userStream.switchMap((user) {
+      if (user != null) {
+        var ref = userOrdersCollection.doc(user.uid);
+        return ref.snapshots().map(_getUserOrders);
+      } else {
+        return Stream.fromIterable([]);
+      }
+    });
+  }
 
 //set user order
   Future<void> setUserOrder({required UserOrders userOrders}) async {
     var user = AuthService().currentUser!;
+    var ref = userOrdersCollection.doc(user.uid);
+
+    final orderproductslist = userOrders.orderedProducts
+        .map((p) => {
+              "name": p.name,
+              "imagefront": p.imagefront,
+              "imageback": p.imageback,
+              "productId": p.productId,
+              "fit": p.fit,
+              "composition": p.composition,
+              "price": p.price,
+              "size": p.size,
+              "quantity": p.quantity,
+            })
+        .toList();
+
     var nestedData = {
       'firstName': userOrders.firstName,
       'lastName': userOrders.lastName,
@@ -53,18 +119,41 @@ class DatabaseServices {
       'amountPaid': userOrders.amountPaid,
       'orderStatus': userOrders.orderStatus,
       'modeOfPayment': userOrders.modeOfPayment,
-      'orderedProducts': userOrders.orderedProducts,
       'orderTime': userOrders.orderTime,
       'orderId': userOrders.orderId,
+      'orderedProducts': orderproductslist,
     };
-
-    var ref = orderCollection.doc(user.uid);
     var data = {
       'userOrders': FieldValue.arrayUnion([nestedData])
     };
 
     await ref.set(data, SetOptions(merge: true));
   }
+
+// //set user order
+//   Future<void> setUserOrder({required UserOrders userOrders}) async {
+//     var user = AuthService().currentUser!;
+//     var nestedData = {
+//       'firstName': userOrders.firstName,
+//       'lastName': userOrders.lastName,
+//       'phone': userOrders.phone,
+//       'emailId': userOrders.emailId,
+//       'deliveryAddress': userOrders.deliveryAddress,
+//       'amountPaid': userOrders.amountPaid,
+//       'orderStatus': userOrders.orderStatus,
+//       'modeOfPayment': userOrders.modeOfPayment,
+//       'orderedProducts': userOrders.orderedProducts,
+//       'orderTime': userOrders.orderTime,
+//       'orderId': userOrders.orderId,
+//     };
+
+//     var ref = orderCollection.doc(user.uid);
+//     var data = {
+//       'userOrders': FieldValue.arrayUnion([nestedData])
+//     };
+
+//     await ref.set(data, SetOptions(merge: true));
+//   }
 
   PersonalDetails _getPersonalDetails(DocumentSnapshot snapshot) {
     return PersonalDetails(

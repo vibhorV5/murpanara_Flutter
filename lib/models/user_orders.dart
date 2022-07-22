@@ -9,7 +9,7 @@ class UserOrders {
   final num? amountPaid;
   final String orderStatus;
   final String modeOfPayment;
-  final List<String> orderedProducts;
+  final List<ShoppingCartProduct> orderedProducts;
   final String orderTime;
   final String orderId;
 
