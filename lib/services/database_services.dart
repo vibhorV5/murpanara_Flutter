@@ -74,7 +74,7 @@ class DatabaseServices {
         : const [];
   }
 
-  Stream<List<UserOrders>> userOrdersStream() {
+  Stream<List<UserOrders>> get userOrdersStream {
     // var user = AuthService().currentUser!;
     // return personalDetailsCollection.doc(user.uid).snapshots().map(
     //       (event) => _getPersonalDetails(event),

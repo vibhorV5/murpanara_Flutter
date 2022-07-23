@@ -6,6 +6,7 @@ import 'package:murpanara/models/personal_details.dart';
 import 'package:murpanara/models/product.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
+import 'package:murpanara/models/user_orders.dart';
 import 'package:murpanara/providers/checkout_details_provider.dart';
 import 'package:murpanara/providers/quantity_provider.dart';
 import 'package:murpanara/providers/size_provider.dart';
@@ -53,6 +54,10 @@ class MyApp extends StatelessWidget {
         StreamProvider<DeliveryAddress>(
           create: (_) => DatabaseServices().deliveryAddressStream,
           initialData: DeliveryAddress(),
+        ),
+        StreamProvider<List<UserOrders>>(
+          create: (_) => DatabaseServices().userOrdersStream,
+          initialData: const [],
         ),
       ],
       child: MaterialApp(

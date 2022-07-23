@@ -482,7 +482,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 .toString(),
                             orderId: widget.checkoutDetailsProvider
                                 .generateOrderId(),
-                            orderStatus: 'Order Placed',
+                            orderStatus: 'Processing',
                             orderTime: widget.checkoutDetailsProvider
                                 .currentOrderTime()
                                 .toString(),
