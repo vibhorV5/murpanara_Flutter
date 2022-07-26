@@ -9,6 +9,7 @@ import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/models/user_orders.dart';
 import 'package:murpanara/providers/checkout_details_provider.dart';
 import 'package:murpanara/providers/quantity_provider.dart';
+import 'package:murpanara/providers/selected_index_provider.dart';
 import 'package:murpanara/providers/size_provider.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => CheckoutDetailsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => SelectedIndexProvider(),
         ),
         StreamProvider<List<Product>>(
           create: (_) => DatabaseServices().productsStream,

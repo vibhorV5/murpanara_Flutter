@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/about_us_texts.dart';
+import 'package:murpanara/constants/refund_returns_texts.dart';
 import 'package:murpanara/constants/styles.dart';
 
-class AboutUsPage extends StatelessWidget {
-  const AboutUsPage({Key? key}) : super(key: key);
+class RefundAndReturnsPage extends StatelessWidget {
+  const RefundAndReturnsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,21 +40,28 @@ class AboutUsPage extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(top: 35),
                 child: Text(
-                  'About Us',
+                  'Refund & Return Policy',
                   style: kBold.copyWith(fontSize: 25),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(top: 5),
                 child: Text(
-                  aboutUsText,
+                  refundAndReturnText1,
                   style: kRegular.copyWith(fontSize: 14),
                 ),
               ),
               Container(
-                // margin: EdgeInsets.only(top: 10),
+                margin: EdgeInsets.only(top: 35),
                 child: Text(
-                  aboutUsText2,
+                  'Refunds',
+                  style: kBold.copyWith(fontSize: 25),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 5),
+                child: Text(
+                  refundAndReturnText2,
                   style: kRegular.copyWith(fontSize: 14),
                 ),
               ),
@@ -67,7 +75,7 @@ class AboutUsPage extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(top: 5),
                 child: Text(
-                  supportText,
+                  "Contact us 24/7 at - support@murpanara.com for any further queries.",
                   style: kSemibold.copyWith(fontSize: 14),
                 ),
               ),
