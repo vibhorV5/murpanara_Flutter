@@ -105,8 +105,10 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                   ),
-                  ProductTile(
-                    subProductList: productsData.first.subproducts,
+                  Container(
+                    child: ProductTile(
+                      subProductList: productsData.first.subproducts,
+                    ),
                   ),
                   // SizedBox(
                   //   height: 100,

@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
-import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/models/user_orders.dart';
 import 'package:murpanara/providers/checkout_details_provider.dart';
 import 'package:murpanara/services/database_services.dart';
-import 'package:murpanara/views/order_success/order_success_page.dart';
+import 'package:murpanara/views/order_success_failure/order_success_failure_page.dart';
 import 'package:murpanara/widgets/address_text_widget.dart';
-import 'package:murpanara/widgets/cancel_button.dart';
 import 'package:murpanara/widgets/save_button.dart';
 import 'package:murpanara/widgets/simple_heading.dart';
 import 'package:murpanara/widgets/simple_small_heading.dart';
@@ -100,16 +98,50 @@ class _CheckoutPageState extends State<CheckoutPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const OrderSuccessPage(),
+        builder: (context) => OrderSuccessFailurePage(
+          greetingText: 'Thank You!',
+          orderStatusText: 'Order Placed Successfully',
+          statusIcon: Icon(
+            Icons.done,
+            color: Colors.green,
+            size: 50,
+          ),
+          onpressFunc: () async {
+            await DatabaseServices().clearShoppingCartList();
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+          },
+        ),
       ),
     );
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
     // Do something when payment fails
+
     print('Payment Failed');
 
     print('${response.code} \n ${response.message}');
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OrderSuccessFailurePage(
+          greetingText: 'Oops!',
+          orderStatusText: 'Payment error, Please try again.',
+          statusIcon: Icon(
+            Icons.cancel_outlined,
+            color: Colors.red,
+            size: 50,
+          ),
+          onpressFunc: () async {
+            // await DatabaseServices().clearShoppingCartList();
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+          },
+        ),
+      ),
+    );
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
@@ -516,7 +548,22 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const OrderSuccessPage(),
+                                builder: (context) => OrderSuccessFailurePage(
+                                  greetingText: 'Thank You!',
+                                  orderStatusText: 'Order Placed Successfully',
+                                  statusIcon: Icon(
+                                    Icons.done,
+                                    color: Colors.green,
+                                    size: 50,
+                                  ),
+                                  onpressFunc: () async {
+                                    await DatabaseServices()
+                                        .clearShoppingCartList();
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil('/',
+                                            (Route<dynamic> route) => false);
+                                  },
+                                ),
                               ),
                             );
                           },

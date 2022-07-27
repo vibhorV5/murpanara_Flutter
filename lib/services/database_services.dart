@@ -216,6 +216,7 @@ class DatabaseServices {
                     composition: product['composition'],
                     price: product['price'],
                     size: product['size'],
+                    status: product['status'],
                   ),
                 )
                 .toList()

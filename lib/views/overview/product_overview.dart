@@ -274,6 +274,24 @@ class _ProductOverviewState extends State<ProductOverview> {
                           color: kColorBackIconForgotPassPage),
                     ),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 10, top: 20, right: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(5)),
+                        child: Text(
+                          'Out of Stock',
+                          style: kSemibold.copyWith(
+                              fontSize: 12, color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
 
@@ -327,7 +345,9 @@ class _ProductOverviewState extends State<ProductOverview> {
               ),
 
               //Sizes Buttons
+
               SizeButtons(
+                productStatus: widget.subproduct.status,
                 sizeList: sizes,
                 mediaQ: _mediaQuery,
               ),
@@ -488,34 +508,66 @@ class _ProductOverviewState extends State<ProductOverview> {
                     ),
 
                     //Add to Cart
-                    TextButton(
-                      style: ButtonStyle(
-                        splashFactory: NoSplash.splashFactory,
-                      ),
-                      onPressed: () {
-                        if (sizeState.sizeSelected != '') {
-                          _showBottomPanel(subProducts: widget.subproduct);
-                        } else {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(errorSnackBar);
-                        }
-                      },
-                      child: Container(
-                        child: Text(
-                          'Add to Cart',
-                          style: kAddToCartTextStyle.copyWith(
-                              fontSize: _mediaQuery.size.height * 0.02),
-                        ),
-                        alignment: Alignment.center,
-                        height: _mediaQuery.size.height * 0.07,
-                        width: _mediaQuery.size.width * 0.7,
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(
-                              _mediaQuery.size.height * 0.5),
-                        ),
-                      ),
-                    ),
+                    widget.subproduct.status != 'Available'
+                        ? TextButton(
+                            style: ButtonStyle(
+                              splashFactory: NoSplash.splashFactory,
+                            ),
+                            onPressed: () {
+                              // if (sizeState.sizeSelected != '') {
+                              //   _showBottomPanel(
+                              //       subProducts: widget.subproduct);
+                              // } else {
+                              //   ScaffoldMessenger.of(context)
+                              //       .showSnackBar(errorSnackBar);
+                              // }
+                            },
+                            child: Container(
+                              child: Text(
+                                'OUT OF STOCK',
+                                style: kAddToCartTextStyle.copyWith(
+                                    color: Colors.white,
+                                    fontSize: _mediaQuery.size.height * 0.02),
+                              ),
+                              alignment: Alignment.center,
+                              height: _mediaQuery.size.height * 0.07,
+                              width: _mediaQuery.size.width * 0.7,
+                              decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.circular(
+                                    _mediaQuery.size.height * 0.5),
+                              ),
+                            ),
+                          )
+                        : TextButton(
+                            style: ButtonStyle(
+                              splashFactory: NoSplash.splashFactory,
+                            ),
+                            onPressed: () {
+                              if (sizeState.sizeSelected != '') {
+                                _showBottomPanel(
+                                    subProducts: widget.subproduct);
+                              } else {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(errorSnackBar);
+                              }
+                            },
+                            child: Container(
+                              child: Text(
+                                'Add to Cart',
+                                style: kAddToCartTextStyle.copyWith(
+                                    fontSize: _mediaQuery.size.height * 0.02),
+                              ),
+                              alignment: Alignment.center,
+                              height: _mediaQuery.size.height * 0.07,
+                              width: _mediaQuery.size.width * 0.7,
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(
+                                    _mediaQuery.size.height * 0.5),
+                              ),
+                            ),
+                          ),
                   ],
                 ),
               ),
@@ -532,11 +584,13 @@ class SizeButtons extends StatefulWidget {
     Key? key,
     required this.mediaQ,
     required this.sizeList,
+    required this.productStatus,
   }) : super(key: key);
 
   final MediaQueryData mediaQ;
   List sizeList;
   String selectedS = '';
+  String productStatus;
 
   @override
   State<SizeButtons> createState() => _SizeButtonsState();
@@ -605,7 +659,9 @@ class _SizeButtonsState extends State<SizeButtons> {
 
           return GestureDetector(
               onTap: () {
-                sizeState.setSize(widget.sizeList[index]);
+                widget.productStatus != 'Available'
+                    ? print('Not Available')
+                    : sizeState.setSize(widget.sizeList[index]);
 
                 print('${sizeState.getSizeSelected} size slected');
               },

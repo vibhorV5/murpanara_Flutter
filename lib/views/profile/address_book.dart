@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
+import 'package:murpanara/constants/snackbars.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/billing_address.dart';
@@ -189,6 +190,9 @@ class _AddressBookState extends State<AddressBook> {
                                         await DatabaseServices()
                                             .removeBillingAddress();
 
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                                billingAddressRemovedSnackbar);
                                         print('Billing Address removed');
                                       });
                                 },
@@ -332,6 +336,9 @@ class _AddressBookState extends State<AddressBook> {
                                         await DatabaseServices()
                                             .removeDeliveryAddress();
 
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                                deliveryAddressRemovedSnackbar);
                                         print('Delivery Address removed');
                                       });
                                 },

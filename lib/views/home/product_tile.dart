@@ -149,6 +149,25 @@ class _ProductTileState extends State<ProductTile> {
                                   ),
                                 ),
                               ),
+
+                              //Out of Stock
+                              widget.subProductList[index].status != 'Available'
+                                  ? Container(
+                                      margin:
+                                          EdgeInsets.only(left: 10, top: 10),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 4),
+                                      decoration: BoxDecoration(
+                                          color: Colors.black.withOpacity(0.2),
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      child: Text(
+                                        'Out of Stock',
+                                        style: kSemibold.copyWith(
+                                            fontSize: 12, color: Colors.white),
+                                      ),
+                                    )
+                                  : Container(),
                             ],
                           );
                         }),
@@ -164,6 +183,7 @@ class _ProductTileState extends State<ProductTile> {
                         style: kProductsTitlesTextStyle.copyWith(
                             fontSize: _mediaQuery.size.height * 0.017),
                       ),
+                      // Text(widget.subProductList[index].status),
                       // Text(widget.subProductList[index].fit),
                       // Text(widget.subProductList[index].composition),
                     ],

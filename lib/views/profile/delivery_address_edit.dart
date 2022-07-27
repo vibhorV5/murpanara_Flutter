@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/india_states.dart';
+import 'package:murpanara/constants/snackbars.dart';
 import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/services/database_services.dart';
@@ -325,6 +326,9 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
                     );
                     print('delivery address set');
                     print('done baby');
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(deliveryAddressSavedSnackbar);
+
                     Navigator.of(context).pop();
                   } else {
                     print('fuck you failed');

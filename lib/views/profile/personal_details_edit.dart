@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
+import 'package:murpanara/constants/snackbars.dart';
 import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/billing_address.dart';
 import 'package:murpanara/models/delivery_address.dart';
@@ -263,6 +264,9 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                       ),
                     );
                     print('successfully set personal details');
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(personalDetailsSavedSnackbar);
+
                     Navigator.of(context).pop();
                   } else {
                     print('fuck you no personal details set');

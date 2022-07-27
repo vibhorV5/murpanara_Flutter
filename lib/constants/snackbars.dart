@@ -73,3 +73,48 @@ SnackBar emailNotRegisteredSnackBar = const SnackBar(
     style: kSnackBarTextStyleAuthPage,
   ),
 );
+
+SnackBar billingAddressRemovedSnackbar = const SnackBar(
+  elevation: 10,
+  backgroundColor: kColorSnackBarBackgroundAuthPage,
+  content: Text(
+    'Billing Address removed.',
+    style: kSnackBarTextStyleAuthPage,
+  ),
+);
+
+SnackBar deliveryAddressRemovedSnackbar = const SnackBar(
+  elevation: 10,
+  backgroundColor: kColorSnackBarBackgroundAuthPage,
+  content: Text(
+    'Delivery Address removed.',
+    style: kSnackBarTextStyleAuthPage,
+  ),
+);
+
+SnackBar billingAddressSavedSnackbar = const SnackBar(
+  elevation: 10,
+  backgroundColor: kColorSnackBarBackgroundAuthPage,
+  content: Text(
+    'Billing Address saved.',
+    style: kSnackBarTextStyleAuthPage,
+  ),
+);
+
+SnackBar deliveryAddressSavedSnackbar = const SnackBar(
+  elevation: 10,
+  backgroundColor: kColorSnackBarBackgroundAuthPage,
+  content: Text(
+    'Delivery Address saved.',
+    style: kSnackBarTextStyleAuthPage,
+  ),
+);
+
+SnackBar personalDetailsSavedSnackbar = const SnackBar(
+  elevation: 10,
+  backgroundColor: kColorSnackBarBackgroundAuthPage,
+  content: Text(
+    'Personal Details saved.',
+    style: kSnackBarTextStyleAuthPage,
+  ),
+);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
+import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/providers/selected_index_provider.dart';
 import 'package:murpanara/services/auth.dart';
 import 'package:murpanara/views/shoppingcart/shopping_cart.dart';
@@ -46,6 +47,9 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     final selectedIndexProviderData =
         Provider.of<SelectedIndexProvider>(context);
+
+    List<ShoppingCartProduct> shoppingCartProductsListData =
+        Provider.of<List<ShoppingCartProduct>>(context);
 
     final _mediaQuery = MediaQuery.of(context);
 
@@ -286,13 +290,50 @@ class _MainPageState extends State<MainPage> {
         elevation: 0,
         actions: [
           IconButton(
+              onPressed: () {
+                // Navigator.of(context).pop();
+                // selectedIndexProviderData.setSlectedIndex(1);
+
+                onTapBay(2);
+              },
+              icon: Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  Container(
+                    height: 50,
+                    width: 50,
+                    // color: Colors.red,
+                    child: Icon(
+                      Icons.shopping_cart_rounded,
+                      size: 30,
+                      color: Colors.black87,
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: Text(
+                      shoppingCartProductsListData.length.toString(),
+                      style: kSemibold.copyWith(fontSize: 11),
+                    ),
+                    margin: EdgeInsets.only(top: 2),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                      border: Border.all(color: Colors.black87),
+                    ),
+                    height: 15,
+                    width: 15,
+                  ),
+                ],
+              )),
+          IconButton(
             onPressed: () {
               // Navigator.of(context).pop();
               Navigator.of(context).pushNamed('profilePage');
             },
             icon: Icon(
               Icons.account_circle_rounded,
-              color: Colors.black,
+              color: Colors.black87,
             ),
           ),
           // IconButton(

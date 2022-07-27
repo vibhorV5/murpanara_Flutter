@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/india_states.dart';
+import 'package:murpanara/constants/snackbars.dart';
 import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/billing_address.dart';
 import 'package:murpanara/models/delivery_address.dart';
@@ -252,6 +253,10 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       ),
                     );
                     print('billing address set');
+
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(billingAddressSavedSnackbar);
+
                     print('done baby');
                     Navigator.of(context).pop();
                   } else {

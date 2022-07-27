@@ -20,6 +20,7 @@ class SubProducts {
   final num price;
   final List size;
   final num quantity;
+  final String status;
 
   SubProducts({
     this.productId = '',
@@ -31,5 +32,6 @@ class SubProducts {
     this.composition = '',
     this.size = const [],
     this.quantity = 1,
+    this.status = '',
   });
 }
