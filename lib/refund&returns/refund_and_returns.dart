@@ -79,6 +79,14 @@ class RefundAndReturnsPage extends StatelessWidget {
                   style: kSemibold.copyWith(fontSize: 14),
                 ),
               ),
+              Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(top: 120),
+                child: Text(
+                  copyRight,
+                  style: kBold.copyWith(fontSize: 14),
+                ),
+              ),
             ],
           ),
         ),

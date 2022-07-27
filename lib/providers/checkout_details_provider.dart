@@ -5,7 +5,7 @@ import 'package:murpanara/views/checkout/checkout_page.dart';
 import 'package:uuid/uuid.dart';
 
 class CheckoutDetailsProvider extends ChangeNotifier {
-  ModeOfPayment? _selectedModeOfPayment;
+  ModeOfPayment? _selectedModeOfPayment = ModeOfPayment.razorPay;
 
   var uuid = const Uuid();
 

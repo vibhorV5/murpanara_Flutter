@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
+import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/models/user_orders.dart';
 import 'package:murpanara/providers/checkout_details_provider.dart';
 import 'package:murpanara/services/database_services.dart';
+import 'package:murpanara/views/order_success/order_success_page.dart';
 import 'package:murpanara/widgets/address_text_widget.dart';
+import 'package:murpanara/widgets/cancel_button.dart';
 import 'package:murpanara/widgets/save_button.dart';
 import 'package:murpanara/widgets/simple_heading.dart';
 import 'package:murpanara/widgets/simple_small_heading.dart';
@@ -94,6 +97,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
     print('Orders set');
 
     print('User order set success');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const OrderSuccessPage(),
+      ),
+    );
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
@@ -473,28 +482,45 @@ class _CheckoutPageState extends State<CheckoutPage> {
                       } else if (checkoutDetailsProviderData
                               .currentSelectedModeOfPayment ==
                           ModeOfPayment.cashOnDelivery) {
-                        await DatabaseServices().setUserOrder(
-                          userOrders: UserOrders(
-                            firstName: widget.deliveryAddress.firstName,
-                            lastName: widget.deliveryAddress.lastName,
-                            modeOfPayment: widget.checkoutDetailsProvider
-                                .currentSelectedModeOfPayment
-                                .toString(),
-                            orderId: widget.checkoutDetailsProvider
-                                .generateOrderId(),
-                            orderStatus: 'Processing',
-                            orderTime: widget.checkoutDetailsProvider
-                                .currentOrderTime()
-                                .toString(),
-                            orderedProducts: widget.shoppingList,
-                            phone: widget.deliveryAddress.phone,
-                            amountPaid: widget.totalSum,
-                            deliveryAddress:
-                                ('FIRST NAME - ${widget.deliveryAddress.firstName},LAST NAME - ${widget.deliveryAddress.lastName},HOUSE/FLAT NO. - ${widget.deliveryAddress.addressLine1},STREET - ${widget.deliveryAddress.addressLine2},CITY - ${widget.deliveryAddress.city},STATE - ${widget.deliveryAddress.state},PINCODE - ${widget.deliveryAddress.pincode},COUNTRY - ${widget.deliveryAddress.country}'),
-                            emailId: widget.email,
-                          ),
+                        UserMethods.customDialogBox(
+                          cancelText: 'Cancel',
+                          confirmText: 'Place Order',
+                          context: context,
+                          mediaQuery: _mediaQuery,
+                          headingText: 'ORDER CONFIRMATION',
+                          subText: 'Do you want to place this order?',
+                          confirmFunction: () async {
+                            await DatabaseServices().setUserOrder(
+                              userOrders: UserOrders(
+                                firstName: widget.deliveryAddress.firstName,
+                                lastName: widget.deliveryAddress.lastName,
+                                modeOfPayment: widget.checkoutDetailsProvider
+                                    .currentSelectedModeOfPayment
+                                    .toString(),
+                                orderId: widget.checkoutDetailsProvider
+                                    .generateOrderId(),
+                                orderStatus: 'Processing',
+                                orderTime: widget.checkoutDetailsProvider
+                                    .currentOrderTime()
+                                    .toString(),
+                                orderedProducts: widget.shoppingList,
+                                phone: widget.deliveryAddress.phone,
+                                amountPaid: widget.totalSum,
+                                deliveryAddress:
+                                    ('FIRST NAME - ${widget.deliveryAddress.firstName},LAST NAME - ${widget.deliveryAddress.lastName},HOUSE/FLAT NO. - ${widget.deliveryAddress.addressLine1},STREET - ${widget.deliveryAddress.addressLine2},CITY - ${widget.deliveryAddress.city},STATE - ${widget.deliveryAddress.state},PINCODE - ${widget.deliveryAddress.pincode},COUNTRY - ${widget.deliveryAddress.country}'),
+                                emailId: widget.email,
+                              ),
+                            );
+                            print('COD SELECTED SUCCESS');
+                            Navigator.of(context).pop();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const OrderSuccessPage(),
+                              ),
+                            );
+                          },
                         );
-                        print('COD SELECTED SUCCESS');
                       }
                     }
                   },
@@ -530,8 +556,6 @@ class CustomRadioTileWidget extends StatefulWidget {
 }
 
 class _CustomRadioTileWidgetState extends State<CustomRadioTileWidget> {
-  ModeOfPayment? paymentModeSelect = ModeOfPayment.razorPay;
-
   @override
   Widget build(BuildContext context) {
     CheckoutDetailsProvider checkoutDetailsProviderData =
@@ -548,11 +572,11 @@ class _CustomRadioTileWidgetState extends State<CustomRadioTileWidget> {
         ),
         RadioListTile<ModeOfPayment>(
           value: ModeOfPayment.razorPay,
-          groupValue: paymentModeSelect,
+          groupValue: checkoutDetailsProviderData.currentSelectedModeOfPayment,
           onChanged: (ModeOfPayment? value) {
             setState(() {
               checkoutDetailsProviderData.modeOfPaymentValue(value!);
-              paymentModeSelect = value;
+              // paymentModeSelect = value;
               print(checkoutDetailsProviderData.currentSelectedModeOfPayment);
             });
           },
@@ -560,31 +584,16 @@ class _CustomRadioTileWidgetState extends State<CustomRadioTileWidget> {
         ),
         RadioListTile<ModeOfPayment>(
           value: ModeOfPayment.cashOnDelivery,
-          groupValue: paymentModeSelect,
+          groupValue: checkoutDetailsProviderData.currentSelectedModeOfPayment,
           onChanged: (ModeOfPayment? value) {
             setState(() {
-              paymentModeSelect = value;
+              // paymentModeSelect = value;
               checkoutDetailsProviderData.modeOfPaymentValue(value!);
               print(checkoutDetailsProviderData.currentSelectedModeOfPayment);
             });
           },
           title: Text('Cash on Delivery'),
         ),
-        // SimpleSmallHeading(
-        //   txt: 'Email',
-        // ),
-        // SimpleText(
-        //   txt: 'vibhor.stav@gmail.com',
-        // ),
-        // SizedBox(
-        //   height: 20,
-        // ),
-        // SimpleSmallHeading(
-        //   txt: 'Phone',
-        // ),
-        // SimpleText(
-        //   txt: '+91 8126793405',
-        // ),
       ],
     );
   }

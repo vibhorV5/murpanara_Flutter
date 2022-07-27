@@ -19,18 +19,18 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   void initState() {
-    Future.delayed(const Duration(milliseconds: 500), () {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          elevation: 10,
-          backgroundColor: kColorSnackBarBackgroundAuthPage,
-          content: Text(
-            'Welcome to murpanara.',
-            style: kSnackBarTextStyleAuthPage,
-          ),
-        ),
-      );
-    });
+    // Future.delayed(const Duration(milliseconds: 500), () {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       elevation: 10,
+    //       backgroundColor: kColorSnackBarBackgroundAuthPage,
+    //       content: Text(
+    //         'Welcome to murpanara.',
+    //         style: kSnackBarTextStyleAuthPage,
+    //       ),
+    //     ),
+    //   );
+    // });
     super.initState();
   }
 

@@ -217,16 +217,23 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                       builder: (context) {
                                         return Center(
                                           child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                              color: Colors.white,
+                                            ),
                                             height: 150,
+                                            margin: EdgeInsets.symmetric(
+                                              horizontal: 15,
+                                            ),
                                             padding: EdgeInsets.all(20),
                                             width: _mediaQuery.size.width,
-                                            color: Colors.white,
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  'No Delivery address found',
+                                                  'No Delivery Address found',
                                                   style: kSemibold.copyWith(
                                                       fontSize: 15),
                                                 ),
@@ -256,7 +263,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                                                               Icon(Icons.add),
                                                         ),
                                                         Text(
-                                                          'Add Delivery address',
+                                                          'Add Delivery Address',
                                                           style: kSemibold
                                                               .copyWith(
                                                                   fontSize: 13),

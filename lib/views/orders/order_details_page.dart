@@ -4,8 +4,11 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/methods/user_methods.dart';
+import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/models/user_orders.dart';
+import 'package:murpanara/widgets/address_text_widget.dart';
 import 'package:murpanara/widgets/top_heading.dart';
+import 'package:provider/provider.dart';
 
 class OrderDetailsPage extends StatelessWidget {
   const OrderDetailsPage({Key? key, required this.orderDetails})
@@ -16,6 +19,7 @@ class OrderDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context);
+    DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -117,6 +121,75 @@ class OrderDetailsPage extends StatelessWidget {
                       height: 15,
                     ),
                     Text(
+                      'Delivery Address:',
+                      style: kBold.copyWith(fontSize: 12),
+                    ),
+                    Container(
+                      height: 100,
+                      child: ListView(
+                        physics: NeverScrollableScrollPhysics(),
+                        children: [
+                          Row(
+                            children: [
+                              AddressTextWidget(
+                                txt: '${deliveryAddressData.firstName} ',
+                                mediaQuery: _mediaQuery,
+                              ),
+                              AddressTextWidget(
+                                txt: deliveryAddressData.lastName,
+                                mediaQuery: _mediaQuery,
+                              )
+                            ],
+                          ),
+                          AddressTextWidget(
+                            txt: deliveryAddressData.addressLine1,
+                            mediaQuery: _mediaQuery,
+                          ),
+                          AddressTextWidget(
+                            txt: deliveryAddressData.addressLine2,
+                            mediaQuery: _mediaQuery,
+                          ),
+                          AddressTextWidget(
+                            txt: deliveryAddressData.pincode.toString(),
+                            mediaQuery: _mediaQuery,
+                          ),
+                          Row(
+                            children: [
+                              AddressTextWidget(
+                                  txt: '${deliveryAddressData.city}, ',
+                                  mediaQuery: _mediaQuery),
+                              AddressTextWidget(
+                                  txt: deliveryAddressData.state,
+                                  mediaQuery: _mediaQuery),
+                            ],
+                          ),
+                          AddressTextWidget(
+                            txt: deliveryAddressData.country,
+                            mediaQuery: _mediaQuery,
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.phone_android_outlined,
+                                size: 10,
+                              ),
+                              SizedBox(
+                                width: 2,
+                              ),
+                              AddressTextWidget(
+                                txt:
+                                    '+91 ${deliveryAddressData.phone.toString()}',
+                                mediaQuery: _mediaQuery,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
                       'Products Ordered:',
                       style: kBold.copyWith(fontSize: 18),
                     ),
@@ -125,7 +198,7 @@ class OrderDetailsPage extends StatelessWidget {
                     ),
                     Container(
                       // color: Colors.red.withOpacity(0.1),
-                      height: 480,
+                      height: 300,
                       child: ListView.separated(
                           physics: BouncingScrollPhysics(),
                           scrollDirection: Axis.vertical,
@@ -210,7 +283,7 @@ class OrderDetailsPage extends StatelessWidget {
                     ),
                     Container(
                       alignment: Alignment.centerRight,
-                      margin: EdgeInsets.only(top: 5),
+                      margin: EdgeInsets.only(top: 30),
                       child: Text(
                         'Total: ₹${orderDetails.amountPaid}.00',
                         style: kSemibold.copyWith(fontSize: 20),

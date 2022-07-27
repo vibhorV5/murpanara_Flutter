@@ -41,6 +41,13 @@ class DatabaseServices {
   CollectionReference userOrdersCollection =
       FirebaseFirestore.instance.collection('userOrders');
 
+//Clear shopping cart list
+  Future<void> clearShoppingCartList() async {
+    var user = AuthService().currentUser!;
+
+    await shoppingcartCollection.doc(user.uid).delete();
+  }
+
 //Fetch userOrders
   List<UserOrders> _getUserOrders(DocumentSnapshot snapshot) {
     return snapshot.data().toString().contains('userOrders')

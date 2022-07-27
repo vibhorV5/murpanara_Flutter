@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
+import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/billing_address.dart';
 import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/services/database_services.dart';
@@ -174,10 +175,22 @@ class _AddressBookState extends State<AddressBook> {
                               ),
                               InkWell(
                                 onTap: () async {
-                                  await DatabaseServices()
-                                      .removeBillingAddress();
+                                  UserMethods.customDialogBox(
+                                      cancelText: 'No',
+                                      confirmText: 'Yes',
+                                      context: context,
+                                      mediaQuery: _mediaQuery,
+                                      headingText: 'Remove Billing Address',
+                                      subText:
+                                          'Do you want to remove Billing Address?',
+                                      confirmFunction: () async {
+                                        Navigator.of(context).pop();
 
-                                  print('Delivery Address removed');
+                                        await DatabaseServices()
+                                            .removeBillingAddress();
+
+                                        print('Billing Address removed');
+                                      });
                                 },
                                 child: EditOrRemoveWidget(
                                   label: 'Remove Address',
@@ -306,10 +319,21 @@ class _AddressBookState extends State<AddressBook> {
                               ),
                               InkWell(
                                 onTap: () async {
-                                  await DatabaseServices()
-                                      .removeDeliveryAddress();
+                                  UserMethods.customDialogBox(
+                                      cancelText: 'No',
+                                      confirmText: 'Yes',
+                                      context: context,
+                                      mediaQuery: _mediaQuery,
+                                      headingText: 'Remove Delivery Address',
+                                      subText:
+                                          'Do you want to remove Delivery Address?',
+                                      confirmFunction: () async {
+                                        Navigator.of(context).pop();
+                                        await DatabaseServices()
+                                            .removeDeliveryAddress();
 
-                                  print('Delivery Address removed');
+                                        print('Delivery Address removed');
+                                      });
                                 },
                                 child: EditOrRemoveWidget(
                                   label: 'Remove Address',

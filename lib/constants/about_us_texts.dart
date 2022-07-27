@@ -4,3 +4,4 @@ const String aboutUsText2 =
     'We\'ll arrive into your age and era soon. Traverse Faith.';
 const String supportText =
     'Contact us 24/7 at - support@murpanara.com for any further queries.';
+const String copyRight = "© murpanara 2022. SS - RFB";
