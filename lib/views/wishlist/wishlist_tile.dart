@@ -68,10 +68,11 @@ class _WishlistTileState extends State<WishlistTile> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => ProductOverview(
-                                                subproduct: widget
-                                                    .subProductList[index],
-                                              )),
+                                        builder: (context) => ProductOverview(
+                                          subproduct:
+                                              widget.subProductList[index],
+                                        ),
+                                      ),
                                     ).then((value) => setState(() {}));
                                   },
                                   child: Image.network(

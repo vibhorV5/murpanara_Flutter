@@ -277,19 +277,22 @@ class _ProductOverviewState extends State<ProductOverview> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Container(
-                        margin: EdgeInsets.only(left: 10, top: 20, right: 10),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Text(
-                          'Out of Stock',
-                          style: kSemibold.copyWith(
-                              fontSize: 12, color: Colors.white),
-                        ),
-                      ),
+                      widget.subproduct.status != 'Available'
+                          ? Container(
+                              margin:
+                                  EdgeInsets.only(left: 10, top: 20, right: 10),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Text(
+                                widget.subproduct.status,
+                                style: kSemibold.copyWith(
+                                    fontSize: 12, color: Colors.white),
+                              ),
+                            )
+                          : Container(),
                     ],
                   )
                 ],
@@ -524,7 +527,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                             },
                             child: Container(
                               child: Text(
-                                'OUT OF STOCK',
+                                widget.subproduct.status.toUpperCase(),
                                 style: kAddToCartTextStyle.copyWith(
                                     color: Colors.white,
                                     fontSize: _mediaQuery.size.height * 0.02),

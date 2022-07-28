@@ -162,7 +162,7 @@ class _ProductTileState extends State<ProductTile> {
                                           borderRadius:
                                               BorderRadius.circular(5)),
                                       child: Text(
-                                        'Out of Stock',
+                                        widget.subProductList[index].status,
                                         style: kSemibold.copyWith(
                                             fontSize: 12, color: Colors.white),
                                       ),

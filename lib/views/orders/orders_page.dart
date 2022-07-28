@@ -91,143 +91,157 @@ class _OrdersPageState extends State<OrdersPage> {
                       BorderRadius.circular(_mediaQuery.size.width * 0.04),
                   color: Colors.grey.shade200,
                 ),
-                child: ListView.separated(
-                    physics: BouncingScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    itemBuilder: (context, index) => Container(
+                child: userOrdersData.isEmpty
+                    ? Center(
+                        child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
+                              // color: Colors.white.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(5)),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 10),
+                          child: Text(
+                            'You haven\'t placed any orders yet.',
+                            style: kSemibold.copyWith(
+                                fontSize: 16, color: Colors.black87),
                           ),
-                          height: 150,
-                          width: _mediaQuery.size.width,
-                          child: Row(
-                            children: [
-                              Container(
-                                // color: Colors.blue,
-                                height: 120,
-                                width: 75,
-                                child: Image.network(userOrdersData[index]
-                                    .orderedProducts
-                                    .first
-                                    .imagefront),
+                        ),
+                      )
+                    : ListView.separated(
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context, index) => Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
                               ),
-                              Container(
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                padding: EdgeInsets.all(10),
-                                // color: Colors.blueGrey,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      'Order Id: ${userOrdersData[index].orderId}',
-                                      style: kSemibold.copyWith(fontSize: 11),
-                                    ),
-                                    Text(
-                                      'Order Time: ${userOrdersData[index].orderTime}',
-                                      style: kSemibold.copyWith(fontSize: 11),
-                                    ),
-                                    Text(
-                                      'Total Items: ${userOrdersData[index].orderedProducts.length}',
-                                      style: kSemibold.copyWith(fontSize: 11),
-                                    ),
-                                    Text(
-                                      'Mode of Payment: ${UserMethods.getModeOfPayment(userOrdersData[index].modeOfPayment)}',
-                                      style: kSemibold.copyWith(fontSize: 11),
-                                    ),
-                                    Row(
+                              height: 150,
+                              width: _mediaQuery.size.width,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    // color: Colors.blue,
+                                    height: 120,
+                                    width: 75,
+                                    child: Image.network(userOrdersData[index]
+                                        .orderedProducts
+                                        .first
+                                        .imagefront),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(vertical: 10),
+                                    padding: EdgeInsets.all(10),
+                                    // color: Colors.blueGrey,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'Order Status: ',
+                                          'Order Id: ${userOrdersData[index].orderId}',
                                           style:
                                               kSemibold.copyWith(fontSize: 11),
                                         ),
                                         Text(
-                                          userOrdersData[index].orderStatus,
-                                          style: kSemibold.copyWith(
-                                              fontSize: 11,
-                                              color: UserMethods
-                                                  .getColorBasedOnOrderStatus(
-                                                      userOrdersData[index]
-                                                          .orderStatus)),
+                                          'Order Time: ${userOrdersData[index].orderTime}',
+                                          style:
+                                              kSemibold.copyWith(fontSize: 11),
+                                        ),
+                                        Text(
+                                          'Total Items: ${userOrdersData[index].orderedProducts.length}',
+                                          style:
+                                              kSemibold.copyWith(fontSize: 11),
+                                        ),
+                                        Text(
+                                          'Mode of Payment: ${UserMethods.getModeOfPayment(userOrdersData[index].modeOfPayment)}',
+                                          style:
+                                              kSemibold.copyWith(fontSize: 11),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'Order Status: ',
+                                              style: kSemibold.copyWith(
+                                                  fontSize: 11),
+                                            ),
+                                            Text(
+                                              userOrdersData[index].orderStatus,
+                                              style: kSemibold.copyWith(
+                                                  fontSize: 11,
+                                                  color: UserMethods
+                                                      .getColorBasedOnOrderStatus(
+                                                          userOrdersData[index]
+                                                              .orderStatus)),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          height: 40,
+                                          width: 250,
+                                          // color: Colors.yellow,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              OrderDetailsPage(
+                                                                  orderDetails:
+                                                                      userOrdersData[
+                                                                          index])));
+                                                },
+                                                child: Row(
+                                                  children: [
+                                                    Container(
+                                                      // color: Colors.amberAccent,
+                                                      child: Text(
+                                                        'Details',
+                                                        style: kBold.copyWith(
+                                                          fontSize: 15,
+                                                          color: Colors.black54,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      child: Icon(
+                                                        Icons
+                                                            .arrow_forward_ios_outlined,
+                                                        size: _mediaQuery
+                                                                .size.width *
+                                                            0.05,
+                                                        color: Colors.black,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              // SizedBox(
+                                              //   width: 50,
+                                              // ),
+                                              Text(
+                                                'Total: ₹${userOrdersData[index].amountPaid}.00',
+                                                style: kSemibold.copyWith(
+                                                    fontSize: 14),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
-                                    Container(
-                                      height: 40,
-                                      width: 250,
-                                      // color: Colors.yellow,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          OrderDetailsPage(
-                                                              orderDetails:
-                                                                  userOrdersData[
-                                                                      index])));
-                                            },
-                                            child: Row(
-                                              children: [
-                                                Container(
-                                                  // color: Colors.amberAccent,
-                                                  child: Text(
-                                                    'Details',
-                                                    style: kBold.copyWith(
-                                                      fontSize: 15,
-                                                      color: Colors.black54,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Icon(
-                                                    Icons
-                                                        .arrow_forward_ios_outlined,
-                                                    size:
-                                                        _mediaQuery.size.width *
-                                                            0.05,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          // SizedBox(
-                                          //   width: 50,
-                                          // ),
-                                          Text(
-                                            'Total: ₹${userOrdersData[index].amountPaid}.00',
-                                            style: kSemibold.copyWith(
-                                                fontSize: 14),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                    separatorBuilder: (context, index) => const SizedBox(
-                          height: 10,
-                        ),
-                    itemCount: userOrdersData.length),
-                // child: ListView.builder(itemBuilder: (context, index) {
-                //   // return Container(
-                //   //   color: Colors.yellow,
-                //   //   width: _mediaQuery.size.width,
-                //   // );
-                // }),
+                            ),
+                        separatorBuilder: (context, index) => const SizedBox(
+                              height: 10,
+                            ),
+                        itemCount: userOrdersData.length),
               ),
             ],
           ),

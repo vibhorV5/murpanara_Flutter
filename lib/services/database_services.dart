@@ -154,14 +154,6 @@ class DatabaseServices {
 //       'orderId': userOrders.orderId,
 //     };
 
-//     var ref = orderCollection.doc(user.uid);
-//     var data = {
-//       'userOrders': FieldValue.arrayUnion([nestedData])
-//     };
-
-//     await ref.set(data, SetOptions(merge: true));
-//   }
-
   PersonalDetails _getPersonalDetails(DocumentSnapshot snapshot) {
     return PersonalDetails(
       firstName: snapshot.data().toString().contains('firstName')
@@ -246,6 +238,7 @@ class DatabaseServices {
                 price: product['price'],
                 productId: product['productId'],
                 size: product['size'],
+                status: product['status'],
               ),
             )
             .toList()
@@ -335,15 +328,6 @@ class DatabaseServices {
     );
   }
 
-  // Stream<DeliveryAddress> get deliveryAddressStream {
-  //   var user = AuthService().currentUser!;
-
-  //   return deliveryAddressCollection
-  //       .doc(user.uid)
-  //       .snapshots()
-  //       .map(_getDeliveryAddress);
-  // }
-
   Stream<DeliveryAddress> get deliveryAddressStream {
     var user = AuthService().currentUser!;
 
@@ -415,6 +399,7 @@ class DatabaseServices {
       'price': subProducts.price,
       'productId': subProducts.productId,
       'size': subProducts.size,
+      'status': subProducts.status,
     };
 
     var user = AuthService().currentUser!;
@@ -519,6 +504,7 @@ class DatabaseServices {
       'price': subProducts.price,
       'productId': subProducts.productId,
       'size': subProducts.size,
+      'status': subProducts.status,
     };
 
     var user = AuthService().currentUser!;

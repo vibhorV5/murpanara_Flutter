@@ -43,6 +43,10 @@ class MyApp extends StatelessWidget {
           create: (_) => DatabaseServices().productsStream,
           initialData: const [],
         ),
+        StreamProvider<List<SubProducts>>(
+          create: (_) => DatabaseServices().wishlistSubproductsStream,
+          initialData: const [],
+        ),
         StreamProvider<List<ShoppingCartProduct>>(
           create: (_) => DatabaseServices().shoppingCartProductStream,
           initialData: const [],

@@ -25,8 +25,8 @@ class SubProducts {
   SubProducts({
     this.productId = '',
     this.name = '',
-    this.imagefront = '',
-    this.imageback = '',
+    this.imagefront = 'assets/images/default_mpr_eye.png',
+    this.imageback = 'assets/images/default_mpr_eye.png',
     this.price = 0.00,
     this.fit = '',
     this.composition = '',
