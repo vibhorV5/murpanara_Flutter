@@ -35,7 +35,9 @@ class ShoppingCartItemTile extends StatelessWidget {
               right: _mediaQuery.size.width * 0.04,
             ),
             height: _mediaQuery.size.height * 0.141,
-            child: Image.network(product.imagefront),
+            child: product.imagefront == ''
+                ? Image.asset('assets/images/default_mpr_eye.png')
+                : Image.network(product.imagefront),
           ),
           Container(
             padding: EdgeInsets.only(

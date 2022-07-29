@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
+import 'package:murpanara/models/product.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
 import 'package:murpanara/providers/selected_index_provider.dart';
 import 'package:murpanara/services/auth.dart';
+import 'package:murpanara/views/overview/product_overview.dart';
 import 'package:murpanara/views/shoppingcart/shopping_cart.dart';
 import 'package:murpanara/views/home/home_page.dart';
 import 'package:murpanara/views/wishlist/wishlist_page.dart';
@@ -290,63 +292,208 @@ class _MainPageState extends State<MainPage> {
         elevation: 0,
         actions: [
           IconButton(
-              onPressed: () {
-                // Navigator.of(context).pop();
-                // selectedIndexProviderData.setSlectedIndex(1);
-
-                onTapBay(2);
-              },
-              icon: Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  Container(
-                    height: 50,
-                    width: 50,
-                    // color: Colors.red,
-                    child: Icon(
-                      Icons.shopping_cart_rounded,
-                      size: 30,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: Text(
-                      shoppingCartProductsListData.length.toString(),
-                      style: kSemibold.copyWith(fontSize: 11),
-                    ),
-                    margin: EdgeInsets.only(top: 2),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      border: Border.all(color: Colors.black87),
-                    ),
-                    height: 15,
-                    width: 15,
-                  ),
-                ],
-              )),
-          IconButton(
             onPressed: () {
-              // Navigator.of(context).pop();
-              Navigator.of(context).pushNamed('profilePage');
+              showSearch(context: context, delegate: CustomSearchDelegate());
             },
             icon: Icon(
-              Icons.account_circle_rounded,
+              Icons.search,
+              size: 30,
               color: Colors.black87,
             ),
           ),
-          // IconButton(
-          //   onPressed: () {
-          //     Navigator.of(context).pushNamed('settingsPage');
-          //   },
-          //   icon: Icon(Icons.settings_rounded
-          //       // color: Colors.black,
-          //       ),
-          // ),
+          IconButton(
+            onPressed: () {
+              // Navigator.of(context).pop();
+              // selectedIndexProviderData.setSlectedIndex(1);
+
+              onTapBay(2);
+            },
+            icon: Stack(
+              alignment: Alignment.topRight,
+              children: [
+                Container(
+                  height: 50,
+                  width: 50,
+                  // color: Colors.red,
+                  child: Icon(
+                    Icons.shopping_cart_rounded,
+                    size: 30,
+                    color: Colors.black87,
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    shoppingCartProductsListData.length.toString(),
+                    style: kSemibold.copyWith(fontSize: 11),
+                  ),
+                  margin: EdgeInsets.only(top: 2),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                    border: Border.all(color: Colors.black87),
+                  ),
+                  height: 15,
+                  width: 15,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
       body: _widgetoptions.elementAt(_selectedIndex),
     );
+  }
+}
+
+class CustomSearchDelegate extends SearchDelegate {
+  @override
+  ThemeData appBarTheme(BuildContext context) {
+    return super.appBarTheme(context).copyWith(
+          appBarTheme: super.appBarTheme(context).appBarTheme.copyWith(
+                elevation: 0.0,
+              ),
+        );
+  }
+  // List<String> searchTerms = [
+  //   'Apple',
+  //   'Mango',
+  //   'Orange',
+  //   'Banana',
+  //   'Papaya',
+  //   'Blueberry',
+  //   'Strawberry',
+  //   'Peach',
+  //   'Grapes',
+  //   'Plum',
+  //   'Litchi',
+  //   'Pomogranate',
+  //   'Pineapple',
+  // ];
+
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = '';
+        },
+        icon: Icon(
+          Icons.clear_rounded,
+          color: Colors.black87,
+        ),
+      ),
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          close(context, null);
+        },
+        icon: Icon(
+          Icons.arrow_back_ios_new_rounded,
+          color: Colors.black87,
+        ));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<SubProducts> matchQuery = [];
+    final List<Product> productListData = Provider.of<List<Product>>(context);
+    final List<SubProducts> subProductsListData =
+        productListData.first.subproducts;
+
+    for (var subproduct in subProductsListData) {
+      if (subproduct.name.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(subproduct);
+      }
+    }
+    return ListView.builder(
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index) {
+          var result = matchQuery[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ProductOverview(subproduct: result)));
+            },
+            child: ListTile(
+              title: Text(result.name),
+            ),
+          );
+        });
+
+    // for (var fruit in searchTerms) {
+    //   if (fruit.toLowerCase().contains(query.toLowerCase())) {
+    //     matchQuery.add(fruit);
+    //   }
+    // }
+    // return ListView.builder(
+    //     itemCount: matchQuery.length,
+    //     itemBuilder: (context, index) {
+    //       var result = matchQuery[index];
+    //       return ListTile(
+    //         title: Text(result),
+    //       );
+    //     });
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<SubProducts> matchQuery = [];
+    final List<Product> productListData = Provider.of<List<Product>>(context);
+    final List<SubProducts> subProductsListData =
+        productListData.first.subproducts;
+
+    for (var subproduct in subProductsListData) {
+      if (subproduct.name.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(subproduct);
+      }
+    }
+    return ListView.builder(
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index) {
+          var result = matchQuery[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ProductOverview(subproduct: result)));
+            },
+            child: ListTile(
+              leading: Container(child: Image.network(result.imagefront)),
+              title: Text(
+                result.name,
+                style: kSemibold.copyWith(fontSize: 12),
+              ),
+              trailing: Text(
+                '₹${result.price.toString()}.00',
+                style: kSemibold.copyWith(fontSize: 10),
+              ),
+            ),
+          );
+        });
+    // List<String> matchQuery = [];
+
+    // for (var fruit in searchTerms) {
+    //   if (fruit.toLowerCase().contains(query.toLowerCase())) {
+    //     matchQuery.add(fruit);
+    //   }
+    // }
+    // return ListView.builder(
+    //     itemCount: matchQuery.length,
+    //     itemBuilder: (context, index) {
+    //       var result = matchQuery[index];
+    //       return ListTile(
+    //         title: Text(result),
+    //       );
+    //     });
   }
 }

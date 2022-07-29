@@ -3,6 +3,7 @@ import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 
 SnackBar itemAddedToWishlistSnackBar = const SnackBar(
+  duration: Duration(seconds: 2),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -12,6 +13,7 @@ SnackBar itemAddedToWishlistSnackBar = const SnackBar(
 );
 
 SnackBar itemRemovedFromWishlistSnackBar = const SnackBar(
+  duration: Duration(seconds: 2),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -21,6 +23,7 @@ SnackBar itemRemovedFromWishlistSnackBar = const SnackBar(
 );
 
 SnackBar errorSnackBar = const SnackBar(
+  duration: Duration(seconds: 2),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -30,6 +33,7 @@ SnackBar errorSnackBar = const SnackBar(
 );
 
 SnackBar successSnackBar = const SnackBar(
+  duration: Duration(seconds: 2),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -39,6 +43,7 @@ SnackBar successSnackBar = const SnackBar(
 );
 
 SnackBar itemAlreadyPresentSnackBar = const SnackBar(
+  duration: Duration(seconds: 2),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -48,6 +53,7 @@ SnackBar itemAlreadyPresentSnackBar = const SnackBar(
 );
 
 SnackBar itemRemovedFromShoppingCartSnackBar = const SnackBar(
+  duration: Duration(seconds: 2),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -57,6 +63,7 @@ SnackBar itemRemovedFromShoppingCartSnackBar = const SnackBar(
 );
 
 SnackBar invalidEmailSnackBar = const SnackBar(
+  duration: Duration(seconds: 2),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -66,6 +73,7 @@ SnackBar invalidEmailSnackBar = const SnackBar(
 );
 
 SnackBar emailNotRegisteredSnackBar = const SnackBar(
+  duration: Duration(seconds: 2),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -75,6 +83,7 @@ SnackBar emailNotRegisteredSnackBar = const SnackBar(
 );
 
 SnackBar billingAddressRemovedSnackbar = const SnackBar(
+  duration: Duration(seconds: 2),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -84,6 +93,7 @@ SnackBar billingAddressRemovedSnackbar = const SnackBar(
 );
 
 SnackBar deliveryAddressRemovedSnackbar = const SnackBar(
+  duration: Duration(seconds: 2),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -93,6 +103,7 @@ SnackBar deliveryAddressRemovedSnackbar = const SnackBar(
 );
 
 SnackBar billingAddressSavedSnackbar = const SnackBar(
+  duration: Duration(seconds: 2),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -102,6 +113,7 @@ SnackBar billingAddressSavedSnackbar = const SnackBar(
 );
 
 SnackBar deliveryAddressSavedSnackbar = const SnackBar(
+  duration: Duration(seconds: 2),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -111,6 +123,7 @@ SnackBar deliveryAddressSavedSnackbar = const SnackBar(
 );
 
 SnackBar personalDetailsSavedSnackbar = const SnackBar(
+  duration: Duration(seconds: 2),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
