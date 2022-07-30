@@ -247,11 +247,22 @@ class DatabaseServices {
 
   //Get Wishlist Stream
   Stream<List<SubProducts>> get wishlistSubproductsStream {
+    // var user = AuthService().currentUser!;
+    // return wishlistCollection
+    //     .doc(user.uid)
+    //     .snapshots()
+    //     .map(_getwishListSubproductsfromsnapshot);
+
     var user = AuthService().currentUser!;
-    return wishlistCollection
-        .doc(user.uid)
-        .snapshots()
-        .map(_getwishListSubproductsfromsnapshot);
+
+    return AuthService().userStream.switchMap((user) {
+      if (user != null) {
+        var ref = wishlistCollection.doc(user.uid);
+        return ref.snapshots().map(_getwishListSubproductsfromsnapshot);
+      } else {
+        return Stream.fromIterable([]);
+      }
+    });
   }
 
   BillingAddress _getBillingAddress(DocumentSnapshot snapshot) {

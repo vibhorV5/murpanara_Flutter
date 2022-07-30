@@ -89,7 +89,11 @@ class _HomePageState extends State<HomePage> {
             productsData.isEmpty
                 ? Center(
                     child: Container(
-                      child: Text('Loading'),
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: Colors.black87,
+                      ),
                     ),
                   )
                 : Container(
