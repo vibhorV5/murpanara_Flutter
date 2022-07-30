@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:murpanara/constants/snackbars.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/product.dart';
-import 'package:murpanara/services/auth.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/views/overview/product_overview.dart';
 
 class WishlistTile extends StatefulWidget {
-  WishlistTile({Key? key, required this.subProductList}) : super(key: key);
+  const WishlistTile({Key? key, required this.subProductList})
+      : super(key: key);
 
-  List<SubProducts> subProductList;
+  final List<SubProducts> subProductList;
 
   @override
   State<WishlistTile> createState() => _WishlistTileState();
@@ -19,7 +19,6 @@ class _WishlistTileState extends State<WishlistTile> {
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context);
-    final String uid = AuthService().currentUser!.uid;
 
     return Container(
       padding: EdgeInsets.only(bottom: _mediaQuery.size.height * 0.01),
@@ -27,7 +26,7 @@ class _WishlistTileState extends State<WishlistTile> {
       height: _mediaQuery.size.height * 0.7,
       width: _mediaQuery.size.width,
       child: ListView.separated(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,
           separatorBuilder: (context, index) {
             return SizedBox(
@@ -43,14 +42,14 @@ class _WishlistTileState extends State<WishlistTile> {
               height: _mediaQuery.size.height * 0.2,
               width: _mediaQuery.size.width,
               decoration: BoxDecoration(
-                color: Color(0xFFF6F6F6),
+                color: const Color(0xFFF6F6F6),
                 // color: Colors.red,
                 borderRadius:
                     BorderRadius.circular(_mediaQuery.size.width * 0.04),
               ),
               child: Column(
                 children: [
-                  Container(
+                  SizedBox(
                     // color: Colors.red,
                     height: _mediaQuery.size.height * 0.15,
                     width: _mediaQuery.size.width,
@@ -59,25 +58,20 @@ class _WishlistTileState extends State<WishlistTile> {
                         return Stack(
                           children: [
                             Center(
-                              child: Container(
-                                // color: Colors.blue,
-
-                                //Product Image
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => ProductOverview(
-                                          subproduct:
-                                              widget.subProductList[index],
-                                        ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProductOverview(
+                                        subproduct:
+                                            widget.subProductList[index],
                                       ),
-                                    ).then((value) => setState(() {}));
-                                  },
-                                  child: Image.network(
-                                      widget.subProductList[index].imagefront),
-                                ),
+                                    ),
+                                  ).then((value) => setState(() {}));
+                                },
+                                child: Image.network(
+                                    widget.subProductList[index].imagefront),
                               ),
                             ),
 
@@ -112,7 +106,6 @@ class _WishlistTileState extends State<WishlistTile> {
                       }),
                     ),
                   ),
-
                   Text(
                     widget.subProductList[index].name,
                     style: kProductsTitlesTextStyle.copyWith(
@@ -123,8 +116,6 @@ class _WishlistTileState extends State<WishlistTile> {
                     style: kProductsTitlesTextStyle.copyWith(
                         fontSize: _mediaQuery.size.height * 0.015),
                   ),
-                  // Text(widget.subProductList[index].fit),
-                  // Text(widget.subProductList[index].composition),
                 ],
               ),
             );

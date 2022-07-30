@@ -17,15 +17,13 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final List<Product> productsData = Provider.of<List<Product>>(context);
     final _mediaQuery = MediaQuery.of(context);
-    // final List<SubproductsMain> subproduct =
-    //     Provider.of<List<SubproductsMain>>(context);
 
     return Scaffold(
       backgroundColor: kColorHomePageBg,
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
+            SizedBox(
               height: _mediaQuery.size.height * 0.2,
               width: _mediaQuery.size.width,
               child: LayoutBuilder(
@@ -33,7 +31,7 @@ class _HomePageState extends State<HomePage> {
                   return Column(
                     children: [
                       //TITLE: Welcome to the dawn..
-                      Container(
+                      SizedBox(
                         // color: Colors.green.withOpacity(0.2),
                         height: constrainsts.maxHeight * 0.5,
                         width: constrainsts.maxWidth,
@@ -57,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                       ),
 
                       //TITLE: You are now viewing..
-                      Container(
+                      SizedBox(
                         // color: Colors.green.withOpacity(0.2),
                         height: constrainsts.maxHeight * 0.5,
                         width: constrainsts.maxWidth,
@@ -71,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                                   fontSize: constrainsts.maxHeight * 0.08),
                             ),
                             Center(
-                              child: Container(
+                              child: SizedBox(
                                 height: constrainsts.maxHeight * 0.22,
                                 child: Image.asset(
                                   'assets/images/mpr_eye.png',
@@ -88,22 +86,17 @@ class _HomePageState extends State<HomePage> {
             ),
             productsData.isEmpty
                 ? Center(
-                    child: Container(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
+                    child: SizedBox(
+                      height: _mediaQuery.size.height * 0.02,
+                      width: _mediaQuery.size.height * 0.02,
+                      child: const CircularProgressIndicator(
                         color: Colors.black87,
                       ),
                     ),
                   )
-                : Container(
-                    child: ProductTile(
-                      subProductList: productsData.first.subproducts,
-                    ),
+                : ProductTile(
+                    subProductList: productsData.first.subproducts,
                   ),
-            // SizedBox(
-            //   height: 100,
-            // )
           ],
         ),
       ),

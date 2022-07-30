@@ -7,13 +7,18 @@ import 'package:murpanara/providers/quantity_provider.dart';
 import 'package:murpanara/providers/size_provider.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:murpanara/widgets/HomePageWidgets/product_status_banner.dart';
+import 'package:murpanara/widgets/ProductOverviewWidgets/custom_addtocart_button.dart';
+import 'package:murpanara/widgets/ProductOverviewWidgets/custom_confirm_button.dart';
+import 'package:murpanara/widgets/ProductOverviewWidgets/custom_fav_botton.dart';
+import 'package:murpanara/widgets/ProductOverviewWidgets/size_selector_buttons.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ProductOverview extends StatefulWidget {
-  ProductOverview({Key? key, required this.subproduct}) : super(key: key);
+  const ProductOverview({Key? key, required this.subproduct}) : super(key: key);
 
-  SubProducts subproduct;
+  final SubProducts subproduct;
 
   @override
   State<ProductOverview> createState() => _ProductOverviewState();
@@ -36,7 +41,7 @@ class _ProductOverviewState extends State<ProductOverview> {
 
     List<Widget> imagesPro = [
       //1st Image of Slider
-      Container(
+      SizedBox(
         // color: Colors.pink,
         height: _mediaQuery.size.height * 0.5,
         width: _mediaQuery.size.width,
@@ -45,7 +50,7 @@ class _ProductOverviewState extends State<ProductOverview> {
       ),
 
       //2nd Image of Slider
-      Container(
+      SizedBox(
         // color: Colors.purple,
         height: _mediaQuery.size.height * 0.5,
         width: _mediaQuery.size.width,
@@ -56,15 +61,16 @@ class _ProductOverviewState extends State<ProductOverview> {
 
     void _showBottomPanel({required SubProducts subProducts}) {
       showModalBottomSheet(
-          backgroundColor: Colors.black.withOpacity(0.6),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(_mediaQuery.size.height * 0.03),
-            ),
+        backgroundColor: Colors.black.withOpacity(0.6),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(_mediaQuery.size.height * 0.03),
           ),
-          context: context,
-          builder: (context) {
-            return StatefulBuilder(builder: ((context, setModalState) {
+        ),
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: ((context, setModalState) {
               return Container(
                 height: _mediaQuery.size.height * 0.355,
                 decoration: BoxDecoration(
@@ -101,7 +107,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                             alignment: Alignment.center,
                             height: _mediaQuery.size.height * 0.055,
                             width: _mediaQuery.size.height * 0.055,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.black,
                             ),
@@ -129,7 +135,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                             height: _mediaQuery.size.height * 0.055,
                             width: _mediaQuery.size.height * 0.055,
                             alignment: Alignment.center,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.black,
                             ),
@@ -143,60 +149,44 @@ class _ProductOverviewState extends State<ProductOverview> {
                     ),
 
                     //Confirm Button
-                    GestureDetector(
-                      onTap: () async {
-                        bool result = await DatabaseServices()
-                            .checkShoppingCartItem(
-                                subproduct: widget.subproduct,
-                                quantity: quantityState.getQuantity,
-                                size: sizeState.sizeSelected);
-                        if (result == false) {
-                          await DatabaseServices().setShoppingCartItem(
-                              subProducts: subProducts,
-                              productSize: sizeState.sizeSelected,
-                              productQuantity: quantityState.getQuantity);
+                    CustomConfirmButtom(
+                        mediaQuery: _mediaQuery,
+                        onTapFunction: () async {
+                          bool result = await DatabaseServices()
+                              .checkShoppingCartItem(
+                                  subproduct: widget.subproduct,
+                                  quantity: quantityState.getQuantity,
+                                  size: sizeState.sizeSelected);
+                          if (result == false) {
+                            await DatabaseServices().setShoppingCartItem(
+                                subProducts: subProducts,
+                                productSize: sizeState.sizeSelected,
+                                productQuantity: quantityState.getQuantity);
 
-                          Navigator.of(context).pop();
+                            Navigator.of(context).pop();
 
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(successSnackBar);
-                          print('Item added to shopping cart');
-                          setState(() {
-                            sizeState.setSize('');
-                            quantityState.setQuantity(1);
-                          });
-                        } else {
-                          Navigator.of(context).pop();
-                          print('already present');
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(itemAlreadyPresentSnackBar);
-                        }
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: _mediaQuery.size.height * 0.04,
-                        width: _mediaQuery.size.width * 0.3,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white),
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(
-                              _mediaQuery.size.height * 0.5),
-                        ),
-                        margin: EdgeInsets.only(
-                            top: _mediaQuery.size.height * 0.03),
-                        child: Text(
-                          'Confirm',
-                          style: kAddToCartTextStyle.copyWith(
-                              fontSize: _mediaQuery.size.height * 0.02),
-                        ),
-                      ),
-                    ),
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(successSnackBar);
+                            print('Item added to shopping cart');
+                            setState(() {
+                              sizeState.setSize('');
+                              quantityState.setQuantity(1);
+                            });
+                          } else {
+                            Navigator.of(context).pop();
+                            print('already present');
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(itemAlreadyPresentSnackBar);
+                          }
+                        }),
                   ],
                 ),
-                padding: EdgeInsets.all(30),
+                // padding: EdgeInsets.all(_mediaQuery.size.height * 0.1),
               );
-            }));
-          });
+            }),
+          );
+        },
+      );
     }
 
     Widget buildIndicator() {
@@ -278,19 +268,23 @@ class _ProductOverviewState extends State<ProductOverview> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       widget.subproduct.status != 'Available'
-                          ? Container(
-                              margin:
-                                  EdgeInsets.only(left: 10, top: 20, right: 10),
+                          ? ProductStatusBanner(
+                              txt: widget.subproduct.status,
+                              fontSize: _mediaQuery.size.height * 0.01,
+                              fontColor: Colors.white,
+                              bannerColor:
+                                  widget.subproduct.status == 'Arriving Soon'
+                                      ? Colors.green.withOpacity(0.8)
+                                      : Colors.red.withOpacity(0.8),
+                              borderRadiusGeometry: BorderRadius.circular(
+                                  _mediaQuery.size.height * 0.006),
+                              margin: EdgeInsets.only(
+                                  left: _mediaQuery.size.width * 0.025,
+                                  right: _mediaQuery.size.width * 0.025,
+                                  top: _mediaQuery.size.height * 0.012),
                               padding: EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 4),
-                              decoration: BoxDecoration(
-                                  color: Colors.black.withOpacity(0.2),
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Text(
-                                widget.subproduct.status,
-                                style: kSemibold.copyWith(
-                                    fontSize: 12, color: Colors.white),
-                              ),
+                                  horizontal: _mediaQuery.size.width * 0.025,
+                                  vertical: _mediaQuery.size.height * 0.006),
                             )
                           : Container(),
                     ],
@@ -348,8 +342,7 @@ class _ProductOverviewState extends State<ProductOverview> {
               ),
 
               //Sizes Buttons
-
-              SizeButtons(
+              SizeSelectorButtons(
                 productStatus: widget.subproduct.status,
                 sizeList: sizes,
                 mediaQ: _mediaQuery,
@@ -446,60 +439,43 @@ class _ProductOverviewState extends State<ProductOverview> {
                             var isWishlisted = snapshot.data!;
                             isWishlistedNew = isWishlisted;
                             return isWishlistedNew
-                                ? Container(
-                                    alignment: Alignment.center,
-                                    height: _mediaQuery.size.height * 0.07,
-                                    width: _mediaQuery.size.width * 0.14,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.grey.withOpacity(0.1),
-                                      ),
-                                      color: Color(0xFFF6F6F6),
-                                      borderRadius: BorderRadius.circular(
-                                          _mediaQuery.size.height * 0.01),
-                                    ),
-                                    child: Icon(
+                                ? CustomFavButton(
+                                    containerWidth:
+                                        _mediaQuery.size.width * 0.14,
+                                    containerHeight:
+                                        _mediaQuery.size.height * 0.07,
+                                    icon: Icon(
                                       Icons.favorite,
                                       size: _mediaQuery.size.height * 0.024,
                                       color: Colors.red,
                                     ),
+                                    borderRadiusGeometry: BorderRadius.circular(
+                                        _mediaQuery.size.height * 0.01),
                                   )
-                                : Container(
-                                    alignment: Alignment.center,
-                                    height: _mediaQuery.size.height * 0.07,
-                                    width: _mediaQuery.size.width * 0.14,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.grey.withOpacity(0.1),
-                                      ),
-                                      color: Color(0xFFF6F6F6),
-                                      borderRadius: BorderRadius.circular(
-                                          _mediaQuery.size.height * 0.01),
-                                    ),
-                                    child: Icon(
+                                : CustomFavButton(
+                                    containerWidth:
+                                        _mediaQuery.size.width * 0.14,
+                                    containerHeight:
+                                        _mediaQuery.size.height * 0.07,
+                                    icon: Icon(
                                       Icons.favorite_border_outlined,
                                       size: _mediaQuery.size.height * 0.024,
                                       color: Colors.black,
                                     ),
+                                    borderRadiusGeometry: BorderRadius.circular(
+                                        _mediaQuery.size.height * 0.01),
                                   );
                           } else {
-                            return Container(
-                              alignment: Alignment.center,
-                              height: _mediaQuery.size.height * 0.07,
-                              width: _mediaQuery.size.width * 0.14,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey.withOpacity(0.1),
-                                ),
-                                color: Color(0xFFF6F6F6),
-                                borderRadius: BorderRadius.circular(
-                                    _mediaQuery.size.height * 0.01),
-                              ),
-                              child: Icon(
+                            return CustomFavButton(
+                              containerWidth: _mediaQuery.size.width * 0.14,
+                              containerHeight: _mediaQuery.size.height * 0.07,
+                              icon: Icon(
                                 Icons.favorite_border_outlined,
                                 size: _mediaQuery.size.height * 0.024,
                                 color: Colors.black,
                               ),
+                              borderRadiusGeometry: BorderRadius.circular(
+                                  _mediaQuery.size.height * 0.01),
                             );
                           }
                         }),
@@ -512,41 +488,17 @@ class _ProductOverviewState extends State<ProductOverview> {
 
                     //Add to Cart
                     widget.subproduct.status != 'Available'
-                        ? TextButton(
-                            style: ButtonStyle(
-                              splashFactory: NoSplash.splashFactory,
-                            ),
-                            onPressed: () {
-                              // if (sizeState.sizeSelected != '') {
-                              //   _showBottomPanel(
-                              //       subProducts: widget.subproduct);
-                              // } else {
-                              //   ScaffoldMessenger.of(context)
-                              //       .showSnackBar(errorSnackBar);
-                              // }
-                            },
-                            child: Container(
-                              child: Text(
-                                widget.subproduct.status.toUpperCase(),
-                                style: kAddToCartTextStyle.copyWith(
-                                    color: Colors.white,
-                                    fontSize: _mediaQuery.size.height * 0.02),
-                              ),
-                              alignment: Alignment.center,
-                              height: _mediaQuery.size.height * 0.07,
-                              width: _mediaQuery.size.width * 0.7,
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
-                                borderRadius: BorderRadius.circular(
-                                    _mediaQuery.size.height * 0.5),
-                              ),
-                            ),
+                        ? CustomAddToCartButton(
+                            onPress: () {},
+                            mediaQuery: _mediaQuery,
+                            txt: widget.subproduct.status.toUpperCase(),
+                            buttonColor: Colors.grey,
                           )
-                        : TextButton(
-                            style: ButtonStyle(
-                              splashFactory: NoSplash.splashFactory,
-                            ),
-                            onPressed: () {
+                        : CustomAddToCartButton(
+                            buttonColor: Colors.black,
+                            txt: 'Add to Cart',
+                            mediaQuery: _mediaQuery,
+                            onPress: () {
                               if (sizeState.sizeSelected != '') {
                                 _showBottomPanel(
                                     subProducts: widget.subproduct);
@@ -554,122 +506,13 @@ class _ProductOverviewState extends State<ProductOverview> {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(errorSnackBar);
                               }
-                            },
-                            child: Container(
-                              child: Text(
-                                'Add to Cart',
-                                style: kAddToCartTextStyle.copyWith(
-                                    fontSize: _mediaQuery.size.height * 0.02),
-                              ),
-                              alignment: Alignment.center,
-                              height: _mediaQuery.size.height * 0.07,
-                              width: _mediaQuery.size.width * 0.7,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(
-                                    _mediaQuery.size.height * 0.5),
-                              ),
-                            ),
-                          ),
+                            })
                   ],
                 ),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class SizeButtons extends StatefulWidget {
-  SizeButtons({
-    Key? key,
-    required this.mediaQ,
-    required this.sizeList,
-    required this.productStatus,
-  }) : super(key: key);
-
-  final MediaQueryData mediaQ;
-  List sizeList;
-  String selectedS = '';
-  String productStatus;
-
-  @override
-  State<SizeButtons> createState() => _SizeButtonsState();
-}
-
-class _SizeButtonsState extends State<SizeButtons> {
-  @override
-  Widget build(BuildContext context) {
-    var sizeState = Provider.of<SizeProvider>(context);
-
-    return Container(
-      margin: EdgeInsets.only(
-          left: widget.mediaQ.size.width * 0.055,
-          top: widget.mediaQ.size.height * 0.012),
-      width: widget.mediaQ.size.width,
-      height: widget.mediaQ.size.height * 0.08,
-      // color: Colors.yellow.withOpacity(0.3),
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        separatorBuilder: (context, index) {
-          return SizedBox(
-            width: widget.mediaQ.size.width * 0.025,
-          );
-        },
-        itemCount: widget.sizeList.length,
-        itemBuilder: ((context, index) {
-          Container getContainer;
-
-          if (sizeState.getSizeSelected == widget.sizeList[index]) {
-            getContainer = Container(
-              alignment: Alignment.center,
-              height: widget.mediaQ.size.height * 0.07,
-              width: widget.mediaQ.size.width * 0.14,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius:
-                    BorderRadius.circular(widget.mediaQ.size.height * 0.01),
-              ),
-              child: Text(
-                widget.sizeList[index],
-                style: kProductsSizesTextStyle.copyWith(
-                    color: Color(0xFFF6F6F6),
-                    fontFamily: 'AvertaStd-Semibold',
-                    fontSize: widget.mediaQ.size.height * 0.028),
-              ),
-            );
-          } else {
-            getContainer = Container(
-              alignment: Alignment.center,
-              height: widget.mediaQ.size.height * 0.07,
-              width: widget.mediaQ.size.width * 0.14,
-              decoration: BoxDecoration(
-                color: Color(0xFFF6F6F6),
-                borderRadius:
-                    BorderRadius.circular(widget.mediaQ.size.height * 0.01),
-              ),
-              child: Text(
-                widget.sizeList[index],
-                style: kProductsSizesTextStyle.copyWith(
-                    color: Colors.black,
-                    fontFamily: 'AvertaStd-Semibold',
-                    fontSize: widget.mediaQ.size.height * 0.028),
-              ),
-            );
-          }
-
-          return GestureDetector(
-              onTap: () {
-                widget.productStatus != 'Available'
-                    ? print('Not Available')
-                    : sizeState.setSize(widget.sizeList[index]);
-
-                print('${sizeState.getSizeSelected} size slected');
-              },
-              child: getContainer);
-        }),
       ),
     );
   }

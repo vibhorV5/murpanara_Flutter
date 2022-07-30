@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:murpanara/constants/styles.dart';
 
 class SaveButton extends StatelessWidget {
-  SaveButton({
+  const SaveButton({
     Key? key,
     required this.mediaQuery,
     required this.txt,
@@ -16,12 +16,12 @@ class SaveButton extends StatelessWidget {
   final Color color;
   final Color txtColor;
 
-  void Function()? onPress;
+  final void Function()? onPress;
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      style: ButtonStyle(
+      style: const ButtonStyle(
         splashFactory: NoSplash.splashFactory,
       ),
       onPressed: onPress,

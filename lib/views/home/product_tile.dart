@@ -3,14 +3,14 @@ import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/snackbars.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/product.dart';
-import 'package:murpanara/services/auth.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/views/overview/product_overview.dart';
+import 'package:murpanara/widgets/HomePageWidgets/product_status_banner.dart';
 
 class ProductTile extends StatefulWidget {
-  ProductTile({Key? key, required this.subProductList}) : super(key: key);
+  const ProductTile({Key? key, required this.subProductList}) : super(key: key);
 
-  List<SubProducts> subProductList;
+  final List<SubProducts> subProductList;
 
   @override
   State<ProductTile> createState() => _ProductTileState();
@@ -20,7 +20,6 @@ class _ProductTileState extends State<ProductTile> {
   @override
   Widget build(BuildContext context) {
     final _mediaQuery = MediaQuery.of(context);
-    final String uid = AuthService().currentUser!.uid;
 
     return Column(
       children: [
@@ -28,7 +27,7 @@ class _ProductTileState extends State<ProductTile> {
           color: kColorHomePageBg,
           height: _mediaQuery.size.height * 0.62,
           child: ListView.separated(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
               separatorBuilder: (context, index) {
                 return SizedBox(
@@ -53,7 +52,7 @@ class _ProductTileState extends State<ProductTile> {
                   ),
                   child: Column(
                     children: [
-                      Container(
+                      SizedBox(
                         // color: Colors.amber,
                         height: _mediaQuery.size.height * 0.35,
                         width: _mediaQuery.size.width,
@@ -61,25 +60,20 @@ class _ProductTileState extends State<ProductTile> {
                           return Stack(
                             children: [
                               Center(
-                                child: Container(
-                                  // color: Colors.blue,
-
-                                  //Product Image
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => ProductOverview(
-                                            subproduct:
-                                                widget.subProductList[index],
-                                          ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => ProductOverview(
+                                          subproduct:
+                                              widget.subProductList[index],
                                         ),
-                                      ).then((value) => setState(() {}));
-                                    },
-                                    child: Image.network(widget
-                                        .subProductList[index].imagefront),
-                                  ),
+                                      ),
+                                    ).then((value) => setState(() {}));
+                                  },
+                                  child: Image.network(
+                                      widget.subProductList[index].imagefront),
                                 ),
                               ),
 
@@ -152,27 +146,32 @@ class _ProductTileState extends State<ProductTile> {
 
                               //Out of Stock
                               widget.subProductList[index].status != 'Available'
-                                  ? Container(
-                                      margin:
-                                          EdgeInsets.only(left: 10, top: 10),
+                                  ? ProductStatusBanner(
+                                      txt: widget.subProductList[index].status,
+                                      fontSize: _mediaQuery.size.height * 0.01,
+                                      fontColor: Colors.white,
+                                      bannerColor:
+                                          widget.subProductList[index].status ==
+                                                  'Arriving Soon'
+                                              ? Colors.green.withOpacity(0.8)
+                                              : Colors.red.withOpacity(0.8),
+                                      borderRadiusGeometry:
+                                          BorderRadius.circular(
+                                              _mediaQuery.size.height * 0.006),
+                                      margin: EdgeInsets.only(
+                                          left: _mediaQuery.size.width * 0.025,
+                                          top: _mediaQuery.size.height * 0.012),
                                       padding: EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 4),
-                                      decoration: BoxDecoration(
-                                          color: Colors.black.withOpacity(0.2),
-                                          borderRadius:
-                                              BorderRadius.circular(5)),
-                                      child: Text(
-                                        widget.subProductList[index].status,
-                                        style: kSemibold.copyWith(
-                                            fontSize: 12, color: Colors.white),
-                                      ),
+                                          horizontal:
+                                              _mediaQuery.size.width * 0.025,
+                                          vertical:
+                                              _mediaQuery.size.height * 0.006),
                                     )
                                   : Container(),
                             ],
                           );
                         }),
                       ),
-
                       Text(
                         widget.subProductList[index].name,
                         style: kProductsTitlesTextStyle.copyWith(
@@ -183,9 +182,6 @@ class _ProductTileState extends State<ProductTile> {
                         style: kProductsTitlesTextStyle.copyWith(
                             fontSize: _mediaQuery.size.height * 0.017),
                       ),
-                      // Text(widget.subProductList[index].status),
-                      // Text(widget.subProductList[index].fit),
-                      // Text(widget.subProductList[index].composition),
                     ],
                   ),
                 );

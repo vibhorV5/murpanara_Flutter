@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/product.dart';
-import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/views/wishlist/wishlist_tile.dart';
 import 'package:provider/provider.dart';
 
@@ -37,21 +36,17 @@ class _WishlistPageState extends State<WishlistPage> {
             ),
           ),
           wishlistProductsData.isEmpty
-              ? Container(
+              ? SizedBox(
                   // color: Colors.amber,
                   height: _mediaQuery.size.height * 0.6,
                   width: _mediaQuery.size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        // margin: EdgeInsets.only(top: 100),
-                        // height: _mediaQuery.size.height * 0.2,
-                        child: Icon(
-                          Icons.heart_broken_rounded,
-                          color: Colors.black.withOpacity(0.8),
-                          size: _mediaQuery.size.height * 0.12,
-                        ),
+                      Icon(
+                        Icons.heart_broken_rounded,
+                        color: Colors.black.withOpacity(0.8),
+                        size: _mediaQuery.size.height * 0.12,
                       ),
                       Container(
                         margin: EdgeInsets.only(
@@ -77,7 +72,7 @@ class _WishlistPageState extends State<WishlistPage> {
                                 color: Colors.black.withOpacity(0.7),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               child: Icon(
                                 Icons.favorite_rounded,
                                 color: Colors.red,
