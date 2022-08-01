@@ -114,7 +114,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   ),
                 )
               : Container(
-                  // color: Colors.purple,
+                  color: Colors.purple,
                   child: Column(
                     children: [
                       Container(

@@ -3,16 +3,20 @@ import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 
 class CustomFormField extends StatelessWidget {
-  CustomFormField({
-    Key? key,
-    required this.textController,
-    required this.mediaQuery,
-    required this.hintText,
-    required this.validator,
-    required this.keyboardType,
-    required this.onChanged,
-    required this.initialText,
-  }) : super(key: key);
+  CustomFormField(
+      {Key? key,
+      required this.textController,
+      required this.mediaQuery,
+      required this.hintText,
+      required this.validator,
+      required this.keyboardType,
+      required this.onChanged,
+      required this.initialText,
+      this.obscureText = false,
+      this.fillColor,
+      this.hintTextSize,
+      this.inputTextSize})
+      : super(key: key);
 
   final TextEditingController textController;
   final String hintText;
@@ -21,24 +25,29 @@ class CustomFormField extends StatelessWidget {
   String? Function(String?)? validator;
   TextInputType? keyboardType;
   void Function(String)? onChanged;
+  bool obscureText = false;
+  Color? fillColor = Colors.white;
+  double? hintTextSize = 15;
+  double? inputTextSize = 15;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: obscureText,
       initialValue: initialText,
       validator: validator,
       onChanged: onChanged,
       keyboardType: keyboardType,
       cursorColor: kColorCursorAuthPage,
-      style: kInputFormFieldsAuthPage.copyWith(fontSize: 14),
+      style: kInputFormFieldsAuthPage.copyWith(fontSize: inputTextSize),
       // textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
-        fillColor: Colors.white,
+        fillColor: fillColor,
         filled: true,
         errorStyle: kErrorFormFields,
         border: InputBorder.none,
         hintText: hintText,
-        hintStyle: kSemibold.copyWith(fontSize: 10).copyWith(
+        hintStyle: kSemibold.copyWith(fontSize: hintTextSize).copyWith(
               color: Colors.black38,
             ),
       ),

@@ -18,21 +18,20 @@ class _GoogleSignInState extends State<GoogleSignIn> {
 
     return SizedBox(
       // color: Colors.blue.withOpacity(0.3),
-      height: _mediaQuery.size.height * 0.23,
+      height: _mediaQuery.size.height * 0.07,
       width: _mediaQuery.size.width,
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Container(
             width: constraints.maxWidth,
-            padding: EdgeInsets.only(
-                top: constraints.maxHeight * 0.01,
-                bottom: constraints.maxHeight * 0.01),
+
             margin: EdgeInsets.only(
-                left: constraints.maxWidth * 0.1,
-                right: constraints.maxWidth * 0.1,
-                top: constraints.maxHeight * 0.69),
+              left: constraints.maxWidth * 0.1,
+              right: constraints.maxWidth * 0.1,
+            ),
+            //     top: constraints.maxHeight * 0.69),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(constraints.maxHeight * 0.2),
+              borderRadius: BorderRadius.circular(constraints.maxHeight * 0.9),
               color: kColorGoogleButton,
             ),
             child: TextButton(
@@ -58,7 +57,7 @@ class _GoogleSignInState extends State<GoogleSignIn> {
               child: Text(
                 'Google Sign In',
                 style: kGoogleButtonTextStyle.copyWith(
-                    fontSize: constraints.maxHeight * 0.12),
+                    fontSize: constraints.maxHeight * 0.34),
               ),
             ),
           );
