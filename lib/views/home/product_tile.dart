@@ -70,7 +70,9 @@ class _ProductTileState extends State<ProductTile> {
                                               widget.subProductList[index],
                                         ),
                                       ),
-                                    ).then((value) => setState(() {}));
+                                    ).then(
+                                      (value) => setState(() {}),
+                                    );
                                   },
                                   child: Image.network(
                                       widget.subProductList[index].imagefront),

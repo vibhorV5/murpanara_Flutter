@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:murpanara/constants/styles.dart';
 
 class CustomDropDownButton extends StatelessWidget {
-  const CustomDropDownButton({
+  CustomDropDownButton({
     Key? key,
     required this.dropdownValue,
     required this.onChanged,
     required this.txt,
     required this.listValues,
     this.readOnly = false,
+    this.inputTextSize,
+    this.errorTextSize,
   }) : super(key: key);
 
   final String? dropdownValue;
@@ -16,6 +18,8 @@ class CustomDropDownButton extends StatelessWidget {
   final List<String> listValues;
   final String txt;
   final bool readOnly;
+  double? inputTextSize = 15;
+  double? errorTextSize = 15;
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +27,10 @@ class CustomDropDownButton extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
-        errorStyle: kErrorFormFields,
-        border: UnderlineInputBorder(borderSide: BorderSide.none),
+        errorStyle: kErrorFormFields.copyWith(fontSize: errorTextSize),
+        border: const UnderlineInputBorder(borderSide: BorderSide.none),
       ),
-      style: kInputFormFieldsAuthPage.copyWith(fontSize: 14),
+      style: kInputFormFieldsAuthPage.copyWith(fontSize: inputTextSize),
       isExpanded: true,
       borderRadius: BorderRadius.circular(10),
       alignment: Alignment.centerRight,

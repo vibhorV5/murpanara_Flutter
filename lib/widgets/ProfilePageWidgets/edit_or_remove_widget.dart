@@ -6,10 +6,12 @@ class EditOrRemoveWidget extends StatelessWidget {
     Key? key,
     required this.label,
     this.icon,
+    required this.fontSize,
   }) : super(key: key);
 
   final String label;
   final Icon? icon;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class EditOrRemoveWidget extends StatelessWidget {
             child: Text(
               label,
               style: kSemibold.copyWith(
-                fontSize: 13,
+                fontSize: fontSize,
               ),
             ),
           ),

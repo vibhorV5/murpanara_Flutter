@@ -3,20 +3,21 @@ import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 
 class CustomFormField extends StatelessWidget {
-  CustomFormField(
-      {Key? key,
-      required this.textController,
-      required this.mediaQuery,
-      required this.hintText,
-      required this.validator,
-      required this.keyboardType,
-      required this.onChanged,
-      required this.initialText,
-      this.obscureText = false,
-      this.fillColor,
-      this.hintTextSize,
-      this.inputTextSize})
-      : super(key: key);
+  CustomFormField({
+    Key? key,
+    required this.textController,
+    required this.mediaQuery,
+    required this.hintText,
+    required this.validator,
+    required this.keyboardType,
+    required this.onChanged,
+    required this.initialText,
+    this.obscureText = false,
+    this.fillColor,
+    this.hintTextSize,
+    this.inputTextSize,
+    this.errorTextSize,
+  }) : super(key: key);
 
   final TextEditingController textController;
   final String hintText;
@@ -29,6 +30,7 @@ class CustomFormField extends StatelessWidget {
   Color? fillColor = Colors.white;
   double? hintTextSize = 15;
   double? inputTextSize = 15;
+  double? errorTextSize = 15;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class CustomFormField extends StatelessWidget {
       decoration: InputDecoration(
         fillColor: fillColor,
         filled: true,
-        errorStyle: kErrorFormFields,
+        errorStyle: kErrorFormFields.copyWith(fontSize: errorTextSize),
         border: InputBorder.none,
         hintText: hintText,
         hintStyle: kSemibold.copyWith(fontSize: hintTextSize).copyWith(

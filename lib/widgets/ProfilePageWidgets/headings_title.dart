@@ -5,17 +5,21 @@ class HeadingsTitle extends StatelessWidget {
   const HeadingsTitle({
     Key? key,
     required this.titleText,
+    required this.margin,
+    required this.fontSize,
   }) : super(key: key);
 
   final String titleText;
+  final double fontSize;
+  final EdgeInsetsGeometry? margin;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 30),
+      margin: margin,
       child: Text(
         titleText,
-        style: kSemibold.copyWith(fontSize: 15),
+        style: kSemibold.copyWith(fontSize: fontSize),
       ),
     );
   }

@@ -76,9 +76,11 @@ class _MainPageState extends State<MainPage> {
               child: Column(
                 children: [
                   Container(
-                    height: 110,
-                    width: 110,
-                    margin: EdgeInsets.only(top: 80, bottom: 30),
+                    height: _mediaQuery.size.height * 0.28,
+                    width: _mediaQuery.size.width * 0.3,
+                    // margin: EdgeInsets.only(
+                    //     top: _mediaQuery.size.height * 0.1,
+                    //     bottom: _mediaQuery.size.height * 0.025),
                     child: Image.asset('assets/images/mpr_main.png'),
                   ),
                   Divider(
@@ -88,8 +90,8 @@ class _MainPageState extends State<MainPage> {
                   Container(
                     // color: Colors.blue.withOpacity(0.2),
                     margin: EdgeInsets.only(
-                      left: 30,
-                      top: 50,
+                      left: _mediaQuery.size.width * 0.1,
+                      // top: _mediaQuery.size.height * 0.06,
                     ),
                     child: Column(
                       children: [
@@ -97,10 +99,12 @@ class _MainPageState extends State<MainPage> {
                           leading: Icon(
                             Icons.home_rounded,
                             color: Colors.black,
+                            size: _mediaQuery.size.height * 0.03,
                           ),
                           title: Text(
                             'HOME',
-                            style: kBold.copyWith(fontSize: 18),
+                            style: kBold.copyWith(
+                                fontSize: _mediaQuery.size.height * 0.02),
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
@@ -112,10 +116,12 @@ class _MainPageState extends State<MainPage> {
                           leading: Icon(
                             Icons.account_circle_rounded,
                             color: Colors.black,
+                            size: _mediaQuery.size.height * 0.03,
                           ),
                           title: Text(
                             'PROFILE',
-                            style: kBold.copyWith(fontSize: 18),
+                            style: kBold.copyWith(
+                                fontSize: _mediaQuery.size.height * 0.02),
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
@@ -126,10 +132,12 @@ class _MainPageState extends State<MainPage> {
                           leading: Icon(
                             Icons.favorite_rounded,
                             color: Colors.red.shade900,
+                            size: _mediaQuery.size.height * 0.03,
                           ),
                           title: Text(
                             'WISHLIST',
-                            style: kBold.copyWith(fontSize: 18),
+                            style: kBold.copyWith(
+                                fontSize: _mediaQuery.size.height * 0.02),
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
@@ -139,13 +147,13 @@ class _MainPageState extends State<MainPage> {
                           },
                         ),
                         ListTile(
-                          leading: Icon(
-                            Icons.shopping_cart_rounded,
-                            color: Colors.black,
-                          ),
+                          leading: Icon(Icons.shopping_cart_rounded,
+                              color: Colors.black,
+                              size: _mediaQuery.size.height * 0.03),
                           title: Text(
                             'SHOPPING CART',
-                            style: kBold.copyWith(fontSize: 18),
+                            style: kBold.copyWith(
+                                fontSize: _mediaQuery.size.height * 0.02),
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
@@ -155,13 +163,13 @@ class _MainPageState extends State<MainPage> {
                           },
                         ),
                         ListTile(
-                          leading: Icon(
-                            Icons.local_shipping_rounded,
-                            color: Colors.black,
-                          ),
+                          leading: Icon(Icons.local_shipping_rounded,
+                              color: Colors.black,
+                              size: _mediaQuery.size.height * 0.03),
                           title: Text(
                             'YOUR ORDERS',
-                            style: kBold.copyWith(fontSize: 18),
+                            style: kBold.copyWith(
+                                fontSize: _mediaQuery.size.height * 0.02),
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
@@ -169,13 +177,13 @@ class _MainPageState extends State<MainPage> {
                           },
                         ),
                         ListTile(
-                          leading: Icon(
-                            Icons.info_rounded,
-                            color: Colors.black,
-                          ),
+                          leading: Icon(Icons.info_rounded,
+                              color: Colors.black,
+                              size: _mediaQuery.size.height * 0.03),
                           title: Text(
                             'ABOUT US',
-                            style: kBold.copyWith(fontSize: 18),
+                            style: kBold.copyWith(
+                                fontSize: _mediaQuery.size.height * 0.02),
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
@@ -186,10 +194,12 @@ class _MainPageState extends State<MainPage> {
                           leading: Icon(
                             Icons.arrow_right_sharp,
                             color: Colors.black,
+                            size: _mediaQuery.size.height * 0.03,
                           ),
                           title: Text(
                             'REFUND & RETURNS',
-                            style: kBold.copyWith(fontSize: 13),
+                            style: kBold.copyWith(
+                                fontSize: _mediaQuery.size.height * 0.015),
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
@@ -205,17 +215,19 @@ class _MainPageState extends State<MainPage> {
             ),
             Container(
               margin: EdgeInsets.only(
-                left: 30,
-                top: 50,
+                left: _mediaQuery.size.width * 0.1,
+                // top: _mediaQuery.size.height * 0.05,
               ),
               child: ListTile(
                 leading: Icon(
                   Icons.logout_rounded,
                   color: Colors.black,
+                  size: _mediaQuery.size.height * 0.03,
                 ),
                 title: Text(
                   'Logout',
-                  style: kBold.copyWith(fontSize: 18),
+                  style:
+                      kBold.copyWith(fontSize: _mediaQuery.size.height * 0.025),
                 ),
                 onTap: () async {
                   Navigator.of(context).pop();

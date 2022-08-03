@@ -3,12 +3,14 @@ import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 
 class DisabledFormField extends StatelessWidget {
-  const DisabledFormField({
+  DisabledFormField({
     Key? key,
     required this.txt,
+    this.initalTextSize,
   }) : super(key: key);
 
   final String txt;
+  double? initalTextSize = 14;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,7 @@ class DisabledFormField extends StatelessWidget {
       initialValue: txt,
       keyboardType: TextInputType.number,
       cursorColor: kColorCursorAuthPage,
-      style: kInputFormFieldsAuthPage.copyWith(fontSize: 14),
+      style: kInputFormFieldsAuthPage.copyWith(fontSize: initalTextSize),
       // textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
         filled: true,

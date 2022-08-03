@@ -7,7 +7,7 @@ import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/models/user_orders.dart';
 import 'package:murpanara/widgets/address_text_widget.dart';
-import 'package:murpanara/widgets/top_heading.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/top_heading.dart';
 import 'package:provider/provider.dart';
 
 class OrderDetailsPage extends StatelessWidget {
@@ -73,7 +73,10 @@ class OrderDetailsPage extends StatelessWidget {
             children: [
               //Order Details
               Center(
-                child: TopHeading(txt: 'Order Details'),
+                child: TopHeading(
+                    margin: EdgeInsets.only(bottom: 20, top: 30),
+                    fontSize: _mediaQuery.size.height * 0.1,
+                    txt: 'Order Details'),
               ),
               Container(
                 height: 650,
@@ -133,39 +136,39 @@ class OrderDetailsPage extends StatelessWidget {
                             children: [
                               AddressTextWidget(
                                 txt: '${deliveryAddressData.firstName} ',
-                                mediaQuery: _mediaQuery,
+                                fontSize: _mediaQuery.size.height * 0.014,
                               ),
                               AddressTextWidget(
                                 txt: deliveryAddressData.lastName,
-                                mediaQuery: _mediaQuery,
+                                fontSize: _mediaQuery.size.height * 0.014,
                               )
                             ],
                           ),
                           AddressTextWidget(
                             txt: deliveryAddressData.addressLine1,
-                            mediaQuery: _mediaQuery,
+                            fontSize: _mediaQuery.size.height * 0.014,
                           ),
                           AddressTextWidget(
                             txt: deliveryAddressData.addressLine2,
-                            mediaQuery: _mediaQuery,
+                            fontSize: _mediaQuery.size.height * 0.014,
                           ),
                           AddressTextWidget(
                             txt: deliveryAddressData.pincode.toString(),
-                            mediaQuery: _mediaQuery,
+                            fontSize: _mediaQuery.size.height * 0.014,
                           ),
                           Row(
                             children: [
                               AddressTextWidget(
                                   txt: '${deliveryAddressData.city}, ',
-                                  mediaQuery: _mediaQuery),
+                                  fontSize: _mediaQuery.size.height * 0.014),
                               AddressTextWidget(
                                   txt: deliveryAddressData.state,
-                                  mediaQuery: _mediaQuery),
+                                  fontSize: _mediaQuery.size.height * 0.014),
                             ],
                           ),
                           AddressTextWidget(
                             txt: deliveryAddressData.country,
-                            mediaQuery: _mediaQuery,
+                            fontSize: _mediaQuery.size.height * 0.014,
                           ),
                           Row(
                             children: [
@@ -179,7 +182,7 @@ class OrderDetailsPage extends StatelessWidget {
                               AddressTextWidget(
                                 txt:
                                     '+91 ${deliveryAddressData.phone.toString()}',
-                                mediaQuery: _mediaQuery,
+                                fontSize: _mediaQuery.size.height * 0.014,
                               ),
                             ],
                           ),

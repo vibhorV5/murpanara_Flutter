@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/india_states.dart';
 import 'package:murpanara/constants/snackbars.dart';
-import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/billing_address.dart';
-import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/widgets/cancel_button.dart';
 import 'package:murpanara/widgets/custom_formfield.dart';
-import 'package:murpanara/widgets/disabled_formfield.dart';
-import 'package:murpanara/widgets/custom_dropdown_button.dart';
-import 'package:murpanara/widgets/headings_title.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/disabled_formfield.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/custom_dropdown_button.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/headings_title.dart';
 import 'package:murpanara/widgets/save_button.dart';
-import 'package:murpanara/widgets/title_field_text.dart';
-import 'package:murpanara/widgets/top_heading.dart';
-import 'package:provider/provider.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/title_field_text.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/top_heading.dart';
 
 class BillingAddressEdit extends StatefulWidget {
   const BillingAddressEdit({Key? key}) : super(key: key);
@@ -26,7 +23,7 @@ class BillingAddressEdit extends StatefulWidget {
 class _BillingAddressEditState extends State<BillingAddressEdit> {
   @override
   void dispose() {
-    print('dispose');
+    // print('dispose');
     addressLine1Controller.dispose();
     addressLine2Controller.dispose();
     pincodeController.dispose();
@@ -47,7 +44,7 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
 
   @override
   Widget build(BuildContext context) {
-    BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
+    // BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
 
     final _mediaQuery = MediaQuery.of(context);
 
@@ -63,11 +60,11 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
             color: kColorBackIconForgotPassPage,
           ),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
 
         centerTitle: true,
-        title: Container(
+        title: SizedBox(
           // color: Colors.red,
           height: _mediaQuery.size.height * 0.06,
           width: _mediaQuery.size.width,
@@ -83,7 +80,7 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
             onPressed: () {
               // Navigator.of(context).pushNamed('settingsPage');
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.settings_rounded,
               size: 0.1,
               color: Colors.black,
@@ -93,7 +90,7 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Container(
           margin: EdgeInsets.only(
               left: _mediaQuery.size.width * 0.04,
@@ -102,14 +99,15 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: TopHeading(txt: 'Billing Address'),
+                child: TopHeading(
+                    margin: EdgeInsets.symmetric(
+                        vertical: _mediaQuery.size.height * 0.033),
+                    fontSize: _mediaQuery.size.height * 0.028,
+                    txt: 'Billing Address'),
               ),
               Container(
                 width: _mediaQuery.size.width,
-                padding: EdgeInsets.all(15),
-                margin: EdgeInsets.only(
-                    top: _mediaQuery.size.height * 0.02,
-                    bottom: _mediaQuery.size.height * 0.02),
+                padding: EdgeInsets.all(_mediaQuery.size.width * 0.03),
                 decoration: BoxDecoration(
                   borderRadius:
                       BorderRadius.circular(_mediaQuery.size.width * 0.04),
@@ -121,10 +119,22 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      HeadingsTitle(titleText: 'Billing Address'),
-                      TitleFieldText(titleFieldText: '*Address line 1'),
+                      HeadingsTitle(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.03),
+                          fontSize: _mediaQuery.size.height * 0.019,
+                          titleText: 'Billing Address'),
+                      TitleFieldText(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.001),
+                          fontSize: _mediaQuery.size.height * 0.015,
+                          titleFieldText: '*Address line 1'),
                       CustomFormField(
                         // initialText: billingAddressData.addressLine1,
+                        fillColor: Colors.white,
+                        hintTextSize: _mediaQuery.size.height * 0.014,
+                        inputTextSize: _mediaQuery.size.height * 0.015,
+                        errorTextSize: _mediaQuery.size.height * 0.013,
                         initialText: '',
                         onChanged: (val) {
                           addressLine1Controller.text = val;
@@ -139,12 +149,22 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       ),
 
                       SizedBox(
-                        height: 13,
+                        height: _mediaQuery.size.height * 0.021,
                       ),
 
-                      TitleFieldText(titleFieldText: 'Address line 2'),
+                      TitleFieldText(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.001),
+                          fontSize: _mediaQuery.size.height * 0.015,
+                          titleFieldText: 'Address line 2'),
                       CustomFormField(
+                        fillColor: Colors.white,
+
                         // initialText: billingAddressData.addressLine2,
+                        hintTextSize: _mediaQuery.size.height * 0.014,
+                        inputTextSize: _mediaQuery.size.height * 0.015,
+                        errorTextSize: _mediaQuery.size.height * 0.013,
+
                         initialText: '',
                         onChanged: (val) {
                           addressLine2Controller.text = val;
@@ -159,14 +179,24 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       ),
 
                       SizedBox(
-                        height: 13,
+                        height: _mediaQuery.size.height * 0.021,
                       ),
 
-                      TitleFieldText(titleFieldText: 'Pin code'),
+                      TitleFieldText(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.001),
+                          fontSize: _mediaQuery.size.height * 0.015,
+                          titleFieldText: '*Pin code'),
 
                       CustomFormField(
+                        fillColor: Colors.white,
+
                         // initialText: UserMethods.checkNumField(
                         //     billingAddressData.pincode!),
+                        hintTextSize: _mediaQuery.size.height * 0.014,
+                        inputTextSize: _mediaQuery.size.height * 0.015,
+                        errorTextSize: _mediaQuery.size.height * 0.013,
+
                         initialText: '',
                         onChanged: (val) {
                           pincodeController.text = val;
@@ -184,13 +214,23 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       ),
 
                       SizedBox(
-                        height: 13,
+                        height: _mediaQuery.size.height * 0.021,
                       ),
 
-                      TitleFieldText(titleFieldText: '*City'),
+                      TitleFieldText(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.001),
+                          fontSize: _mediaQuery.size.height * 0.015,
+                          titleFieldText: '*City'),
 
                       CustomFormField(
+                        fillColor: Colors.white,
+
                         // initialText: billingAddressData.city,
+                        hintTextSize: _mediaQuery.size.height * 0.014,
+                        inputTextSize: _mediaQuery.size.height * 0.015,
+                        errorTextSize: _mediaQuery.size.height * 0.013,
+
                         initialText: '',
                         onChanged: (val) {
                           cityController.text = val;
@@ -204,13 +244,19 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                       ),
 
                       SizedBox(
-                        height: 13,
+                        height: _mediaQuery.size.height * 0.021,
                       ),
 
                       //State
-                      TitleFieldText(titleFieldText: '*State'),
+                      TitleFieldText(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.001),
+                          fontSize: _mediaQuery.size.height * 0.015,
+                          titleFieldText: '*State'),
 
                       CustomDropDownButton(
+                          inputTextSize: _mediaQuery.size.height * 0.015,
+                          errorTextSize: _mediaQuery.size.height * 0.013,
                           listValues: kListIndianStates,
                           txt: 'Please select a state',
                           dropdownValue: dropdownValue,
@@ -222,24 +268,33 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                           }),
 
                       SizedBox(
-                        height: 13,
+                        height: _mediaQuery.size.height * 0.021,
                       ),
 
                       //Country
-                      TitleFieldText(titleFieldText: '*Country'),
+                      TitleFieldText(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.001),
+                          fontSize: _mediaQuery.size.height * 0.015,
+                          titleFieldText: '*Country'),
 
                       DisabledFormField(
+                        initalTextSize: _mediaQuery.size.height * 0.015,
                         txt: 'India',
                       ),
 
                       SizedBox(
-                        height: 13,
+                        height: _mediaQuery.size.height * 0.021,
                       ),
                     ],
                   ),
                 ),
               ),
               SaveButton(
+                fontSize: _mediaQuery.size.height * 0.02,
+                height: _mediaQuery.size.height * 0.056,
+                borderRadiusGeometry:
+                    BorderRadius.circular(_mediaQuery.size.height * 0.04),
                 onPress: () async {
                   FocusScope.of(context).unfocus();
                   if (_formKey.currentState!.validate()) {
@@ -252,15 +307,15 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                         state: stateController.text,
                       ),
                     );
-                    print('billing address set');
+                    // print('billing address set');
 
                     ScaffoldMessenger.of(context)
                         .showSnackBar(billingAddressSavedSnackbar);
 
-                    print('done baby');
+                    // print('done baby');
                     Navigator.of(context).pop();
                   } else {
-                    print('fuck you failed');
+                    // print('fuck you failed');
                   }
                 },
                 mediaQuery: _mediaQuery,
@@ -269,6 +324,10 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                 txtColor: Colors.white,
               ),
               CancelButton(
+                fontSize: _mediaQuery.size.height * 0.02,
+                height: _mediaQuery.size.height * 0.056,
+                borderRadiusGeometry:
+                    BorderRadius.circular(_mediaQuery.size.height * 0.04),
                 onPress: () {
                   Navigator.of(context).pop();
                 },

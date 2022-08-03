@@ -11,12 +11,12 @@ import 'package:murpanara/widgets/address_text_widget.dart';
 import 'package:murpanara/widgets/save_button.dart';
 import 'package:murpanara/widgets/simple_heading.dart';
 import 'package:murpanara/widgets/simple_small_heading.dart';
-import 'package:murpanara/widgets/small_info_text.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/small_info_text.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class CheckoutPage extends StatefulWidget {
-  CheckoutPage({
+  const CheckoutPage({
     Key? key,
     required this.email,
     required this.deliveryAddress,
@@ -27,13 +27,13 @@ class CheckoutPage extends StatefulWidget {
     required this.checkoutDetailsProvider,
   }) : super(key: key);
 
-  String email;
-  DeliveryAddress deliveryAddress;
-  num totalSum;
-  List<ShoppingCartProduct> shoppingList;
-  List<dynamic> productListDesc;
-  String generatedOrderID;
-  CheckoutDetailsProvider checkoutDetailsProvider;
+  final String email;
+  final DeliveryAddress deliveryAddress;
+  final num totalSum;
+  final List<ShoppingCartProduct> shoppingList;
+  final List<dynamic> productListDesc;
+  final String generatedOrderID;
+  final CheckoutDetailsProvider checkoutDetailsProvider;
 
   @override
   State<CheckoutPage> createState() => _CheckoutPageState();
@@ -67,12 +67,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     // Do something when payment succeeds
-    print('Payment Successfvdfull');
-    print('Order created with OrderId:${widget.generatedOrderID}');
+    // print('Payment Successfvdfull');
+    // print('Order created with OrderId:${widget.generatedOrderID}');
     // print('TIME: ${UserMethods.getCurrentDateTime(orderTime)}');
 
-    print(
-        'hello = ${response.orderId} \n ${response.paymentId} \n ${response.signature}');
+    // print(
+    //     'hello = ${response.orderId} \n ${response.paymentId} \n ${response.signature}');
 
     await DatabaseServices().setUserOrder(
       userOrders: UserOrders(
@@ -92,16 +92,16 @@ class _CheckoutPageState extends State<CheckoutPage> {
         emailId: widget.email,
       ),
     );
-    print('Orders set');
+    // print('Orders set');
 
-    print('User order set success');
+    // print('User order set success');
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => OrderSuccessFailurePage(
           greetingText: 'Thank You!',
           orderStatusText: 'Order Placed Successfully',
-          statusIcon: Icon(
+          statusIcon: const Icon(
             Icons.done,
             color: Colors.green,
             size: 50,
@@ -261,7 +261,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         txt: 'Email',
                       ),
                       AddressTextWidget(
-                        mediaQuery: _mediaQuery,
+                        fontSize: _mediaQuery.size.height * 0.014,
                         // txt: 'vibhor.stav@gmail.com',
                         txt: widget.email,
                       ),
@@ -272,7 +272,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         txt: 'Phone',
                       ),
                       AddressTextWidget(
-                        mediaQuery: _mediaQuery,
+                        fontSize: _mediaQuery.size.height * 0.014,
                         // txt: '+91 8126793405',
                         txt:
                             '+91 ${UserMethods.checkNumField(widget.deliveryAddress.phone!)}',
@@ -308,6 +308,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               widget.deliveryAddress.pincode == 0)
                           ? Container(
                               child: SmallInfoText(
+                                  margin: EdgeInsets.only(
+                                      bottom: _mediaQuery.size.height * 0.002,
+                                      top: _mediaQuery.size.height * 0.002),
+                                  fontSize: _mediaQuery.size.height * 0.03,
                                   txt: 'No Delivery address found'),
                             )
                           : Row(
@@ -326,44 +330,54 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                           AddressTextWidget(
                                             txt:
                                                 '${widget.deliveryAddress.firstName} ',
-                                            mediaQuery: _mediaQuery,
+                                            fontSize:
+                                                _mediaQuery.size.height * 0.014,
                                           ),
                                           AddressTextWidget(
                                             txt:
                                                 widget.deliveryAddress.lastName,
-                                            mediaQuery: _mediaQuery,
+                                            fontSize:
+                                                _mediaQuery.size.height * 0.014,
                                           )
                                         ],
                                       ),
                                       AddressTextWidget(
                                         txt:
                                             widget.deliveryAddress.addressLine1,
-                                        mediaQuery: _mediaQuery,
+                                        fontSize:
+                                            _mediaQuery.size.height * 0.014,
                                       ),
                                       AddressTextWidget(
                                         txt:
                                             widget.deliveryAddress.addressLine2,
-                                        mediaQuery: _mediaQuery,
+                                        fontSize:
+                                            _mediaQuery.size.height * 0.014,
                                       ),
                                       AddressTextWidget(
                                         txt: widget.deliveryAddress.pincode
                                             .toString(),
-                                        mediaQuery: _mediaQuery,
+                                        fontSize:
+                                            _mediaQuery.size.height * 0.014,
                                       ),
                                       Row(
                                         children: [
                                           AddressTextWidget(
                                               txt:
                                                   '${widget.deliveryAddress.city} ',
-                                              mediaQuery: _mediaQuery),
+                                              fontSize:
+                                                  _mediaQuery.size.height *
+                                                      0.014),
                                           AddressTextWidget(
                                               txt: widget.deliveryAddress.state,
-                                              mediaQuery: _mediaQuery),
+                                              fontSize:
+                                                  _mediaQuery.size.height *
+                                                      0.014),
                                         ],
                                       ),
                                       AddressTextWidget(
                                         txt: widget.deliveryAddress.country,
-                                        mediaQuery: _mediaQuery,
+                                        fontSize:
+                                            _mediaQuery.size.height * 0.014,
                                       ),
                                     ],
                                   ),
@@ -422,7 +436,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                   children: [
                                     Container(
                                       padding: EdgeInsets.all(20),
-                                      width: 150,
+                                      width: 125,
                                       // color: Colors.pink,
                                       child: Column(
                                         crossAxisAlignment:
@@ -431,36 +445,41 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                           AddressTextWidget(
                                             txt:
                                                 widget.shoppingList[index].name,
-                                            mediaQuery: _mediaQuery,
+                                            fontSize:
+                                                _mediaQuery.size.height * 0.014,
                                           ),
                                           AddressTextWidget(
                                             txt:
                                                 'Size: ${widget.shoppingList[index].size}',
-                                            mediaQuery: _mediaQuery,
+                                            fontSize:
+                                                _mediaQuery.size.height * 0.014,
                                           ),
                                           AddressTextWidget(
                                             txt:
                                                 'Price: ${widget.shoppingList[index].price.toString()}.00',
-                                            mediaQuery: _mediaQuery,
+                                            fontSize:
+                                                _mediaQuery.size.height * 0.014,
                                           ),
                                         ],
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 40,
-                                    ),
+                                    _mediaQuery.size.height < 600
+                                        ? Container()
+                                        : SizedBox(
+                                            width: 30,
+                                          ),
                                     AddressTextWidget(
                                       txt:
                                           'x ${widget.shoppingList[index].quantity.toString()}',
-                                      mediaQuery: _mediaQuery,
+                                      fontSize: _mediaQuery.size.height * 0.014,
                                     ),
                                     SizedBox(
-                                      width: 40,
+                                      width: 30,
                                     ),
                                     AddressTextWidget(
                                       txt:
                                           '${getProductPrice(price: widget.shoppingList[index].price, quantity: widget.shoppingList[index].quantity)}.00',
-                                      mediaQuery: _mediaQuery,
+                                      fontSize: _mediaQuery.size.height * 0.014,
                                     ),
                                   ],
                                 ),
@@ -515,6 +534,21 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               .currentSelectedModeOfPayment ==
                           ModeOfPayment.cashOnDelivery) {
                         UserMethods.customDialogBox(
+                          borderRadius: _mediaQuery.size.width * 0.06,
+                          contentPadding: _mediaQuery.size.width * 0.06,
+                          contentContainerHeight:
+                              _mediaQuery.size.height * 0.24,
+                          headingTextTopMargin: _mediaQuery.size.height * 0.02,
+                          headingTextFontSize: _mediaQuery.size.height * 0.025,
+                          mprEyeContainerHeight: _mediaQuery.size.width * 0.07,
+                          mprEyeContainerWidth: _mediaQuery.size.width * 0.07,
+                          bigSizedBoxHeight: _mediaQuery.size.height * 0.04,
+                          smallSizedBoxHeight: _mediaQuery.size.height * 0.03,
+                          textButtonHorizontalPadding:
+                              _mediaQuery.size.width * 0.05,
+                          textButtonVerticalpadding:
+                              _mediaQuery.size.height * 0.008,
+                          textButtonBorderRadius: _mediaQuery.size.width * 0.06,
                           cancelText: 'Cancel',
                           confirmText: 'Place Order',
                           context: context,

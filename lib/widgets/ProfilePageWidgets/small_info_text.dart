@@ -5,17 +5,21 @@ class SmallInfoText extends StatelessWidget {
   const SmallInfoText({
     Key? key,
     required this.txt,
+    required this.fontSize,
+    required this.margin,
   }) : super(key: key);
 
   final String txt;
+  final double fontSize;
+  final EdgeInsetsGeometry margin;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 2, top: 5),
+      margin: margin,
       child: Text(
         txt,
-        style: kSemibold.copyWith(fontSize: 10).copyWith(
+        style: kSemibold.copyWith(fontSize: fontSize).copyWith(
               color: Colors.black45,
             ),
       ),

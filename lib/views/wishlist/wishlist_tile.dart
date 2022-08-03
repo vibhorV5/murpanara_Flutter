@@ -23,7 +23,9 @@ class _WishlistTileState extends State<WishlistTile> {
     return Container(
       padding: EdgeInsets.only(bottom: _mediaQuery.size.height * 0.01),
       // color: Colors.pink,
-      height: _mediaQuery.size.height * 0.7,
+      height: _mediaQuery.size.height < 600
+          ? _mediaQuery.size.height * 0.6
+          : _mediaQuery.size.height * 0.7,
       width: _mediaQuery.size.width,
       child: ListView.separated(
           physics: const BouncingScrollPhysics(),

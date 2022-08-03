@@ -10,6 +10,9 @@ class CancelButton extends StatelessWidget {
     required this.txtColor,
     required this.ctx,
     required this.onPress,
+    this.fontSize,
+    this.borderRadiusGeometry,
+    this.height,
   }) : super(key: key);
 
   final MediaQueryData mediaQuery;
@@ -18,31 +21,30 @@ class CancelButton extends StatelessWidget {
   final Color txtColor;
   final BuildContext ctx;
   void Function()? onPress;
+  double? fontSize = 12;
+  double? height = 40;
+  BorderRadiusGeometry? borderRadiusGeometry = BorderRadius.circular(30);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      style: ButtonStyle(
+      style: const ButtonStyle(
         splashFactory: NoSplash.splashFactory,
       ),
       onPressed: onPress,
       child: Container(
-        margin: EdgeInsets.only(
-            // top: _mediaQuery.size.height * 0.01,
-            // bottom: _mediaQuery.size.height * 0.02,
-            ),
         alignment: Alignment.center,
-        height: mediaQuery.size.height * 0.06,
+        height: height,
         width: mediaQuery.size.width,
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(mediaQuery.size.height * 0.4),
+          borderRadius: borderRadiusGeometry,
         ),
         // color: Colors.amber,
         child: Text(
           txt,
-          style: kAddToCartTextStyle.copyWith(
-              color: txtColor, fontSize: mediaQuery.size.height * 0.02),
+          style:
+              kAddToCartTextStyle.copyWith(color: txtColor, fontSize: fontSize),
         ),
       ),
     );

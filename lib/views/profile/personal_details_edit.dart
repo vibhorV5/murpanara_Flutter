@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/snackbars.dart';
 import 'package:murpanara/methods/user_methods.dart';
-import 'package:murpanara/models/billing_address.dart';
 import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/models/personal_details.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/widgets/cancel_button.dart';
 import 'package:murpanara/widgets/custom_formfield.dart';
-import 'package:murpanara/widgets/date_selector.dart';
-import 'package:murpanara/widgets/disabled_formfield.dart';
-import 'package:murpanara/widgets/custom_dropdown_button.dart';
-import 'package:murpanara/widgets/headings_title.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/date_selector.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/disabled_formfield.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/custom_dropdown_button.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/headings_title.dart';
 import 'package:murpanara/widgets/save_button.dart';
-import 'package:murpanara/widgets/small_info_text.dart';
-import 'package:murpanara/widgets/title_field_text.dart';
-import 'package:murpanara/widgets/top_heading.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/small_info_text.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/title_field_text.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/top_heading.dart';
 import 'package:provider/provider.dart';
 
 class PersonalDetailsEdit extends StatefulWidget {
@@ -28,7 +27,7 @@ class PersonalDetailsEdit extends StatefulWidget {
 class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
   @override
   void dispose() {
-    print('dispose');
+    // print('dispose');
     firstNameController.dispose();
     lastNameController.dispose();
     dateController.dispose();
@@ -54,8 +53,6 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
 
   @override
   Widget build(BuildContext context) {
-    PersonalDetails personalDetailsData = Provider.of<PersonalDetails>(context);
-    BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
     DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
 
     final _mediaQuery = MediaQuery.of(context);
@@ -72,11 +69,11 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
             color: kColorBackIconForgotPassPage,
           ),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
 
         centerTitle: true,
-        title: Container(
+        title: SizedBox(
           // color: Colors.red,
           height: _mediaQuery.size.height * 0.06,
           width: _mediaQuery.size.width,
@@ -92,7 +89,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
             onPressed: () {
               // Navigator.of(context).pushNamed('settingsPage');
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.settings_rounded,
               size: 0.1,
               color: Colors.black,
@@ -102,7 +99,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Container(
           margin: EdgeInsets.only(
               left: _mediaQuery.size.width * 0.04,
@@ -111,14 +108,15 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: TopHeading(txt: 'Personal details'),
+                child: TopHeading(
+                    margin: EdgeInsets.symmetric(
+                        vertical: _mediaQuery.size.height * 0.033),
+                    fontSize: _mediaQuery.size.height * 0.028,
+                    txt: 'Personal details'),
               ),
               Container(
                 width: _mediaQuery.size.width,
-                padding: EdgeInsets.all(15),
-                margin: EdgeInsets.only(
-                    top: _mediaQuery.size.height * 0.02,
-                    bottom: _mediaQuery.size.height * 0.02),
+                padding: EdgeInsets.all(_mediaQuery.size.width * 0.03),
                 decoration: BoxDecoration(
                   borderRadius:
                       BorderRadius.circular(_mediaQuery.size.width * 0.04),
@@ -130,10 +128,22 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      HeadingsTitle(titleText: 'Personal details'),
-                      TitleFieldText(titleFieldText: '*First name'),
+                      HeadingsTitle(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.03),
+                          fontSize: _mediaQuery.size.height * 0.019,
+                          titleText: 'Personal details'),
+                      TitleFieldText(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.001),
+                          fontSize: _mediaQuery.size.height * 0.015,
+                          titleFieldText: '*First name'),
                       CustomFormField(
                         // initialText: personalDetailsData.firstName,
+                        fillColor: Colors.white,
+                        hintTextSize: _mediaQuery.size.height * 0.014,
+                        inputTextSize: _mediaQuery.size.height * 0.015,
+                        errorTextSize: _mediaQuery.size.height * 0.013,
                         initialText: '',
                         onChanged: (val) {
                           firstNameController.text = val;
@@ -147,12 +157,20 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                       ),
 
                       SizedBox(
-                        height: 13,
+                        height: _mediaQuery.size.height * 0.021,
                       ),
 
-                      TitleFieldText(titleFieldText: '*Last name'),
+                      TitleFieldText(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.001),
+                          fontSize: _mediaQuery.size.height * 0.015,
+                          titleFieldText: '*Last name'),
                       CustomFormField(
                         // initialText: personalDetailsData.lastName,
+                        fillColor: Colors.white,
+                        hintTextSize: _mediaQuery.size.height * 0.014,
+                        inputTextSize: _mediaQuery.size.height * 0.015,
+                        errorTextSize: _mediaQuery.size.height * 0.013,
                         initialText: '',
                         onChanged: (val) {
                           lastNameController.text = val;
@@ -164,24 +182,40 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                         mediaQuery: _mediaQuery,
                         hintText: '',
                       ),
+
                       SizedBox(
-                        height: 13,
+                        height: _mediaQuery.size.height * 0.021,
                       ),
-                      TitleFieldText(titleFieldText: '*Date of birth'),
+
+                      TitleFieldText(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.001),
+                          fontSize: _mediaQuery.size.height * 0.015,
+                          titleFieldText: '*Date of birth'),
 
                       //DOB form field
-                      DateSelector(dateController: dateController),
+                      DateSelector(
+                          errorTextSize: _mediaQuery.size.height * 0.013,
+                          dateController: dateController),
 
                       SizedBox(
-                        height: 13,
+                        height: _mediaQuery.size.height * 0.021,
                       ),
 
                       // //Phone number
-                      TitleFieldText(titleFieldText: '*Phone number'),
+                      TitleFieldText(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.001),
+                          fontSize: _mediaQuery.size.height * 0.015,
+                          titleFieldText: '*Phone number'),
 
                       CustomFormField(
                         // initialText: UserMethods.checkNumField(
                         //     personalDetailsData.phoneNumber!),
+                        fillColor: Colors.white,
+                        hintTextSize: _mediaQuery.size.height * 0.014,
+                        inputTextSize: _mediaQuery.size.height * 0.015,
+                        errorTextSize: _mediaQuery.size.height * 0.013,
                         initialText: '',
                         textController: phoneNumberController,
                         mediaQuery: _mediaQuery,
@@ -201,13 +235,19 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                       ),
 
                       SizedBox(
-                        height: 13,
+                        height: _mediaQuery.size.height * 0.021,
                       ),
 
                       // //Gender
-                      TitleFieldText(titleFieldText: '*Gender'),
+                      TitleFieldText(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.001),
+                          fontSize: _mediaQuery.size.height * 0.015,
+                          titleFieldText: '*Gender'),
 
                       CustomDropDownButton(
+                          inputTextSize: _mediaQuery.size.height * 0.015,
+                          errorTextSize: _mediaQuery.size.height * 0.013,
                           listValues: genders,
                           txt: 'Please select a gender',
                           dropdownValue: dropdownValue,
@@ -219,11 +259,15 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                           }),
 
                       SizedBox(
-                        height: 13,
+                        height: _mediaQuery.size.height * 0.021,
                       ),
 
                       // //Postal Code
-                      TitleFieldText(titleFieldText: '*Postal Code'),
+                      TitleFieldText(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.001),
+                          fontSize: _mediaQuery.size.height * 0.015,
+                          titleFieldText: '*Postal Code'),
 
                       DisabledFormField(
                         txt: UserMethods.checkNumField(
@@ -231,26 +275,40 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                       ),
 
                       SmallInfoText(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.002,
+                              top: _mediaQuery.size.height * 0.009),
+                          fontSize: _mediaQuery.size.height * 0.012,
                           txt:
-                              'You can edit your Postal Code under Address Book.'),
+                              'You can edit your Postal Code under Address Book'),
 
                       SizedBox(
-                        height: 13,
+                        height: _mediaQuery.size.height * 0.021,
                       ),
 
                       // //Country
-                      TitleFieldText(titleFieldText: '*Country'),
+                      TitleFieldText(
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.001),
+                          fontSize: _mediaQuery.size.height * 0.015,
+                          titleFieldText: '*Country'),
 
-                      DisabledFormField(txt: 'India'),
+                      DisabledFormField(
+                          initalTextSize: _mediaQuery.size.height * 0.015,
+                          txt: 'India'),
 
                       SizedBox(
-                        height: 13,
+                        height: _mediaQuery.size.height * 0.021,
                       ),
                     ],
                   ),
                 ),
               ),
               SaveButton(
+                fontSize: _mediaQuery.size.height * 0.02,
+                height: _mediaQuery.size.height * 0.056,
+                borderRadiusGeometry:
+                    BorderRadius.circular(_mediaQuery.size.height * 0.04),
                 onPress: () async {
                   FocusScope.of(context).unfocus();
                   if (_formKey.currentState!.validate()) {
@@ -263,13 +321,13 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                         phoneNumber: num.tryParse(phoneNumberController.text),
                       ),
                     );
-                    print('successfully set personal details');
+                    // print('successfully set personal details');
                     ScaffoldMessenger.of(context)
                         .showSnackBar(personalDetailsSavedSnackbar);
 
                     Navigator.of(context).pop();
                   } else {
-                    print('fuck you no personal details set');
+                    // print('fuck you no personal details set');
                   }
                 },
                 mediaQuery: _mediaQuery,
@@ -278,6 +336,10 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                 txtColor: Colors.white,
               ),
               CancelButton(
+                fontSize: _mediaQuery.size.height * 0.02,
+                height: _mediaQuery.size.height * 0.056,
+                borderRadiusGeometry:
+                    BorderRadius.circular(_mediaQuery.size.height * 0.04),
                 onPress: () {
                   Navigator.of(context).pop();
                 },

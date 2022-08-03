@@ -5,17 +5,21 @@ class TopHeading extends StatelessWidget {
   const TopHeading({
     Key? key,
     required this.txt,
+    required this.fontSize,
+    required this.margin,
   }) : super(key: key);
 
   final String txt;
+  final double fontSize;
+  final EdgeInsetsGeometry? margin;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 20, top: 30),
+      margin: margin,
       child: Text(
         txt,
-        style: kSemibold.copyWith(fontSize: 22),
+        style: kSemibold.copyWith(fontSize: fontSize),
       ),
     );
   }

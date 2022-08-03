@@ -4,12 +4,14 @@ import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 
 class DateSelector extends StatelessWidget {
-  const DateSelector({
+  DateSelector({
     Key? key,
     required this.dateController,
+    this.errorTextSize,
   }) : super(key: key);
 
   final TextEditingController dateController;
+  double? errorTextSize = 15;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class DateSelector extends StatelessWidget {
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,
-        errorStyle: kErrorFormFields,
+        errorStyle: kErrorFormFields.copyWith(fontSize: errorTextSize),
         border: InputBorder.none,
       ),
       onChanged: (value) {

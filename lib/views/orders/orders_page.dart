@@ -4,7 +4,7 @@ import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/user_orders.dart';
 import 'package:murpanara/views/orders/order_details_page.dart';
-import 'package:murpanara/widgets/top_heading.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/top_heading.dart';
 import 'package:provider/provider.dart';
 
 class OrdersPage extends StatefulWidget {
@@ -75,7 +75,10 @@ class _OrdersPageState extends State<OrdersPage> {
             children: [
               //Your Orders
               Center(
-                child: TopHeading(txt: 'Your Orders'),
+                child: TopHeading(
+                    margin: EdgeInsets.only(bottom: 20, top: 30),
+                    fontSize: _mediaQuery.size.height * 0.1,
+                    txt: 'Your Orders'),
               ),
 
               //Orders List

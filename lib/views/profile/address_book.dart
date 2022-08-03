@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/snackbars.dart';
-import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/billing_address.dart';
 import 'package:murpanara/models/delivery_address.dart';
@@ -9,10 +8,10 @@ import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/views/profile/billing_address_edit.dart';
 import 'package:murpanara/views/profile/delivery_address_edit.dart';
 import 'package:murpanara/widgets/address_text_widget.dart';
-import 'package:murpanara/widgets/edit_or_remove_widget.dart';
-import 'package:murpanara/widgets/headings_title.dart';
-import 'package:murpanara/widgets/small_info_text.dart';
-import 'package:murpanara/widgets/top_heading.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/edit_or_remove_widget.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/headings_title.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/small_info_text.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/top_heading.dart';
 import 'package:provider/provider.dart';
 
 class AddressBook extends StatefulWidget {
@@ -23,8 +22,6 @@ class AddressBook extends StatefulWidget {
 }
 
 class _AddressBookState extends State<AddressBook> {
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
@@ -43,11 +40,11 @@ class _AddressBookState extends State<AddressBook> {
             color: kColorBackIconForgotPassPage,
           ),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
 
         centerTitle: true,
-        title: Container(
+        title: SizedBox(
           // color: Colors.red,
           height: _mediaQuery.size.height * 0.06,
           width: _mediaQuery.size.width,
@@ -63,7 +60,7 @@ class _AddressBookState extends State<AddressBook> {
             onPressed: () {
               // Navigator.of(context).pushNamed('settingsPage');
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.settings_rounded,
               size: 0.1,
               color: Colors.black,
@@ -73,7 +70,7 @@ class _AddressBookState extends State<AddressBook> {
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Container(
           margin: EdgeInsets.only(
               left: _mediaQuery.size.width * 0.04,
@@ -83,16 +80,17 @@ class _AddressBookState extends State<AddressBook> {
             children: [
               //Address Book
               Center(
-                child: TopHeading(txt: 'Address Book'),
+                child: TopHeading(
+                    margin: EdgeInsets.symmetric(
+                        vertical: _mediaQuery.size.height * 0.033),
+                    fontSize: _mediaQuery.size.height * 0.028,
+                    txt: 'Address Book'),
               ),
 
               //Billing Address
               Container(
                 width: _mediaQuery.size.width,
-                padding: EdgeInsets.all(15),
-                margin: EdgeInsets.only(
-                  top: _mediaQuery.size.height * 0.02,
-                ),
+                padding: EdgeInsets.all(_mediaQuery.size.width * 0.03),
                 decoration: BoxDecoration(
                   borderRadius:
                       BorderRadius.circular(_mediaQuery.size.width * 0.04),
@@ -105,7 +103,11 @@ class _AddressBookState extends State<AddressBook> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        HeadingsTitle(titleText: 'Billing Address'),
+                        HeadingsTitle(
+                            margin: EdgeInsets.only(
+                                bottom: _mediaQuery.size.height * 0.03),
+                            fontSize: _mediaQuery.size.height * 0.02,
+                            titleText: 'Billing Address'),
                         InkWell(
                           onTap: () {
                             Navigator.of(context).push(
@@ -116,10 +118,11 @@ class _AddressBookState extends State<AddressBook> {
                             );
                           },
                           child: EditOrRemoveWidget(
+                            fontSize: _mediaQuery.size.height * 0.014,
                             label: 'Edit ',
                             icon: Icon(
                               Icons.edit,
-                              size: 14,
+                              size: _mediaQuery.size.height * 0.018,
                             ),
                           ),
                         ),
@@ -129,47 +132,52 @@ class _AddressBookState extends State<AddressBook> {
                             billingAddressData.addressLine2.isEmpty ||
                             billingAddressData.city.isEmpty ||
                             billingAddressData.pincode == 0)
-                        ? Container(
-                            child:
-                                SmallInfoText(txt: 'No Billing Address found'),
+                        ? SmallInfoText(
+                            margin: EdgeInsets.only(
+                                bottom: _mediaQuery.size.height * 0.01,
+                                top: _mediaQuery.size.height * 0.02),
+                            fontSize: _mediaQuery.size.height * 0.013,
+                            txt: 'No Billing Address found',
                           )
                         : Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Container(
-                                height: 100,
-                                width: 180,
+                              SizedBox(
+                                height: _mediaQuery.size.height * 0.15,
+                                width: _mediaQuery.size.width * 0.58,
                                 // color: Colors.purple,
                                 child: ListView(
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   children: [
                                     AddressTextWidget(
                                       txt: billingAddressData.addressLine1,
-                                      mediaQuery: _mediaQuery,
+                                      fontSize: _mediaQuery.size.height * 0.014,
                                     ),
                                     AddressTextWidget(
                                       txt: billingAddressData.addressLine2,
-                                      mediaQuery: _mediaQuery,
+                                      fontSize: _mediaQuery.size.height * 0.014,
                                     ),
                                     AddressTextWidget(
                                       txt:
                                           billingAddressData.pincode.toString(),
-                                      mediaQuery: _mediaQuery,
+                                      fontSize: _mediaQuery.size.height * 0.014,
                                     ),
                                     Row(
                                       children: [
                                         AddressTextWidget(
                                             txt: '${billingAddressData.city} ',
-                                            mediaQuery: _mediaQuery),
+                                            fontSize: _mediaQuery.size.height *
+                                                0.014),
                                         AddressTextWidget(
                                             txt: billingAddressData.state,
-                                            mediaQuery: _mediaQuery),
+                                            fontSize: _mediaQuery.size.height *
+                                                0.014),
                                       ],
                                     ),
                                     AddressTextWidget(
                                       txt: billingAddressData.country,
-                                      mediaQuery: _mediaQuery,
+                                      fontSize: _mediaQuery.size.height * 0.014,
                                     ),
                                   ],
                                 ),
@@ -177,6 +185,30 @@ class _AddressBookState extends State<AddressBook> {
                               InkWell(
                                 onTap: () async {
                                   UserMethods.customDialogBox(
+                                      borderRadius:
+                                          _mediaQuery.size.width * 0.06,
+                                      contentPadding:
+                                          _mediaQuery.size.width * 0.04,
+                                      contentContainerHeight:
+                                          _mediaQuery.size.height * 0.28,
+                                      headingTextTopMargin:
+                                          _mediaQuery.size.height * 0.02,
+                                      headingTextFontSize:
+                                          _mediaQuery.size.height * 0.025,
+                                      mprEyeContainerHeight:
+                                          _mediaQuery.size.width * 0.07,
+                                      mprEyeContainerWidth:
+                                          _mediaQuery.size.width * 0.07,
+                                      bigSizedBoxHeight:
+                                          _mediaQuery.size.height * 0.03,
+                                      smallSizedBoxHeight:
+                                          _mediaQuery.size.height * 0.03,
+                                      textButtonHorizontalPadding:
+                                          _mediaQuery.size.width * 0.05,
+                                      textButtonVerticalpadding:
+                                          _mediaQuery.size.height * 0.008,
+                                      textButtonBorderRadius:
+                                          _mediaQuery.size.width * 0.06,
                                       cancelText: 'No',
                                       confirmText: 'Yes',
                                       context: context,
@@ -193,10 +225,11 @@ class _AddressBookState extends State<AddressBook> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                                 billingAddressRemovedSnackbar);
-                                        print('Billing Address removed');
+                                        // print('Billing Address removed');
                                       });
                                 },
                                 child: EditOrRemoveWidget(
+                                  fontSize: _mediaQuery.size.height * 0.014,
                                   label: 'Remove Address',
                                 ),
                               ),
@@ -209,7 +242,7 @@ class _AddressBookState extends State<AddressBook> {
               //Delivery Address
               Container(
                 width: _mediaQuery.size.width,
-                padding: EdgeInsets.all(15),
+                padding: EdgeInsets.all(_mediaQuery.size.width * 0.03),
                 margin: EdgeInsets.only(top: _mediaQuery.size.height * 0.01),
                 decoration: BoxDecoration(
                   borderRadius:
@@ -223,7 +256,11 @@ class _AddressBookState extends State<AddressBook> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        HeadingsTitle(titleText: 'Delivery Address'),
+                        HeadingsTitle(
+                            margin: EdgeInsets.only(
+                                bottom: _mediaQuery.size.height * 0.03),
+                            fontSize: _mediaQuery.size.height * 0.02,
+                            titleText: 'Delivery Address'),
                         InkWell(
                           onTap: () {
                             Navigator.of(context).push(
@@ -234,10 +271,11 @@ class _AddressBookState extends State<AddressBook> {
                             );
                           },
                           child: EditOrRemoveWidget(
+                            fontSize: _mediaQuery.size.height * 0.014,
                             label: 'Edit ',
                             icon: Icon(
                               Icons.edit,
-                              size: 14,
+                              size: _mediaQuery.size.height * 0.018,
                             ),
                           ),
                         ),
@@ -247,74 +285,82 @@ class _AddressBookState extends State<AddressBook> {
                             deliveryAddressData.addressLine2.isEmpty ||
                             deliveryAddressData.city.isEmpty ||
                             deliveryAddressData.pincode == 0)
-                        ? Container(
-                            child:
-                                SmallInfoText(txt: 'No Delivery address found'),
+                        ? SmallInfoText(
+                            margin: EdgeInsets.only(
+                                bottom: _mediaQuery.size.height * 0.01,
+                                top: _mediaQuery.size.height * 0.02),
+                            fontSize: _mediaQuery.size.height * 0.013,
+                            txt: 'No Delivery Address found',
                           )
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                 // color: Colors.redAccent.withOpacity(0.4),
-                                height: 100,
-                                width: 180,
+                                height: _mediaQuery.size.height * 0.15,
+                                width: _mediaQuery.size.width * 0.58,
                                 child: ListView(
-                                  physics: NeverScrollableScrollPhysics(),
+                                  physics: const NeverScrollableScrollPhysics(),
                                   children: [
                                     Row(
                                       children: [
                                         AddressTextWidget(
                                           txt:
                                               '${deliveryAddressData.firstName} ',
-                                          mediaQuery: _mediaQuery,
+                                          fontSize:
+                                              _mediaQuery.size.height * 0.014,
                                         ),
                                         AddressTextWidget(
                                           txt: deliveryAddressData.lastName,
-                                          mediaQuery: _mediaQuery,
+                                          fontSize:
+                                              _mediaQuery.size.height * 0.014,
                                         )
                                       ],
                                     ),
                                     AddressTextWidget(
                                       txt: deliveryAddressData.addressLine1,
-                                      mediaQuery: _mediaQuery,
+                                      fontSize: _mediaQuery.size.height * 0.014,
                                     ),
                                     AddressTextWidget(
                                       txt: deliveryAddressData.addressLine2,
-                                      mediaQuery: _mediaQuery,
+                                      fontSize: _mediaQuery.size.height * 0.014,
                                     ),
                                     AddressTextWidget(
                                       txt: deliveryAddressData.pincode
                                           .toString(),
-                                      mediaQuery: _mediaQuery,
+                                      fontSize: _mediaQuery.size.height * 0.014,
                                     ),
                                     Row(
                                       children: [
                                         AddressTextWidget(
                                             txt: '${deliveryAddressData.city} ',
-                                            mediaQuery: _mediaQuery),
+                                            fontSize: _mediaQuery.size.height *
+                                                0.014),
                                         AddressTextWidget(
                                             txt: deliveryAddressData.state,
-                                            mediaQuery: _mediaQuery),
+                                            fontSize: _mediaQuery.size.height *
+                                                0.014),
                                       ],
                                     ),
                                     AddressTextWidget(
                                       txt: deliveryAddressData.country,
-                                      mediaQuery: _mediaQuery,
+                                      fontSize: _mediaQuery.size.height * 0.014,
                                     ),
                                     Row(
                                       children: [
                                         Icon(
                                           Icons.phone_android_outlined,
-                                          size: 10,
+                                          size: _mediaQuery.size.height * 0.014,
                                         ),
                                         SizedBox(
-                                          width: 2,
+                                          width: _mediaQuery.size.width * 0.006,
                                         ),
                                         AddressTextWidget(
                                           txt:
                                               '+91 ${deliveryAddressData.phone.toString()}',
-                                          mediaQuery: _mediaQuery,
+                                          fontSize:
+                                              _mediaQuery.size.height * 0.014,
                                         ),
                                       ],
                                     ),
@@ -324,6 +370,30 @@ class _AddressBookState extends State<AddressBook> {
                               InkWell(
                                 onTap: () async {
                                   UserMethods.customDialogBox(
+                                      borderRadius:
+                                          _mediaQuery.size.width * 0.06,
+                                      contentPadding:
+                                          _mediaQuery.size.width * 0.04,
+                                      contentContainerHeight:
+                                          _mediaQuery.size.height * 0.28,
+                                      headingTextTopMargin:
+                                          _mediaQuery.size.height * 0.02,
+                                      headingTextFontSize:
+                                          _mediaQuery.size.height * 0.025,
+                                      mprEyeContainerHeight:
+                                          _mediaQuery.size.width * 0.07,
+                                      mprEyeContainerWidth:
+                                          _mediaQuery.size.width * 0.07,
+                                      bigSizedBoxHeight:
+                                          _mediaQuery.size.height * 0.03,
+                                      smallSizedBoxHeight:
+                                          _mediaQuery.size.height * 0.03,
+                                      textButtonHorizontalPadding:
+                                          _mediaQuery.size.width * 0.05,
+                                      textButtonVerticalpadding:
+                                          _mediaQuery.size.height * 0.008,
+                                      textButtonBorderRadius:
+                                          _mediaQuery.size.width * 0.06,
                                       cancelText: 'No',
                                       confirmText: 'Yes',
                                       context: context,
@@ -339,10 +409,11 @@ class _AddressBookState extends State<AddressBook> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                                 deliveryAddressRemovedSnackbar);
-                                        print('Delivery Address removed');
+                                        // print('Delivery Address removed');
                                       });
                                 },
                                 child: EditOrRemoveWidget(
+                                  fontSize: _mediaQuery.size.height * 0.014,
                                   label: 'Remove Address',
                                 ),
                               ),

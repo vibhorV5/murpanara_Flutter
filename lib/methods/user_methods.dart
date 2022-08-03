@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/styles.dart';
 
@@ -51,43 +50,57 @@ class UserMethods {
     required String confirmText,
     required String cancelText,
     required void Function()? confirmFunction,
+    double borderRadius = 15,
+    double contentPadding = 15,
+    double contentContainerHeight = 180,
+    double headingTextTopMargin = 10,
+    double headingTextFontSize = 20,
+    double mprEyeContainerHeight = 30,
+    double mprEyeContainerWidth = 30,
+    double bigSizedBoxHeight = 30,
+    double smallSizedBoxHeight = 10,
+    double textButtonHorizontalPadding = 20,
+    double textButtonVerticalpadding = 10,
+    double textButtonBorderRadius = 30,
   }) {
     AlertDialog alertDialog = AlertDialog(
       backgroundColor: Colors.grey.shade100,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
-      contentPadding: EdgeInsets.all(10),
+      contentPadding: EdgeInsets.all(contentPadding),
       content: Container(
         alignment: Alignment.topCenter,
         // color: Colors.pink,
-        height: mediaQuery.size.height * 0.23,
+        height: contentContainerHeight,
         width: mediaQuery.size.width,
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top: 10),
+              margin: EdgeInsets.only(top: headingTextTopMargin),
               child: Text(
                 headingText,
-                style: kBold.copyWith(fontSize: 20),
+                style: kBold.copyWith(fontSize: headingTextFontSize),
               ),
             ),
-            Container(
-              height: 30,
-              width: 30,
+            SizedBox(
+              height: mprEyeContainerHeight,
+              width: mprEyeContainerWidth,
               child: Image.asset(
                 'assets/images/mpr_eye.png',
               ),
             ),
             SizedBox(
-              height: 30,
+              height: bigSizedBoxHeight,
             ),
-            Text(
-              subText,
-              style: kSemibold,
+            Center(
+              child: Text(
+                subText,
+                style: kSemibold,
+              ),
             ),
             SizedBox(
-              height: 10,
+              height: smallSizedBoxHeight,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -97,10 +110,13 @@ class UserMethods {
                     Navigator.of(context).pop();
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: textButtonHorizontalPadding,
+                        vertical: textButtonVerticalpadding),
                     decoration: BoxDecoration(
                       color: Colors.black87,
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius:
+                          BorderRadius.circular(textButtonBorderRadius),
                     ),
                     child: Text(
                       cancelText,
@@ -111,10 +127,14 @@ class UserMethods {
                 TextButton(
                   onPressed: confirmFunction,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: textButtonHorizontalPadding,
+                      vertical: textButtonVerticalpadding,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.black87,
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius:
+                          BorderRadius.circular(textButtonBorderRadius),
                     ),
                     child: Text(
                       confirmText,

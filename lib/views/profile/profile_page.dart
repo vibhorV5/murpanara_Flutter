@@ -7,9 +7,10 @@ import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/models/personal_details.dart';
 import 'package:murpanara/views/profile/address_book.dart';
 import 'package:murpanara/views/profile/personal_details_edit.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/headings_title.dart';
 import 'package:murpanara/widgets/address_text_widget.dart';
-import 'package:murpanara/widgets/edit_or_remove_widget.dart';
-import 'package:murpanara/widgets/personal_info_field.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/edit_or_remove_widget.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/personal_info_field.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -41,11 +42,11 @@ class _ProfilePageState extends State<ProfilePage> {
             color: kColorBackIconForgotPassPage,
           ),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
 
         centerTitle: true,
-        title: Container(
+        title: SizedBox(
           // color: Colors.red,
           height: _mediaQuery.size.height * 0.06,
           width: _mediaQuery.size.width,
@@ -61,7 +62,7 @@ class _ProfilePageState extends State<ProfilePage> {
             onPressed: () {
               // Navigator.of(context).pushNamed('settingsPage');
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.settings_rounded,
               size: 0.1,
               color: Colors.black,
@@ -71,15 +72,16 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Container(
-          margin: EdgeInsets.only(
-              top: _mediaQuery.size.height * 0.04,
-              left: _mediaQuery.size.width * 0.04,
-              right: _mediaQuery.size.width * 0.04),
+          margin: EdgeInsets.symmetric(
+            vertical: _mediaQuery.size.height * 0.04,
+            horizontal: _mediaQuery.size.width * 0.04,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //Hi, Member
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -88,6 +90,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       kBold.copyWith(fontSize: _mediaQuery.size.height * 0.05),
                 ),
               ),
+
               Container(
                 margin: EdgeInsets.only(top: _mediaQuery.size.height * 0.04),
                 decoration: BoxDecoration(
@@ -98,7 +101,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 // height: _mediaQuery.size.height * 0.56,
                 width: _mediaQuery.size.width,
                 child: Container(
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsets.all(_mediaQuery.size.width * 0.04),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -107,6 +110,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           HeadingsTitle(
+                            fontSize: _mediaQuery.size.height * 0.024,
+                            margin: EdgeInsets.only(
+                                bottom: _mediaQuery.size.height * 0.03),
                             titleText: 'Personal details',
                           ),
 
@@ -121,44 +127,87 @@ class _ProfilePageState extends State<ProfilePage> {
                               );
                             },
                             child: EditOrRemoveWidget(
+                              fontSize: _mediaQuery.size.height * 0.016,
                               label: 'Edit ',
                               icon: Icon(
                                 Icons.edit,
-                                size: 14,
+                                size: _mediaQuery.size.height * 0.02,
                               ),
                             ),
                           ),
                         ],
                       ),
                       PersonalInfoField(
-                        titleField: 'First name',
-                        userTitleField: personalDetailsData.firstName,
+                        headingTextSize: _mediaQuery.size.height * 0.016,
+                        userInfoTextSize: _mediaQuery.size.height * 0.015,
+                        sizedBoxHeight: _mediaQuery.size.height * 0.0001,
+                        headingText: 'First name',
+                        userInfoText: personalDetailsData.firstName,
+                      ),
+                      SizedBox(
+                        height: _mediaQuery.size.height * 0.01,
                       ),
                       PersonalInfoField(
-                        titleField: 'Last name',
-                        userTitleField: personalDetailsData.lastName,
+                        headingTextSize: _mediaQuery.size.height * 0.016,
+                        userInfoTextSize: _mediaQuery.size.height * 0.015,
+                        sizedBoxHeight: _mediaQuery.size.height * 0.0001,
+                        headingText: 'Last name',
+                        userInfoText: personalDetailsData.lastName,
+                      ),
+                      SizedBox(
+                        height: _mediaQuery.size.height * 0.01,
                       ),
                       PersonalInfoField(
-                        titleField: 'Date of birth',
-                        userTitleField: personalDetailsData.dob,
+                        headingTextSize: _mediaQuery.size.height * 0.016,
+                        userInfoTextSize: _mediaQuery.size.height * 0.015,
+                        sizedBoxHeight: _mediaQuery.size.height * 0.0001,
+                        headingText: 'Date of birth',
+                        userInfoText: personalDetailsData.dob,
+                      ),
+                      SizedBox(
+                        height: _mediaQuery.size.height * 0.01,
                       ),
                       PersonalInfoField(
-                        titleField: 'Phone number',
-                        userTitleField: UserMethods.checkNumField(
+                        headingTextSize: _mediaQuery.size.height * 0.016,
+                        userInfoTextSize: _mediaQuery.size.height * 0.015,
+                        sizedBoxHeight: _mediaQuery.size.height * 0.0001,
+                        headingText: 'Phone number',
+                        userInfoText: UserMethods.checkNumField(
                             personalDetailsData.phoneNumber!),
                       ),
-                      PersonalInfoField(
-                        titleField: 'Gender',
-                        userTitleField: personalDetailsData.gender,
+                      SizedBox(
+                        height: _mediaQuery.size.height * 0.01,
                       ),
                       PersonalInfoField(
-                        titleField: 'Postal Code',
-                        userTitleField: UserMethods.checkNumField(
+                        headingTextSize: _mediaQuery.size.height * 0.016,
+                        userInfoTextSize: _mediaQuery.size.height * 0.015,
+                        sizedBoxHeight: _mediaQuery.size.height * 0.0001,
+                        headingText: 'Gender',
+                        userInfoText: personalDetailsData.gender,
+                      ),
+                      SizedBox(
+                        height: _mediaQuery.size.height * 0.01,
+                      ),
+                      PersonalInfoField(
+                        headingTextSize: _mediaQuery.size.height * 0.016,
+                        userInfoTextSize: _mediaQuery.size.height * 0.015,
+                        sizedBoxHeight: _mediaQuery.size.height * 0.0001,
+                        headingText: 'Postal Code',
+                        userInfoText: UserMethods.checkNumField(
                             deliveryAddressData.pincode!),
                       ),
+                      SizedBox(
+                        height: _mediaQuery.size.height * 0.01,
+                      ),
                       PersonalInfoField(
-                        titleField: 'Country',
-                        userTitleField: 'India',
+                        headingTextSize: _mediaQuery.size.height * 0.016,
+                        userInfoTextSize: _mediaQuery.size.height * 0.015,
+                        sizedBoxHeight: _mediaQuery.size.height * 0.0001,
+                        headingText: 'Country',
+                        userInfoText: 'India',
+                      ),
+                      SizedBox(
+                        height: _mediaQuery.size.height * 0.01,
                       ),
                     ],
                   ),
@@ -176,7 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 // height: _mediaQuery.size.height * 0.4,
                 width: _mediaQuery.size.width,
                 child: Container(
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsets.all(_mediaQuery.size.width * 0.04),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -185,6 +234,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           HeadingsTitle(
+                            fontSize: _mediaQuery.size.height * 0.024,
+                            margin: EdgeInsets.only(
+                                bottom: _mediaQuery.size.height * 0.03),
                             titleText: 'My Addresses',
                           ),
                           InkWell(
@@ -196,10 +248,11 @@ class _ProfilePageState extends State<ProfilePage> {
                               );
                             },
                             child: EditOrRemoveWidget(
+                              fontSize: _mediaQuery.size.height * 0.016,
                               label: 'Edit ',
                               icon: Icon(
                                 Icons.edit,
-                                size: 14,
+                                size: _mediaQuery.size.height * 0.02,
                               ),
                             ),
                           ),
@@ -209,11 +262,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(bottom: 16),
+                            margin: EdgeInsets.only(
+                                bottom: _mediaQuery.size.height * 0.01),
                             child: Text(
                               'Billing address',
-                              style: kSemibold.copyWith(
-                                  fontSize: 13, color: Colors.black45),
+                              style: kSemibold
+                                  .copyWith(
+                                      fontSize: _mediaQuery.size.height * 0.016)
+                                  .copyWith(
+                                    color: Colors.black45,
+                                  ),
                             ),
                           ),
                           (billingAddressData.addressLine1.isEmpty ||
@@ -221,39 +279,48 @@ class _ProfilePageState extends State<ProfilePage> {
                                   billingAddressData.city.isEmpty ||
                                   billingAddressData.pincode == 0)
                               ? Container()
-                              : Container(
-                                  height: 100,
+                              : SizedBox(
+                                  height: _mediaQuery.size.height * 0.11,
                                   // color: Colors.purple,
                                   child: ListView(
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     children: [
                                       AddressTextWidget(
                                         txt: billingAddressData.addressLine1,
-                                        mediaQuery: _mediaQuery,
+                                        fontSize:
+                                            _mediaQuery.size.height * 0.014,
                                       ),
                                       AddressTextWidget(
                                         txt: billingAddressData.addressLine2,
-                                        mediaQuery: _mediaQuery,
+                                        fontSize:
+                                            _mediaQuery.size.height * 0.014,
                                       ),
                                       AddressTextWidget(
                                         txt: billingAddressData.pincode
                                             .toString(),
-                                        mediaQuery: _mediaQuery,
+                                        fontSize:
+                                            _mediaQuery.size.height * 0.014,
                                       ),
                                       Row(
                                         children: [
                                           AddressTextWidget(
                                               txt:
                                                   '${billingAddressData.city}, ',
-                                              mediaQuery: _mediaQuery),
+                                              fontSize:
+                                                  _mediaQuery.size.height *
+                                                      0.014),
                                           AddressTextWidget(
                                               txt: billingAddressData.state,
-                                              mediaQuery: _mediaQuery),
+                                              fontSize:
+                                                  _mediaQuery.size.height *
+                                                      0.014),
                                         ],
                                       ),
                                       AddressTextWidget(
                                         txt: billingAddressData.country,
-                                        mediaQuery: _mediaQuery,
+                                        fontSize:
+                                            _mediaQuery.size.height * 0.014,
                                       ),
                                     ],
                                   ),
@@ -261,11 +328,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                       Container(
-                        margin: EdgeInsets.only(bottom: 16),
+                        margin: EdgeInsets.only(
+                            bottom: _mediaQuery.size.height * 0.01),
                         child: Text(
                           'Delivery address',
-                          style: kSemibold.copyWith(
-                              fontSize: 13, color: Colors.black45),
+                          style: kSemibold
+                              .copyWith(
+                                  fontSize: _mediaQuery.size.height * 0.016)
+                              .copyWith(
+                                color: Colors.black45,
+                              ),
                         ),
                       ),
                       (deliveryAddressData.addressLine1.isEmpty ||
@@ -273,63 +345,68 @@ class _ProfilePageState extends State<ProfilePage> {
                               deliveryAddressData.city.isEmpty ||
                               deliveryAddressData.pincode == 0)
                           ? Container()
-                          : Container(
-                              height: 100,
+                          : SizedBox(
+                              height: _mediaQuery.size.height * 0.13,
                               child: ListView(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 children: [
                                   Row(
                                     children: [
                                       AddressTextWidget(
                                         txt:
                                             '${deliveryAddressData.firstName} ',
-                                        mediaQuery: _mediaQuery,
+                                        fontSize:
+                                            _mediaQuery.size.height * 0.014,
                                       ),
                                       AddressTextWidget(
                                         txt: deliveryAddressData.lastName,
-                                        mediaQuery: _mediaQuery,
+                                        fontSize:
+                                            _mediaQuery.size.height * 0.014,
                                       )
                                     ],
                                   ),
                                   AddressTextWidget(
                                     txt: deliveryAddressData.addressLine1,
-                                    mediaQuery: _mediaQuery,
+                                    fontSize: _mediaQuery.size.height * 0.014,
                                   ),
                                   AddressTextWidget(
                                     txt: deliveryAddressData.addressLine2,
-                                    mediaQuery: _mediaQuery,
+                                    fontSize: _mediaQuery.size.height * 0.014,
                                   ),
                                   AddressTextWidget(
                                     txt: deliveryAddressData.pincode.toString(),
-                                    mediaQuery: _mediaQuery,
+                                    fontSize: _mediaQuery.size.height * 0.014,
                                   ),
                                   Row(
                                     children: [
                                       AddressTextWidget(
                                           txt: '${deliveryAddressData.city}, ',
-                                          mediaQuery: _mediaQuery),
+                                          fontSize:
+                                              _mediaQuery.size.height * 0.014),
                                       AddressTextWidget(
                                           txt: deliveryAddressData.state,
-                                          mediaQuery: _mediaQuery),
+                                          fontSize:
+                                              _mediaQuery.size.height * 0.014),
                                     ],
                                   ),
                                   AddressTextWidget(
                                     txt: deliveryAddressData.country,
-                                    mediaQuery: _mediaQuery,
+                                    fontSize: _mediaQuery.size.height * 0.014,
                                   ),
                                   Row(
                                     children: [
                                       Icon(
                                         Icons.phone_android_outlined,
-                                        size: 10,
+                                        size: _mediaQuery.size.height * 0.015,
                                       ),
                                       SizedBox(
-                                        width: 2,
+                                        width: _mediaQuery.size.width * 0.01,
                                       ),
                                       AddressTextWidget(
                                         txt:
                                             '+91 ${deliveryAddressData.phone.toString()}',
-                                        mediaQuery: _mediaQuery,
+                                        fontSize:
+                                            _mediaQuery.size.height * 0.014,
                                       ),
                                     ],
                                   ),
@@ -343,23 +420,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class HeadingsTitle extends StatelessWidget {
-  const HeadingsTitle({Key? key, required this.titleText}) : super(key: key);
-
-  final String titleText;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 30),
-      child: Text(
-        titleText,
-        style: kSemibold.copyWith(fontSize: 18),
       ),
     );
   }
