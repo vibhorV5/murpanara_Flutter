@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/models/user_orders.dart';
+import 'package:murpanara/widgets/AboutUsRefundPageWidgets/bold_text.dart';
+import 'package:murpanara/widgets/AboutUsRefundPageWidgets/semibold_text.dart';
 import 'package:murpanara/widgets/address_text_widget.dart';
 import 'package:murpanara/widgets/ProfilePageWidgets/top_heading.dart';
 import 'package:provider/provider.dart';
@@ -33,12 +33,11 @@ class OrderDetailsPage extends StatelessWidget {
             color: kColorBackIconForgotPassPage,
           ),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
 
         centerTitle: true,
-        title: Container(
-          // color: Colors.red,
+        title: SizedBox(
           height: _mediaQuery.size.height * 0.06,
           width: _mediaQuery.size.width,
           child: Image.asset('assets/images/mpr_main.png'),
@@ -53,7 +52,7 @@ class OrderDetailsPage extends StatelessWidget {
             onPressed: () {
               // Navigator.of(context).pushNamed('settingsPage');
             },
-            icon: Icon(
+            icon: const Icon(
               Icons.settings_rounded,
               size: 0.1,
               color: Colors.black,
@@ -63,28 +62,27 @@ class OrderDetailsPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Container(
-          margin: EdgeInsets.only(
-              left: _mediaQuery.size.width * 0.04,
-              right: _mediaQuery.size.width * 0.04),
+          margin: EdgeInsets.symmetric(
+            horizontal: _mediaQuery.size.width * 0.04,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //Order Details
               Center(
                 child: TopHeading(
-                    margin: EdgeInsets.only(bottom: 20, top: 30),
-                    fontSize: _mediaQuery.size.height * 0.1,
+                    margin: EdgeInsets.symmetric(
+                      vertical: _mediaQuery.size.height * 0.033,
+                    ),
+                    fontSize: _mediaQuery.size.height * 0.028,
                     txt: 'Order Details'),
               ),
               Container(
-                height: 650,
+                height: _mediaQuery.size.height * 0.78,
                 width: _mediaQuery.size.width,
-                padding: EdgeInsets.all(15),
-                margin: EdgeInsets.only(
-                  top: _mediaQuery.size.height * 0.02,
-                ),
+                padding: EdgeInsets.all(_mediaQuery.size.width * 0.03),
                 decoration: BoxDecoration(
                   borderRadius:
                       BorderRadius.circular(_mediaQuery.size.width * 0.04),
@@ -93,137 +91,161 @@ class OrderDetailsPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Order Id: ${orderDetails.orderId}',
-                      style: kSemibold.copyWith(fontSize: 13),
+                    BoldText(
+                      txt: 'Order Information',
+                      fontSize: _mediaQuery.size.height * 0.02,
                     ),
-                    Text(
-                      'Order Time: ${orderDetails.orderTime}',
-                      style: kSemibold.copyWith(fontSize: 13),
+                    SizedBox(
+                      height: _mediaQuery.size.height * 0.006,
                     ),
-                    Text(
-                      'Mode of Payment: ${UserMethods.getModeOfPayment(orderDetails.modeOfPayment)}',
-                      style: kSemibold.copyWith(fontSize: 13),
+                    SemiBoldText(
+                      txt: 'Order Id: ${orderDetails.orderId}',
+                      fontSize: _mediaQuery.size.height * 0.0135,
+                    ),
+                    SemiBoldText(
+                      txt: 'Order Time: ${orderDetails.orderTime}',
+                      fontSize: _mediaQuery.size.height * 0.0135,
+                    ),
+                    SemiBoldText(
+                      txt:
+                          'Mode of Payment: ${UserMethods.getModeOfPayment(orderDetails.modeOfPayment)}',
+                      fontSize: _mediaQuery.size.height * 0.0135,
                     ),
                     Row(
                       children: [
-                        Text(
-                          'Order Status: ',
-                          style: kSemibold.copyWith(fontSize: 13),
+                        SemiBoldText(
+                          txt: 'Order Status: ',
+                          fontSize: _mediaQuery.size.height * 0.0135,
                         ),
                         Text(
                           orderDetails.orderStatus,
                           style: kSemibold.copyWith(
-                              fontSize: 13,
-                              color: UserMethods.getColorBasedOnOrderStatus(
-                                  orderDetails.orderStatus)),
+                            fontSize: _mediaQuery.size.height * 0.014,
+                            color: UserMethods.getColorBasedOnOrderStatus(
+                                orderDetails.orderStatus),
+                          ),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: 15,
+                      height: _mediaQuery.size.height * 0.03,
                     ),
-                    Text(
-                      'Delivery Address:',
-                      style: kBold.copyWith(fontSize: 12),
+                    BoldText(
+                      txt: 'Delivery Address',
+                      fontSize: _mediaQuery.size.height * 0.02,
                     ),
-                    Container(
-                      height: 100,
+                    SizedBox(
+                      height: _mediaQuery.size.height * 0.006,
+                    ),
+                    SizedBox(
+                      height: _mediaQuery.size.height * 0.15,
                       child: ListView(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         children: [
                           Row(
                             children: [
                               AddressTextWidget(
                                 txt: '${deliveryAddressData.firstName} ',
-                                fontSize: _mediaQuery.size.height * 0.014,
+                                fontSize: _mediaQuery.size.height * 0.0135,
                               ),
                               AddressTextWidget(
                                 txt: deliveryAddressData.lastName,
-                                fontSize: _mediaQuery.size.height * 0.014,
+                                fontSize: _mediaQuery.size.height * 0.0135,
                               )
                             ],
                           ),
                           AddressTextWidget(
                             txt: deliveryAddressData.addressLine1,
-                            fontSize: _mediaQuery.size.height * 0.014,
+                            fontSize: _mediaQuery.size.height * 0.0135,
                           ),
                           AddressTextWidget(
                             txt: deliveryAddressData.addressLine2,
-                            fontSize: _mediaQuery.size.height * 0.014,
+                            fontSize: _mediaQuery.size.height * 0.0135,
                           ),
                           AddressTextWidget(
                             txt: deliveryAddressData.pincode.toString(),
-                            fontSize: _mediaQuery.size.height * 0.014,
+                            fontSize: _mediaQuery.size.height * 0.0135,
                           ),
                           Row(
                             children: [
                               AddressTextWidget(
-                                  txt: '${deliveryAddressData.city}, ',
-                                  fontSize: _mediaQuery.size.height * 0.014),
+                                txt: '${deliveryAddressData.city}, ',
+                                fontSize: _mediaQuery.size.height * 0.0135,
+                              ),
                               AddressTextWidget(
-                                  txt: deliveryAddressData.state,
-                                  fontSize: _mediaQuery.size.height * 0.014),
+                                txt: deliveryAddressData.state,
+                                fontSize: _mediaQuery.size.height * 0.0135,
+                              ),
                             ],
                           ),
                           AddressTextWidget(
                             txt: deliveryAddressData.country,
-                            fontSize: _mediaQuery.size.height * 0.014,
+                            fontSize: _mediaQuery.size.height * 0.0135,
                           ),
                           Row(
                             children: [
                               Icon(
                                 Icons.phone_android_outlined,
-                                size: 10,
+                                size: _mediaQuery.size.height * 0.014,
                               ),
                               SizedBox(
-                                width: 2,
+                                width: _mediaQuery.size.width * 0.006,
                               ),
                               AddressTextWidget(
                                 txt:
                                     '+91 ${deliveryAddressData.phone.toString()}',
-                                fontSize: _mediaQuery.size.height * 0.014,
+                                fontSize: _mediaQuery.size.height * 0.0135,
                               ),
                             ],
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Text(
-                      'Products Ordered:',
-                      style: kBold.copyWith(fontSize: 18),
+                    BoldText(
+                      txt: 'Products Ordered',
+                      fontSize: _mediaQuery.size.height * 0.02,
                     ),
                     SizedBox(
-                      height: 10,
+                      height: _mediaQuery.size.height * 0.006,
                     ),
-                    Container(
+                    SizedBox(
                       // color: Colors.red.withOpacity(0.1),
-                      height: 300,
+                      height: _mediaQuery.size.height * 0.35,
+                      width: _mediaQuery.size.width,
                       child: ListView.separated(
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           scrollDirection: Axis.vertical,
                           itemBuilder: (context, index) => Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(
+                                      _mediaQuery.size.width * 0.04),
+                                ),
+                                height: _mediaQuery.size.height * 0.17,
+                                width: _mediaQuery.size.width,
                                 child: Row(
                                   children: [
+                                    //Image
                                     Container(
-                                      width: 120,
-                                      height: 130,
+                                      width: _mediaQuery.size.width * 0.24,
+                                      height: _mediaQuery.size.height * 0.3,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(
                                             _mediaQuery.size.width * 0.04),
                                         color: kColorProductTitleBg,
                                       ),
-                                      // padding: EdgeInsets.all(10),
-                                      margin: EdgeInsets.all(12),
-                                      child: Image.network(orderDetails
-                                          .orderedProducts[index].imagefront),
+                                      margin: EdgeInsets.all(
+                                        _mediaQuery.size.height * 0.013,
+                                      ),
+                                      child: Image.network(
+                                        orderDetails
+                                            .orderedProducts[index].imagefront,
+                                      ),
                                     ),
-                                    Container(
-                                      width: 200,
-                                      height: 110,
+
+                                    SizedBox(
+                                      width: _mediaQuery.size.width * 0.53,
+                                      height: _mediaQuery.size.height * 0.14,
                                       // color: Colors.purple.withOpacity(0.2),
                                       child: Column(
                                         crossAxisAlignment:
@@ -231,66 +253,74 @@ class OrderDetailsPage extends StatelessWidget {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceEvenly,
                                         children: [
-                                          Text(
-                                            orderDetails
+                                          SemiBoldText(
+                                            txt: orderDetails
                                                 .orderedProducts[index].name,
-                                            style: kSemibold.copyWith(
-                                                fontSize: 11),
+                                            fontSize: _mediaQuery.size.height *
+                                                0.0135,
                                           ),
-                                          Text(
-                                            'Size: ${orderDetails.orderedProducts[index].size}',
-                                            style: kSemibold.copyWith(
-                                                fontSize: 11),
+                                          SemiBoldText(
+                                            txt:
+                                                'Size: ${orderDetails.orderedProducts[index].size}',
+                                            fontSize: _mediaQuery.size.height *
+                                                0.0135,
                                           ),
-                                          Text(
-                                            'Quantity: ${orderDetails.orderedProducts[index].quantity}',
-                                            style: kSemibold.copyWith(
-                                                fontSize: 11),
+                                          SemiBoldText(
+                                            txt:
+                                                'Quantity: ${orderDetails.orderedProducts[index].quantity}',
+                                            fontSize: _mediaQuery.size.height *
+                                                0.0135,
                                           ),
-                                          Text(
-                                            'Price: ₹${orderDetails.orderedProducts[index].price}.00',
-                                            style: kSemibold.copyWith(
-                                                fontSize: 11),
+                                          SemiBoldText(
+                                            txt:
+                                                'Price: ₹${orderDetails.orderedProducts[index].price}.00',
+                                            fontSize: _mediaQuery.size.height *
+                                                0.0135,
                                           ),
-                                          Text(
-                                            'Composition: ${orderDetails.orderedProducts[index].composition}',
-                                            style: kSemibold.copyWith(
-                                                fontSize: 11),
+                                          SemiBoldText(
+                                            txt:
+                                                'Composition: ${orderDetails.orderedProducts[index].composition}',
+                                            fontSize: _mediaQuery.size.height *
+                                                0.0135,
                                           ),
-                                          Text(
-                                            'Fit: ${orderDetails.orderedProducts[index].fit}',
-                                            style: kSemibold.copyWith(
-                                                fontSize: 11),
+                                          SemiBoldText(
+                                            txt:
+                                                'Fit: ${orderDetails.orderedProducts[index].fit}',
+                                            fontSize: _mediaQuery.size.height *
+                                                0.0135,
                                           ),
-                                          Text(
-                                            'Product Id: ${orderDetails.orderedProducts[index].productId}',
-                                            style: kSemibold.copyWith(
-                                                fontSize: 11),
+                                          SemiBoldText(
+                                            txt:
+                                                'Product Id: ${orderDetails.orderedProducts[index].productId}',
+                                            fontSize: _mediaQuery.size.height *
+                                                0.0135,
                                           ),
                                         ],
                                       ),
                                     ),
                                   ],
                                 ),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                height: 150,
-                                width: _mediaQuery.size.width,
                               ),
                           separatorBuilder: (context, index) => SizedBox(
-                                height: 10,
+                                height: _mediaQuery.size.height * 0.01,
                               ),
                           itemCount: orderDetails.orderedProducts.length),
                     ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      margin: EdgeInsets.only(top: 30),
-                      child: Text(
-                        'Total: ₹${orderDetails.amountPaid}.00',
-                        style: kSemibold.copyWith(fontSize: 20),
-                      ),
+                    SizedBox(
+                      height: _mediaQuery.size.height * 0.017,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SemiBoldText(
+                          txt: 'Total',
+                          fontSize: _mediaQuery.size.height * 0.026,
+                        ),
+                        SemiBoldText(
+                          txt: '₹${orderDetails.amountPaid}.00',
+                          fontSize: _mediaQuery.size.height * 0.026,
+                        ),
+                      ],
                     ),
                   ],
                 ),

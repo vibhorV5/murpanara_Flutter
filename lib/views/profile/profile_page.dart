@@ -98,119 +98,117 @@ class _ProfilePageState extends State<ProfilePage> {
                       BorderRadius.circular(_mediaQuery.size.width * 0.04),
                   color: Colors.grey.shade200,
                 ),
+                padding: EdgeInsets.all(_mediaQuery.size.width * 0.04),
                 // height: _mediaQuery.size.height * 0.56,
                 width: _mediaQuery.size.width,
-                child: Container(
-                  padding: EdgeInsets.all(_mediaQuery.size.width * 0.04),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          HeadingsTitle(
-                            fontSize: _mediaQuery.size.height * 0.024,
-                            margin: EdgeInsets.only(
-                                bottom: _mediaQuery.size.height * 0.03),
-                            titleText: 'Personal details',
-                          ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        HeadingsTitle(
+                          fontSize: _mediaQuery.size.height * 0.024,
+                          margin: EdgeInsets.only(
+                              bottom: _mediaQuery.size.height * 0.03),
+                          titleText: 'Personal details',
+                        ),
 
-                          //Edit Personal details
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const PersonalDetailsEdit(),
-                                ),
-                              );
-                            },
-                            child: EditOrRemoveWidget(
-                              fontSize: _mediaQuery.size.height * 0.016,
-                              label: 'Edit ',
-                              icon: Icon(
-                                Icons.edit,
-                                size: _mediaQuery.size.height * 0.02,
+                        //Edit Personal details
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const PersonalDetailsEdit(),
                               ),
+                            );
+                          },
+                          child: EditOrRemoveWidget(
+                            fontSize: _mediaQuery.size.height * 0.016,
+                            label: 'Edit ',
+                            icon: Icon(
+                              Icons.edit,
+                              size: _mediaQuery.size.height * 0.02,
                             ),
                           ),
-                        ],
-                      ),
-                      PersonalInfoField(
-                        headingTextSize: _mediaQuery.size.height * 0.016,
-                        userInfoTextSize: _mediaQuery.size.height * 0.015,
-                        sizedBoxHeight: _mediaQuery.size.height * 0.0001,
-                        headingText: 'First name',
-                        userInfoText: personalDetailsData.firstName,
-                      ),
-                      SizedBox(
-                        height: _mediaQuery.size.height * 0.01,
-                      ),
-                      PersonalInfoField(
-                        headingTextSize: _mediaQuery.size.height * 0.016,
-                        userInfoTextSize: _mediaQuery.size.height * 0.015,
-                        sizedBoxHeight: _mediaQuery.size.height * 0.0001,
-                        headingText: 'Last name',
-                        userInfoText: personalDetailsData.lastName,
-                      ),
-                      SizedBox(
-                        height: _mediaQuery.size.height * 0.01,
-                      ),
-                      PersonalInfoField(
-                        headingTextSize: _mediaQuery.size.height * 0.016,
-                        userInfoTextSize: _mediaQuery.size.height * 0.015,
-                        sizedBoxHeight: _mediaQuery.size.height * 0.0001,
-                        headingText: 'Date of birth',
-                        userInfoText: personalDetailsData.dob,
-                      ),
-                      SizedBox(
-                        height: _mediaQuery.size.height * 0.01,
-                      ),
-                      PersonalInfoField(
-                        headingTextSize: _mediaQuery.size.height * 0.016,
-                        userInfoTextSize: _mediaQuery.size.height * 0.015,
-                        sizedBoxHeight: _mediaQuery.size.height * 0.0001,
-                        headingText: 'Phone number',
-                        userInfoText: UserMethods.checkNumField(
-                            personalDetailsData.phoneNumber!),
-                      ),
-                      SizedBox(
-                        height: _mediaQuery.size.height * 0.01,
-                      ),
-                      PersonalInfoField(
-                        headingTextSize: _mediaQuery.size.height * 0.016,
-                        userInfoTextSize: _mediaQuery.size.height * 0.015,
-                        sizedBoxHeight: _mediaQuery.size.height * 0.0001,
-                        headingText: 'Gender',
-                        userInfoText: personalDetailsData.gender,
-                      ),
-                      SizedBox(
-                        height: _mediaQuery.size.height * 0.01,
-                      ),
-                      PersonalInfoField(
-                        headingTextSize: _mediaQuery.size.height * 0.016,
-                        userInfoTextSize: _mediaQuery.size.height * 0.015,
-                        sizedBoxHeight: _mediaQuery.size.height * 0.0001,
-                        headingText: 'Postal Code',
-                        userInfoText: UserMethods.checkNumField(
-                            deliveryAddressData.pincode!),
-                      ),
-                      SizedBox(
-                        height: _mediaQuery.size.height * 0.01,
-                      ),
-                      PersonalInfoField(
-                        headingTextSize: _mediaQuery.size.height * 0.016,
-                        userInfoTextSize: _mediaQuery.size.height * 0.015,
-                        sizedBoxHeight: _mediaQuery.size.height * 0.0001,
-                        headingText: 'Country',
-                        userInfoText: 'India',
-                      ),
-                      SizedBox(
-                        height: _mediaQuery.size.height * 0.01,
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    PersonalInfoField(
+                      headingTextSize: _mediaQuery.size.height * 0.016,
+                      userInfoTextSize: _mediaQuery.size.height * 0.015,
+                      sizedBoxHeight: _mediaQuery.size.height * 0.0001,
+                      headingText: 'First name',
+                      userInfoText: personalDetailsData.firstName,
+                    ),
+                    SizedBox(
+                      height: _mediaQuery.size.height * 0.01,
+                    ),
+                    PersonalInfoField(
+                      headingTextSize: _mediaQuery.size.height * 0.016,
+                      userInfoTextSize: _mediaQuery.size.height * 0.015,
+                      sizedBoxHeight: _mediaQuery.size.height * 0.0001,
+                      headingText: 'Last name',
+                      userInfoText: personalDetailsData.lastName,
+                    ),
+                    SizedBox(
+                      height: _mediaQuery.size.height * 0.01,
+                    ),
+                    PersonalInfoField(
+                      headingTextSize: _mediaQuery.size.height * 0.016,
+                      userInfoTextSize: _mediaQuery.size.height * 0.015,
+                      sizedBoxHeight: _mediaQuery.size.height * 0.0001,
+                      headingText: 'Date of birth',
+                      userInfoText: personalDetailsData.dob,
+                    ),
+                    SizedBox(
+                      height: _mediaQuery.size.height * 0.01,
+                    ),
+                    PersonalInfoField(
+                      headingTextSize: _mediaQuery.size.height * 0.016,
+                      userInfoTextSize: _mediaQuery.size.height * 0.015,
+                      sizedBoxHeight: _mediaQuery.size.height * 0.0001,
+                      headingText: 'Phone number',
+                      userInfoText: UserMethods.checkNumField(
+                          personalDetailsData.phoneNumber!),
+                    ),
+                    SizedBox(
+                      height: _mediaQuery.size.height * 0.01,
+                    ),
+                    PersonalInfoField(
+                      headingTextSize: _mediaQuery.size.height * 0.016,
+                      userInfoTextSize: _mediaQuery.size.height * 0.015,
+                      sizedBoxHeight: _mediaQuery.size.height * 0.0001,
+                      headingText: 'Gender',
+                      userInfoText: personalDetailsData.gender,
+                    ),
+                    SizedBox(
+                      height: _mediaQuery.size.height * 0.01,
+                    ),
+                    PersonalInfoField(
+                      headingTextSize: _mediaQuery.size.height * 0.016,
+                      userInfoTextSize: _mediaQuery.size.height * 0.015,
+                      sizedBoxHeight: _mediaQuery.size.height * 0.0001,
+                      headingText: 'Postal Code',
+                      userInfoText: UserMethods.checkNumField(
+                          deliveryAddressData.pincode!),
+                    ),
+                    SizedBox(
+                      height: _mediaQuery.size.height * 0.01,
+                    ),
+                    PersonalInfoField(
+                      headingTextSize: _mediaQuery.size.height * 0.016,
+                      userInfoTextSize: _mediaQuery.size.height * 0.015,
+                      sizedBoxHeight: _mediaQuery.size.height * 0.0001,
+                      headingText: 'Country',
+                      userInfoText: 'India',
+                    ),
+                    SizedBox(
+                      height: _mediaQuery.size.height * 0.01,
+                    ),
+                  ],
                 ),
               ),
 

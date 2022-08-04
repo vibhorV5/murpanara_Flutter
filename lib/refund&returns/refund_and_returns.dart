@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/about_us_texts.dart';
+import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/refund_returns_texts.dart';
-import 'package:murpanara/constants/styles.dart';
+import 'package:murpanara/widgets/AboutUsRefundPageWidgets/big_image_widget.dart';
+import 'package:murpanara/widgets/AboutUsRefundPageWidgets/bold_text.dart';
+import 'package:murpanara/widgets/AboutUsRefundPageWidgets/regular_text.dart';
+import 'package:murpanara/widgets/AboutUsRefundPageWidgets/semibold_text.dart';
 
 class RefundAndReturnsPage extends StatelessWidget {
   const RefundAndReturnsPage({Key? key}) : super(key: key);
@@ -17,74 +21,75 @@ class RefundAndReturnsPage extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(Icons.arrow_back_ios_new_rounded),
+          icon: Icon(
+            Icons.arrow_back_ios_new_outlined,
+            size: _mediaQuery.size.width * 0.065,
+            color: kColorBackIconForgotPassPage,
+          ),
         ),
         elevation: 0,
         centerTitle: true,
-        // title: Text('About us'),
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.only(
-              left: _mediaQuery.size.width * 0.04,
-              right: _mediaQuery.size.width * 0.04),
+          margin: EdgeInsets.symmetric(
+            horizontal: _mediaQuery.size.width * 0.04,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 150,
+              BigImageWidget(
+                height: _mediaQuery.size.height * 0.28,
                 width: _mediaQuery.size.width,
-                // color: Colors.pink,
-                child: Image.asset('assets/images/mpr_main.png'),
+                imageUrl: 'assets/images/mpr_main.png',
               ),
-              Container(
-                margin: EdgeInsets.only(top: 35),
-                child: Text(
-                  'Refund & Return Policy',
-                  style: kBold.copyWith(fontSize: 25),
-                ),
+              SizedBox(
+                height: _mediaQuery.size.height * 0.05,
               ),
-              Container(
-                margin: EdgeInsets.only(top: 5),
-                child: Text(
-                  refundAndReturnText1,
-                  style: kRegular.copyWith(fontSize: 14),
-                ),
+              BoldText(
+                fontSize: _mediaQuery.size.height * 0.04,
+                txt: 'Refund & Return Policy',
               ),
-              Container(
-                margin: EdgeInsets.only(top: 35),
-                child: Text(
-                  'Refunds',
-                  style: kBold.copyWith(fontSize: 25),
-                ),
+              SizedBox(
+                height: _mediaQuery.size.height * 0.004,
               ),
-              Container(
-                margin: EdgeInsets.only(top: 5),
-                child: Text(
-                  refundAndReturnText2,
-                  style: kRegular.copyWith(fontSize: 14),
-                ),
+              RegularText(
+                fontSize: _mediaQuery.size.height * 0.017,
+                txt: refundAndReturnText1,
               ),
-              Container(
-                margin: EdgeInsets.only(top: 35),
-                child: Text(
-                  'Contact Us',
-                  style: kBold.copyWith(fontSize: 25),
-                ),
+              SizedBox(
+                height: _mediaQuery.size.height * 0.05,
               ),
-              Container(
-                margin: EdgeInsets.only(top: 5),
-                child: Text(
-                  "Contact us 24/7 at - support@murpanara.com for any further queries.",
-                  style: kSemibold.copyWith(fontSize: 14),
-                ),
+              BoldText(
+                fontSize: _mediaQuery.size.height * 0.04,
+                txt: 'Refunds',
               ),
-              Container(
-                alignment: Alignment.center,
-                margin: EdgeInsets.only(top: 120),
-                child: Text(
-                  copyRight,
-                  style: kBold.copyWith(fontSize: 14),
+              RegularText(
+                fontSize: _mediaQuery.size.height * 0.017,
+                txt: refundAndReturnText2,
+              ),
+              SizedBox(
+                height: _mediaQuery.size.height * 0.05,
+              ),
+              BoldText(
+                fontSize: _mediaQuery.size.height * 0.04,
+                txt: 'Contact Us',
+              ),
+              SizedBox(
+                height: _mediaQuery.size.height * 0.004,
+              ),
+              SemiBoldText(
+                txt:
+                    'Contact us 24/7 at - support@murpanara.com for any further queries.',
+                fontSize: _mediaQuery.size.height * 0.017,
+              ),
+              SizedBox(
+                height: _mediaQuery.size.height * 0.13,
+              ),
+              Center(
+                child: SemiBoldText(
+                  fontSize: _mediaQuery.size.height * 0.017,
+                  txt: copyRight,
                 ),
               ),
             ],

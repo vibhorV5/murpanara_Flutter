@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/product.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
@@ -9,7 +8,6 @@ import 'package:murpanara/views/overview/product_overview.dart';
 import 'package:murpanara/views/shoppingcart/shopping_cart.dart';
 import 'package:murpanara/views/home/home_page.dart';
 import 'package:murpanara/views/wishlist/wishlist_page.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
@@ -60,7 +58,7 @@ class _MainPageState extends State<MainPage> {
         _selectedIndex = selectedIndexProviderData.getSelectedIndex;
         _selectedIndex = index;
 
-        print('index fucked = selectedIndexProviderData.getSelectedIndex}');
+        // print('index fucked = selectedIndexProviderData.getSelectedIndex}');
       });
     }
 
@@ -402,6 +400,7 @@ class CustomSearchDelegate extends SearchDelegate {
   Widget? buildLeading(BuildContext context) {
     return IconButton(
         onPressed: () {
+          FocusScope.of(context).unfocus();
           close(context, null);
         },
         icon: Icon(

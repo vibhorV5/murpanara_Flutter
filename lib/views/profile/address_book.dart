@@ -42,16 +42,12 @@ class _AddressBookState extends State<AddressBook> {
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
-
         centerTitle: true,
         title: SizedBox(
-          // color: Colors.red,
           height: _mediaQuery.size.height * 0.06,
           width: _mediaQuery.size.width,
           child: Image.asset('assets/images/mpr_main.png'),
         ),
-
-        // backgroundColor: Colors.white,
         elevation: 0,
         actions: [
           IconButton(
@@ -72,9 +68,9 @@ class _AddressBookState extends State<AddressBook> {
         scrollDirection: Axis.vertical,
         physics: const BouncingScrollPhysics(),
         child: Container(
-          margin: EdgeInsets.only(
-              left: _mediaQuery.size.width * 0.04,
-              right: _mediaQuery.size.width * 0.04),
+          margin: EdgeInsets.symmetric(
+            horizontal: _mediaQuery.size.width * 0.04,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

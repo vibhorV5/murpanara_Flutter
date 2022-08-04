@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
+import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/models/delivery_address.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
@@ -7,10 +8,10 @@ import 'package:murpanara/models/user_orders.dart';
 import 'package:murpanara/providers/checkout_details_provider.dart';
 import 'package:murpanara/services/database_services.dart';
 import 'package:murpanara/views/order_success_failure/order_success_failure_page.dart';
+import 'package:murpanara/widgets/CheckoutPageWidgets/custom_radiotile_widget.dart';
+import 'package:murpanara/widgets/ProfilePageWidgets/headings_title.dart';
 import 'package:murpanara/widgets/address_text_widget.dart';
 import 'package:murpanara/widgets/save_button.dart';
-import 'package:murpanara/widgets/simple_heading.dart';
-import 'package:murpanara/widgets/simple_small_heading.dart';
 import 'package:murpanara/widgets/ProfilePageWidgets/small_info_text.dart';
 import 'package:provider/provider.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -99,13 +100,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
       context,
       MaterialPageRoute(
         builder: (context) => OrderSuccessFailurePage(
+          statusText: 'Success',
           greetingText: 'Thank You!',
           orderStatusText: 'Order Placed Successfully',
-          statusIcon: const Icon(
-            Icons.done,
-            color: Colors.green,
-            size: 50,
-          ),
           onpressFunc: () async {
             await DatabaseServices().clearShoppingCartList();
             Navigator.of(context)
@@ -119,21 +116,17 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void _handlePaymentError(PaymentFailureResponse response) {
     // Do something when payment fails
 
-    print('Payment Failed');
+    // print('Payment Failed');
 
-    print('${response.code} \n ${response.message}');
+    // print('${response.code} \n ${response.message}');
 
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => OrderSuccessFailurePage(
+          statusText: 'Failed',
           greetingText: 'Oops!',
           orderStatusText: 'Payment error, Please try again.',
-          statusIcon: Icon(
-            Icons.cancel_outlined,
-            color: Colors.red,
-            size: 50,
-          ),
           onpressFunc: () async {
             // await DatabaseServices().clearShoppingCartList();
             Navigator.of(context)
@@ -146,7 +139,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     // Do something when an external wallet was selected
-    print('Payment Failed');
+    // print('Payment Failed');
   }
 
   void launchRazorpay() {
@@ -168,7 +161,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     try {
       _razorpay.open(options);
     } catch (e) {
-      print('Error = $e');
+      // print('Error = $e');
     }
   }
 
@@ -181,11 +174,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Container(
             width: _mediaQuery.size.width,
-            // color: Colors.red.withOpacity(0.3),
-            margin: EdgeInsets.only(left: 10, right: 10),
+            margin: EdgeInsets.symmetric(
+              horizontal: _mediaQuery.size.width * 0.04,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -196,35 +190,24 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         Navigator.of(context).pop();
                       },
                       child: Container(
-                        width: 130,
-                        padding: EdgeInsets.only(
-                          top: 10,
-                          bottom: 10,
+                        width: _mediaQuery.size.width * 0.3,
+                        padding: EdgeInsets.symmetric(
+                          vertical: _mediaQuery.size.height * 0.02,
                         ),
-                        // color: Colors.yellow,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              // margin: EdgeInsets.only(
-                              //   top: _mediaQuery.size.height * 0.015,
-                              // ),
-
-                              // color: Colors.blueAccent,
-                              child: Icon(Icons.arrow_back_ios_new_outlined,
-                                  size: _mediaQuery.size.width * 0.065,
-                                  color: kColorBackIconForgotPassPage),
-                            ),
-                            // SimpleSmallHeading(txt: 'Shopping Cart')
+                            Icon(Icons.arrow_back_ios_new_outlined,
+                                size: _mediaQuery.size.width * 0.065,
+                                color: kColorBackIconForgotPassPage),
                           ],
                         ),
                       ),
                     ),
                     Center(
-                      child: Container(
-                        // color: Colors.blue,
-                        height: 30,
-                        width: 120,
+                      child: SizedBox(
+                        height: _mediaQuery.size.height * 0.04,
+                        width: _mediaQuery.size.width * 0.3,
                         child: Image.asset(
                           'assets/images/mpr_main.png',
                         ),
@@ -232,48 +215,49 @@ class _CheckoutPageState extends State<CheckoutPage> {
                     ),
                   ],
                 ),
-                // SizedBox(
-                //   height: 20,
-                // ),
 
                 //My Information
                 Container(
-                  width: _mediaQuery.size.width,
-                  padding: EdgeInsets.all(15),
-                  margin: EdgeInsets.only(
-                    top: _mediaQuery.size.height * 0.01,
-                  ),
                   decoration: BoxDecoration(
                     borderRadius:
                         BorderRadius.circular(_mediaQuery.size.width * 0.04),
                     color: Colors.grey.shade200,
                   ),
+                  padding: EdgeInsets.all(_mediaQuery.size.width * 0.04),
+                  width: _mediaQuery.size.width,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SimpleHeading(
-                        txt: 'My Information',
+                      HeadingsTitle(
+                        titleText: 'My Information',
+                        margin: EdgeInsets.only(
+                            bottom: _mediaQuery.size.height * 0.001),
+                        fontSize: _mediaQuery.size.height * 0.025,
                       ),
                       SizedBox(
-                        height: 20,
+                        height: _mediaQuery.size.height * 0.025,
                       ),
-                      SimpleSmallHeading(
-                        txt: 'Email',
+                      HeadingsTitle(
+                        titleText: 'Email',
+                        margin: EdgeInsets.only(
+                            bottom: _mediaQuery.size.height * 0.001),
+                        fontSize: _mediaQuery.size.height * 0.018,
                       ),
                       AddressTextWidget(
                         fontSize: _mediaQuery.size.height * 0.014,
-                        // txt: 'vibhor.stav@gmail.com',
                         txt: widget.email,
                       ),
                       SizedBox(
-                        height: 20,
+                        height: _mediaQuery.size.height * 0.018,
                       ),
-                      SimpleSmallHeading(
-                        txt: 'Phone',
+                      HeadingsTitle(
+                        titleText: 'Phone',
+                        margin: EdgeInsets.only(
+                            bottom: _mediaQuery.size.height * 0.001),
+                        fontSize: _mediaQuery.size.height * 0.018,
                       ),
                       AddressTextWidget(
                         fontSize: _mediaQuery.size.height * 0.014,
-                        // txt: '+91 8126793405',
                         txt:
                             '+91 ${UserMethods.checkNumField(widget.deliveryAddress.phone!)}',
                       ),
@@ -283,47 +267,47 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
                 //Delivery Details
                 Container(
-                  width: _mediaQuery.size.width,
-                  padding: EdgeInsets.all(15),
-                  margin: EdgeInsets.only(
-                    top: _mediaQuery.size.height * 0.01,
-                  ),
+                  margin: EdgeInsets.only(top: _mediaQuery.size.height * 0.01),
                   decoration: BoxDecoration(
                     borderRadius:
                         BorderRadius.circular(_mediaQuery.size.width * 0.04),
                     color: Colors.grey.shade200,
                   ),
+                  padding: EdgeInsets.all(_mediaQuery.size.width * 0.04),
+                  width: _mediaQuery.size.width,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SimpleHeading(
-                        txt: 'Delivery Details',
+                      HeadingsTitle(
+                        titleText: 'Delivery Details',
+                        margin: EdgeInsets.only(
+                            bottom: _mediaQuery.size.height * 0.001),
+                        fontSize: _mediaQuery.size.height * 0.025,
                       ),
                       SizedBox(
-                        height: 20,
+                        height: _mediaQuery.size.height * 0.018,
                       ),
                       (widget.deliveryAddress.addressLine1.isEmpty ||
                               widget.deliveryAddress.addressLine2.isEmpty ||
                               widget.deliveryAddress.city.isEmpty ||
                               widget.deliveryAddress.pincode == 0)
-                          ? Container(
-                              child: SmallInfoText(
-                                  margin: EdgeInsets.only(
-                                      bottom: _mediaQuery.size.height * 0.002,
-                                      top: _mediaQuery.size.height * 0.002),
-                                  fontSize: _mediaQuery.size.height * 0.03,
-                                  txt: 'No Delivery address found'),
-                            )
+                          ? SmallInfoText(
+                              margin: EdgeInsets.only(
+                                  bottom: _mediaQuery.size.height * 0.002,
+                                  top: _mediaQuery.size.height * 0.002),
+                              fontSize: _mediaQuery.size.height * 0.03,
+                              txt: 'No Delivery address found')
                           : Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
+                                SizedBox(
                                   // color: Colors.redAccent.withOpacity(0.4),
-                                  height: 100,
-                                  width: 180,
+                                  height: _mediaQuery.size.height * 0.11,
+                                  width: _mediaQuery.size.width * 0.7,
                                   child: ListView(
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     children: [
                                       Row(
                                         children: [
@@ -390,35 +374,38 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
                 //Order Details
                 Container(
-                  width: _mediaQuery.size.width,
-                  padding: EdgeInsets.all(15),
-                  margin: EdgeInsets.only(
-                    top: _mediaQuery.size.height * 0.01,
-                  ),
+                  margin: EdgeInsets.only(top: _mediaQuery.size.height * 0.01),
                   decoration: BoxDecoration(
                     borderRadius:
                         BorderRadius.circular(_mediaQuery.size.width * 0.04),
                     color: Colors.grey.shade200,
                   ),
+                  padding: EdgeInsets.all(_mediaQuery.size.width * 0.04),
+                  width: _mediaQuery.size.width,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SimpleHeading(
-                        txt: 'Order Details',
+                      HeadingsTitle(
+                        titleText: 'Order Details',
+                        margin: EdgeInsets.only(
+                            bottom: _mediaQuery.size.height * 0.001),
+                        fontSize: _mediaQuery.size.height * 0.025,
                       ),
                       SizedBox(
-                        height: 20,
+                        height: _mediaQuery.size.height * 0.018,
                       ),
                       Container(
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15)),
-                        height: 180,
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(
+                              _mediaQuery.size.width * 0.04),
+                        ),
+                        height: _mediaQuery.size.height * 0.24,
                         child: ListView.separated(
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           separatorBuilder: (context, index) {
                             return SizedBox(
-                              height: 10,
+                              height: _mediaQuery.size.height * 0.005,
                             );
                           },
                           itemCount: widget.shoppingList.length,
@@ -427,38 +414,50 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Container(
-                                  // color: Colors.red,
-                                  height: 70,
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal:
+                                          _mediaQuery.size.width * 0.018),
+                                  height: _mediaQuery.size.height * 0.08,
                                   child: Image.network(
                                       widget.shoppingList[index].imagefront),
                                 ),
                                 Row(
                                   children: [
                                     Container(
-                                      padding: EdgeInsets.all(20),
-                                      width: 125,
+                                      padding: EdgeInsets.all(
+                                          _mediaQuery.size.height * 0.02),
+                                      width: _mediaQuery.size.width * 0.32,
                                       // color: Colors.pink,
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          AddressTextWidget(
-                                            txt:
-                                                widget.shoppingList[index].name,
-                                            fontSize:
-                                                _mediaQuery.size.height * 0.014,
+                                          Text(
+                                            widget.shoppingList[index].name,
+                                            style: kBold.copyWith(
+                                                fontSize:
+                                                    _mediaQuery.size.height *
+                                                        0.013),
+                                          ),
+                                          SizedBox(
+                                            height:
+                                                _mediaQuery.size.height * 0.001,
                                           ),
                                           AddressTextWidget(
                                             txt:
                                                 'Size: ${widget.shoppingList[index].size}',
-                                            fontSize:
-                                                _mediaQuery.size.height * 0.014,
+                                            fontSize: _mediaQuery.size.height *
+                                                0.0125,
+                                          ),
+                                          SizedBox(
+                                            height:
+                                                _mediaQuery.size.height * 0.001,
                                           ),
                                           AddressTextWidget(
                                             txt:
                                                 'Price: ${widget.shoppingList[index].price.toString()}.00',
-                                            fontSize:
-                                                _mediaQuery.size.height * 0.014,
+                                            fontSize: _mediaQuery.size.height *
+                                                0.0125,
                                           ),
                                         ],
                                       ),
@@ -466,7 +465,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     _mediaQuery.size.height < 600
                                         ? Container()
                                         : SizedBox(
-                                            width: 30,
+                                            width:
+                                                _mediaQuery.size.width * 0.035,
                                           ),
                                     AddressTextWidget(
                                       txt:
@@ -474,7 +474,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                       fontSize: _mediaQuery.size.height * 0.014,
                                     ),
                                     SizedBox(
-                                      width: 30,
+                                      width: _mediaQuery.size.width * 0.075,
                                     ),
                                     AddressTextWidget(
                                       txt:
@@ -489,15 +489,23 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         ),
                       ),
                       SizedBox(
-                        height: 40,
+                        height: _mediaQuery.size.height * 0.04,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SimpleHeading(txt: 'Total'),
-                          SimpleHeading(
-                            txt: '${getSum(widget.shoppingList)}.00',
-                          )
+                          HeadingsTitle(
+                            titleText: 'Total',
+                            margin: EdgeInsets.only(
+                                left: _mediaQuery.size.width * 0.0001),
+                            fontSize: _mediaQuery.size.height * 0.026,
+                          ),
+                          HeadingsTitle(
+                            titleText: '₹${getSum(widget.shoppingList)}.00',
+                            margin: EdgeInsets.only(
+                                left: _mediaQuery.size.width * 0.0001),
+                            fontSize: _mediaQuery.size.height * 0.026,
+                          ),
                         ],
                       ),
                     ],
@@ -506,20 +514,38 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
                 //Mode of Payment
                 Container(
-                  width: _mediaQuery.size.width,
-                  padding: EdgeInsets.all(15),
-                  margin: EdgeInsets.only(
-                    top: _mediaQuery.size.height * 0.01,
-                  ),
+                  margin: EdgeInsets.only(top: _mediaQuery.size.height * 0.01),
                   decoration: BoxDecoration(
                     borderRadius:
                         BorderRadius.circular(_mediaQuery.size.width * 0.04),
                     color: Colors.grey.shade200,
                   ),
-                  child: CustomRadioTileWidget(),
+                  padding: EdgeInsets.all(_mediaQuery.size.width * 0.04),
+                  width: _mediaQuery.size.width,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      HeadingsTitle(
+                        titleText: 'Mode of Payment',
+                        margin: EdgeInsets.only(
+                            bottom: _mediaQuery.size.height * 0.001),
+                        fontSize: _mediaQuery.size.height * 0.025,
+                      ),
+                      SizedBox(
+                        height: _mediaQuery.size.height * 0.025,
+                      ),
+                      CustomRadioTileWidget(
+                        fontSize: _mediaQuery.size.height * 0.02,
+                      ),
+                    ],
+                  ),
                 ),
 
                 SaveButton(
+                  fontSize: _mediaQuery.size.height * 0.02,
+                  height: _mediaQuery.size.height * 0.06,
+                  borderRadiusGeometry:
+                      BorderRadius.circular(_mediaQuery.size.height * 0.04),
                   mediaQuery: _mediaQuery,
                   txt: 'CONTINUE TO PAYMENT',
                   color: Colors.black,
@@ -577,19 +603,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                 emailId: widget.email,
                               ),
                             );
-                            print('COD SELECTED SUCCESS');
+                            // print('COD SELECTED SUCCESS');
                             Navigator.of(context).pop();
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => OrderSuccessFailurePage(
+                                  statusText: 'Success',
                                   greetingText: 'Thank You!',
                                   orderStatusText: 'Order Placed Successfully',
-                                  statusIcon: Icon(
-                                    Icons.done,
-                                    color: Colors.green,
-                                    size: 50,
-                                  ),
                                   onpressFunc: () async {
                                     await DatabaseServices()
                                         .clearShoppingCartList();
@@ -624,58 +646,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       sum = sum + (item.price * item.quantity);
     }
 
-    print(sum);
+    // print(sum);
     return sum;
-  }
-}
-
-class CustomRadioTileWidget extends StatefulWidget {
-  const CustomRadioTileWidget({Key? key}) : super(key: key);
-
-  @override
-  State<CustomRadioTileWidget> createState() => _CustomRadioTileWidgetState();
-}
-
-class _CustomRadioTileWidgetState extends State<CustomRadioTileWidget> {
-  @override
-  Widget build(BuildContext context) {
-    CheckoutDetailsProvider checkoutDetailsProviderData =
-        Provider.of<CheckoutDetailsProvider>(context);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SimpleHeading(
-          txt: 'Mode of Payment',
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        RadioListTile<ModeOfPayment>(
-          value: ModeOfPayment.razorPay,
-          groupValue: checkoutDetailsProviderData.currentSelectedModeOfPayment,
-          onChanged: (ModeOfPayment? value) {
-            setState(() {
-              checkoutDetailsProviderData.modeOfPaymentValue(value!);
-              // paymentModeSelect = value;
-              print(checkoutDetailsProviderData.currentSelectedModeOfPayment);
-            });
-          },
-          title: Text('RazorPay'),
-        ),
-        RadioListTile<ModeOfPayment>(
-          value: ModeOfPayment.cashOnDelivery,
-          groupValue: checkoutDetailsProviderData.currentSelectedModeOfPayment,
-          onChanged: (ModeOfPayment? value) {
-            setState(() {
-              // paymentModeSelect = value;
-              checkoutDetailsProviderData.modeOfPaymentValue(value!);
-              print(checkoutDetailsProviderData.currentSelectedModeOfPayment);
-            });
-          },
-          title: Text('Cash on Delivery'),
-        ),
-      ],
-    );
   }
 }
