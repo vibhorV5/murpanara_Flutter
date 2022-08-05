@@ -32,7 +32,6 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       //TITLE: Welcome to the dawn..
                       SizedBox(
-                        // color: Colors.green.withOpacity(0.2),
                         height: constrainsts.maxHeight * 0.5,
                         width: constrainsts.maxWidth,
                         child: Column(
@@ -56,7 +55,6 @@ class _HomePageState extends State<HomePage> {
 
                       //TITLE: You are now viewing..
                       SizedBox(
-                        // color: Colors.green.withOpacity(0.2),
                         height: constrainsts.maxHeight * 0.5,
                         width: constrainsts.maxWidth,
                         child: Column(

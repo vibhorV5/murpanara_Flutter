@@ -17,16 +17,17 @@ class CustomFavButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        alignment: Alignment.center,
-        height: containerHeight,
-        width: containerWidth,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey.withOpacity(0.1),
-          ),
-          color: Color(0xFFF6F6F6),
-          borderRadius: borderRadiusGeometry,
+      alignment: Alignment.center,
+      height: containerHeight,
+      width: containerWidth,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey.withOpacity(0.1),
         ),
-        child: icon);
+        color: const Color(0xFFF6F6F6),
+        borderRadius: borderRadiusGeometry,
+      ),
+      child: icon,
+    );
   }
 }

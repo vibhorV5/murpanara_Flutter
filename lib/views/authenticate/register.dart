@@ -140,8 +140,8 @@ class _RegisterState extends State<Register> {
                                   .showSnackBar(invalidEmailSnackBar);
                             }
 
-                            // print(emailController.text);
-                            // print(passwordController.text);
+                            debugPrint(emailController.text);
+                            debugPrint(passwordController.text);
                           }
                         },
                       ),

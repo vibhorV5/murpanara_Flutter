@@ -30,7 +30,6 @@ class _ProfilePageState extends State<ProfilePage> {
     final _mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
-      // backgroundColor: Colors.white,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -44,24 +43,18 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
-
         centerTitle: true,
         title: SizedBox(
-          // color: Colors.red,
           height: _mediaQuery.size.height * 0.06,
           width: _mediaQuery.size.width,
           child: Image.asset('assets/images/mpr_main.png'),
         ),
-
-        // backgroundColor: Colors.white,
         elevation: 0,
         actions: [
           IconButton(
             splashColor: Colors.transparent,
             splashRadius: 0.1,
-            onPressed: () {
-              // Navigator.of(context).pushNamed('settingsPage');
-            },
+            onPressed: () {},
             icon: const Icon(
               Icons.settings_rounded,
               size: 0.1,
@@ -99,7 +92,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   color: Colors.grey.shade200,
                 ),
                 padding: EdgeInsets.all(_mediaQuery.size.width * 0.04),
-                // height: _mediaQuery.size.height * 0.56,
                 width: _mediaQuery.size.width,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -220,7 +212,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       BorderRadius.circular(_mediaQuery.size.width * 0.04),
                   color: Colors.grey.shade200,
                 ),
-                // height: _mediaQuery.size.height * 0.4,
                 width: _mediaQuery.size.width,
                 child: Container(
                   padding: EdgeInsets.all(_mediaQuery.size.width * 0.04),
@@ -279,7 +270,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               ? Container()
                               : SizedBox(
                                   height: _mediaQuery.size.height * 0.11,
-                                  // color: Colors.purple,
                                   child: ListView(
                                     physics:
                                         const NeverScrollableScrollPhysics(),

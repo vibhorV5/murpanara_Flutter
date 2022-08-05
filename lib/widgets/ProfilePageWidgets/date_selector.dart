@@ -8,10 +8,12 @@ class DateSelector extends StatelessWidget {
     Key? key,
     required this.dateController,
     this.errorTextSize,
+    this.initalTextSize,
   }) : super(key: key);
 
   final TextEditingController dateController;
   double? errorTextSize = 15;
+  double? initalTextSize = 15;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +22,7 @@ class DateSelector extends StatelessWidget {
       controller: dateController,
       keyboardType: TextInputType.emailAddress,
       cursorColor: kColorCursorAuthPage,
-      style: kInputFormFieldsAuthPage.copyWith(fontSize: 14),
-      // textAlignVertical: TextAlignVertical.center,
+      style: kInputFormFieldsAuthPage.copyWith(fontSize: initalTextSize),
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,

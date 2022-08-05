@@ -23,8 +23,6 @@ class _OrdersPageState extends State<OrdersPage> {
     final _mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
-      // backgroundColor: Colors.white,
-
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
@@ -49,9 +47,7 @@ class _OrdersPageState extends State<OrdersPage> {
           IconButton(
             splashColor: Colors.transparent,
             splashRadius: 0.1,
-            onPressed: () {
-              // Navigator.of(context).pushNamed('settingsPage');
-            },
+            onPressed: () {},
             icon: const Icon(
               Icons.settings_rounded,
               size: 0.1,
@@ -126,7 +122,6 @@ class _OrdersPageState extends State<OrdersPage> {
                                     padding: EdgeInsets.all(
                                       _mediaQuery.size.height * 0.01,
                                     ),
-                                    // color: Colors.blueGrey,
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -183,7 +178,6 @@ class _OrdersPageState extends State<OrdersPage> {
                                           height:
                                               _mediaQuery.size.height * 0.04,
                                           width: _mediaQuery.size.width * 0.55,
-                                          // color: Colors.yellow,
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,

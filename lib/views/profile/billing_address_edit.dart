@@ -23,7 +23,7 @@ class BillingAddressEdit extends StatefulWidget {
 class _BillingAddressEditState extends State<BillingAddressEdit> {
   @override
   void dispose() {
-    // print('dispose');
+    debugPrint('dispose');
     addressLine1Controller.dispose();
     addressLine2Controller.dispose();
     pincodeController.dispose();
@@ -44,8 +44,6 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
 
   @override
   Widget build(BuildContext context) {
-    // BillingAddress billingAddressData = Provider.of<BillingAddress>(context);
-
     final _mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -62,7 +60,6 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
-
         centerTitle: true,
         title: SizedBox(
           // color: Colors.red,
@@ -70,16 +67,12 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
           width: _mediaQuery.size.width,
           child: Image.asset('assets/images/mpr_main.png'),
         ),
-
-        // backgroundColor: Colors.white,
         elevation: 0,
         actions: [
           IconButton(
             splashColor: Colors.transparent,
             splashRadius: 0.1,
-            onPressed: () {
-              // Navigator.of(context).pushNamed('settingsPage');
-            },
+            onPressed: () {},
             icon: const Icon(
               Icons.settings_rounded,
               size: 0.1,
@@ -130,7 +123,6 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                           fontSize: _mediaQuery.size.height * 0.015,
                           titleFieldText: '*Address line 1'),
                       CustomFormField(
-                        // initialText: billingAddressData.addressLine1,
                         fillColor: Colors.white,
                         hintTextSize: _mediaQuery.size.height * 0.014,
                         inputTextSize: _mediaQuery.size.height * 0.015,
@@ -159,12 +151,9 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                           titleFieldText: 'Address line 2'),
                       CustomFormField(
                         fillColor: Colors.white,
-
-                        // initialText: billingAddressData.addressLine2,
                         hintTextSize: _mediaQuery.size.height * 0.014,
                         inputTextSize: _mediaQuery.size.height * 0.015,
                         errorTextSize: _mediaQuery.size.height * 0.013,
-
                         initialText: '',
                         onChanged: (val) {
                           addressLine2Controller.text = val;
@@ -190,13 +179,9 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
 
                       CustomFormField(
                         fillColor: Colors.white,
-
-                        // initialText: UserMethods.checkNumField(
-                        //     billingAddressData.pincode!),
                         hintTextSize: _mediaQuery.size.height * 0.014,
                         inputTextSize: _mediaQuery.size.height * 0.015,
                         errorTextSize: _mediaQuery.size.height * 0.013,
-
                         initialText: '',
                         onChanged: (val) {
                           pincodeController.text = val;
@@ -225,12 +210,9 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
 
                       CustomFormField(
                         fillColor: Colors.white,
-
-                        // initialText: billingAddressData.city,
                         hintTextSize: _mediaQuery.size.height * 0.014,
                         inputTextSize: _mediaQuery.size.height * 0.015,
                         errorTextSize: _mediaQuery.size.height * 0.013,
-
                         initialText: '',
                         onChanged: (val) {
                           cityController.text = val;
@@ -307,15 +289,15 @@ class _BillingAddressEditState extends State<BillingAddressEdit> {
                         state: stateController.text,
                       ),
                     );
-                    // print('billing address set');
+                    debugPrint('billing address set');
 
                     ScaffoldMessenger.of(context)
                         .showSnackBar(billingAddressSavedSnackbar);
 
-                    // print('done baby');
+                    debugPrint('Billing address set Success');
                     Navigator.of(context).pop();
                   } else {
-                    // print('fuck you failed');
+                    debugPrint('Billing Address set Failed');
                   }
                 },
                 mediaQuery: _mediaQuery,

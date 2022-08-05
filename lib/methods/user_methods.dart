@@ -71,7 +71,6 @@ class UserMethods {
       contentPadding: EdgeInsets.all(contentPadding),
       content: Container(
         alignment: Alignment.topCenter,
-        // color: Colors.pink,
         height: contentContainerHeight,
         width: mediaQuery.size.width,
         child: Column(
@@ -150,10 +149,108 @@ class UserMethods {
     );
 
     showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return alertDialog;
-        });
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return alertDialog;
+      },
+    );
+  }
+
+  static dynamic customDialogBoxOneButton({
+    required BuildContext context,
+    required MediaQueryData mediaQuery,
+    required String headingText,
+    required String subText,
+    required String confirmText,
+    required String cancelText,
+    required void Function()? confirmFunction,
+    double borderRadius = 15,
+    double contentPadding = 15,
+    double contentContainerHeight = 180,
+    double headingTextTopMargin = 10,
+    double headingTextFontSize = 20,
+    double mprEyeContainerHeight = 30,
+    double mprEyeContainerWidth = 30,
+    double bigSizedBoxHeight = 30,
+    double smallSizedBoxHeight = 10,
+    double textButtonHorizontalPadding = 20,
+    double textButtonVerticalpadding = 10,
+    double textButtonBorderRadius = 30,
+  }) {
+    AlertDialog alertDialog = AlertDialog(
+      backgroundColor: Colors.grey.shade100,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
+      contentPadding: EdgeInsets.all(contentPadding),
+      content: Container(
+        alignment: Alignment.topCenter,
+        // color: Colors.pink,
+        height: contentContainerHeight,
+        width: mediaQuery.size.width,
+        child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: headingTextTopMargin),
+              child: Text(
+                headingText,
+                style: kBold.copyWith(fontSize: headingTextFontSize),
+              ),
+            ),
+            SizedBox(
+              height: mprEyeContainerHeight,
+              width: mprEyeContainerWidth,
+              child: Image.asset(
+                'assets/images/mpr_eye.png',
+              ),
+            ),
+            SizedBox(
+              height: bigSizedBoxHeight,
+            ),
+            Center(
+              child: Text(
+                subText,
+                style: kSemibold,
+              ),
+            ),
+            SizedBox(
+              height: smallSizedBoxHeight,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: confirmFunction,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: textButtonHorizontalPadding,
+                      vertical: textButtonVerticalpadding,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.black87,
+                      borderRadius:
+                          BorderRadius.circular(textButtonBorderRadius),
+                    ),
+                    child: Text(
+                      confirmText,
+                      style: kRegular.copyWith(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return alertDialog;
+      },
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
+import 'package:murpanara/methods/user_methods.dart';
 import 'package:murpanara/services/auth.dart';
 import 'package:murpanara/widgets/AboutUsRefundPageWidgets/big_image_widget.dart';
 import 'package:murpanara/widgets/custom_formfield.dart';
@@ -121,20 +122,40 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 .resetPassword(email: emailController);
 
                             if (result == null) {
-                              showDialogBox(
-                                  mediaQuery: _mediaQuery,
-                                  context: context,
-                                  message: 'Email Sent.');
-
-                              await Future.delayed(
-                                const Duration(seconds: 2),
+                              UserMethods.customDialogBoxOneButton(
+                                borderRadius: _mediaQuery.size.width * 0.06,
+                                contentPadding: _mediaQuery.size.width * 0.04,
+                                contentContainerHeight:
+                                    _mediaQuery.size.height * 0.28,
+                                headingTextTopMargin:
+                                    _mediaQuery.size.height * 0.02,
+                                headingTextFontSize:
+                                    _mediaQuery.size.height * 0.025,
+                                mprEyeContainerHeight:
+                                    _mediaQuery.size.width * 0.07,
+                                mprEyeContainerWidth:
+                                    _mediaQuery.size.width * 0.07,
+                                bigSizedBoxHeight:
+                                    _mediaQuery.size.height * 0.03,
+                                smallSizedBoxHeight:
+                                    _mediaQuery.size.height * 0.03,
+                                textButtonHorizontalPadding:
+                                    _mediaQuery.size.width * 0.05,
+                                textButtonVerticalpadding:
+                                    _mediaQuery.size.height * 0.008,
+                                textButtonBorderRadius:
+                                    _mediaQuery.size.width * 0.06,
+                                context: context,
+                                mediaQuery: _mediaQuery,
+                                headingText: 'Password Reset link sent',
+                                subText: 'Go back to Login Page',
+                                confirmText: 'Login Page',
+                                cancelText: 'Cancel',
+                                confirmFunction: () {
+                                  Navigator.of(context).pushNamedAndRemoveUntil(
+                                      '/', (route) => false);
+                                },
                               );
-
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                  '/', (route) => false);
-
-                              // print(emailController);
-                              // print(result);
                             }
 
                             if (result != null) {
@@ -180,39 +201,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           ),
         ),
       ),
-    );
-  }
-
-  showDialogBox(
-      {required BuildContext context,
-      required String message,
-      required MediaQueryData mediaQuery}) {
-    AlertDialog alertDialog = AlertDialog(
-      content: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: mediaQuery.size.height * 0.05,
-            width: mediaQuery.size.width * 0.1,
-            child: Text(
-              message,
-              style: kDialogTextStyleForgotPass,
-            ),
-          ),
-          Icon(
-            Icons.done,
-            size: mediaQuery.size.height * 0.05,
-            color: kColorAlertDialogIconAuthPage,
-          ),
-        ],
-      ),
-    );
-    showDialog(
-      context: context,
-      builder: (context) {
-        return alertDialog;
-      },
     );
   }
 }

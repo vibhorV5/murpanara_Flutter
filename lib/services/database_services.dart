@@ -86,7 +86,7 @@ class DatabaseServices {
     // return personalDetailsCollection.doc(user.uid).snapshots().map(
     //       (event) => _getPersonalDetails(event),
     //     );
-    var user = AuthService().currentUser!;
+    // var user = AuthService().currentUser!;
 
     return AuthService().userStream.switchMap((user) {
       if (user != null) {
@@ -178,44 +178,48 @@ class DatabaseServices {
     // return personalDetailsCollection.doc(user.uid).snapshots().map(
     //       (event) => _getPersonalDetails(event),
     //     );
-    var user = AuthService().currentUser!;
+    // var user = AuthService().currentUser!;
 
-    return AuthService().userStream.switchMap((user) {
-      if (user != null) {
-        var ref = personalDetailsCollection.doc(user.uid);
-        return ref.snapshots().map(_getPersonalDetails);
-      } else {
-        return Stream.fromIterable([PersonalDetails()]);
-      }
-    });
+    return AuthService().userStream.switchMap(
+      (user) {
+        if (user != null) {
+          var ref = personalDetailsCollection.doc(user.uid);
+          return ref.snapshots().map(_getPersonalDetails);
+        } else {
+          return Stream.fromIterable([PersonalDetails()]);
+        }
+      },
+    );
   }
 
   ///FETCHING DATA
 
   //List of Products from Snapshot
   List<Product> _getProductsFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      return Product(
-        subproducts: doc.data().toString().contains('subproducts')
-            ? (doc.get('subproducts') as List)
-                .map(
-                  (product) => SubProducts(
-                    productId: product['productId'],
-                    name: product['name'],
-                    imagefront: product['imagefront'],
-                    imageback: product['imageback'],
-                    fit: product['fit'],
-                    composition: product['composition'],
-                    price: product['price'],
-                    size: product['size'],
-                    status: product['status'],
-                  ),
-                )
-                .toList()
-            : const [],
-        name: doc.data().toString().contains('name') ? doc.get('name') : '',
-      );
-    }).toList();
+    return snapshot.docs.map(
+      (doc) {
+        return Product(
+          subproducts: doc.data().toString().contains('subproducts')
+              ? (doc.get('subproducts') as List)
+                  .map(
+                    (product) => SubProducts(
+                      productId: product['productId'],
+                      name: product['name'],
+                      imagefront: product['imagefront'],
+                      imageback: product['imageback'],
+                      fit: product['fit'],
+                      composition: product['composition'],
+                      price: product['price'],
+                      size: product['size'],
+                      status: product['status'],
+                    ),
+                  )
+                  .toList()
+              : const [],
+          name: doc.data().toString().contains('name') ? doc.get('name') : '',
+        );
+      },
+    ).toList();
   }
 
   //Get Products Stream
@@ -253,7 +257,7 @@ class DatabaseServices {
     //     .snapshots()
     //     .map(_getwishListSubproductsfromsnapshot);
 
-    var user = AuthService().currentUser!;
+    // var user = AuthService().currentUser!;
 
     return AuthService().userStream.switchMap((user) {
       if (user != null) {
@@ -295,7 +299,7 @@ class DatabaseServices {
     //     .snapshots()
     //     .map(_getBillingAddress);
 
-    var user = AuthService().currentUser!;
+    // var user = AuthService().currentUser!;
 
     return AuthService().userStream.switchMap((user) {
       if (user != null) {
@@ -340,16 +344,18 @@ class DatabaseServices {
   }
 
   Stream<DeliveryAddress> get deliveryAddressStream {
-    var user = AuthService().currentUser!;
+    // var user = AuthService().currentUser!;
 
-    return AuthService().userStream.switchMap((user) {
-      if (user != null) {
-        var ref = deliveryAddressCollection.doc(user.uid);
-        return ref.snapshots().map(_getDeliveryAddress);
-      } else {
-        return Stream.fromIterable([DeliveryAddress()]);
-      }
-    });
+    return AuthService().userStream.switchMap(
+      (user) {
+        if (user != null) {
+          var ref = deliveryAddressCollection.doc(user.uid);
+          return ref.snapshots().map(_getDeliveryAddress);
+        } else {
+          return Stream.fromIterable([DeliveryAddress()]);
+        }
+      },
+    );
 
     // return deliveryAddressCollection
     //     .doc(user.uid)
@@ -361,19 +367,21 @@ class DatabaseServices {
   List<ShoppingCartProduct> _getShoppingCartProductsfromSnapshot(
       DocumentSnapshot documentSnapshot) {
     return documentSnapshot.data().toString().contains('shoppingcart')
-        ? (documentSnapshot.get('shoppingcart') as List).map((product) {
-            return ShoppingCartProduct(
-              name: product['name'],
-              imagefront: product['imagefront'],
-              imageback: product['imageback'],
-              fit: product['fit'],
-              composition: product['composition'],
-              price: product['price'],
-              productId: product['productId'],
-              size: product['size'],
-              quantity: product['quantity'],
-            );
-          }).toList()
+        ? (documentSnapshot.get('shoppingcart') as List).map(
+            (product) {
+              return ShoppingCartProduct(
+                name: product['name'],
+                imagefront: product['imagefront'],
+                imageback: product['imageback'],
+                fit: product['fit'],
+                composition: product['composition'],
+                price: product['price'],
+                productId: product['productId'],
+                size: product['size'],
+                quantity: product['quantity'],
+              );
+            },
+          ).toList()
         : const [];
   }
 
@@ -384,7 +392,7 @@ class DatabaseServices {
     //     .doc(user.uid)
     //     .snapshots()
     //     .map(_getShoppingCartProductsfromSnapshot);
-    var user = AuthService().currentUser!;
+    // var user = AuthService().currentUser!;
 
     return AuthService().userStream.switchMap((user) {
       if (user != null) {
@@ -519,9 +527,11 @@ class DatabaseServices {
     };
 
     var user = AuthService().currentUser!;
-    await wishlistCollection.doc(user.uid).update({
-      'subproducts': FieldValue.arrayRemove([nestedData])
-    });
+    await wishlistCollection.doc(user.uid).update(
+      {
+        'subproducts': FieldValue.arrayRemove([nestedData])
+      },
+    );
   }
 
   //Delete shoppingCart item
@@ -540,9 +550,11 @@ class DatabaseServices {
     };
 
     var user = AuthService().currentUser!;
-    await shoppingcartCollection.doc(user.uid).update({
-      'shoppingcart': FieldValue.arrayRemove([nestedData])
-    });
+    await shoppingcartCollection.doc(user.uid).update(
+      {
+        'shoppingcart': FieldValue.arrayRemove([nestedData])
+      },
+    );
   }
 
   Future<void> removeBillingAddress() async {
@@ -565,22 +577,26 @@ class DatabaseServices {
     var user = AuthService().currentUser!;
     var ref = wishlistCollection.doc(user.uid);
 
-    await ref.get().then((value) {
-      value.data().toString().contains('subproducts')
-          ? (value.get('subproducts') as List).forEach((element) {
-              subList.add(element);
-              for (var map in subList) {
-                if (map?.containsKey('productId') ?? false) {
-                  if (map!["productId"] == subproduct.productId) {
-                    isWishlisted = true;
+    await ref.get().then(
+      (value) {
+        value.data().toString().contains('subproducts')
+            ? (value.get('subproducts') as List).forEach(
+                (element) {
+                  subList.add(element);
+                  for (var map in subList) {
+                    if (map?.containsKey('productId') ?? false) {
+                      if (map!["productId"] == subproduct.productId) {
+                        isWishlisted = true;
+                      }
+                    } else {
+                      isWishlisted = false;
+                    }
                   }
-                } else {
-                  isWishlisted = false;
-                }
-              }
-            })
-          : false;
-    });
+                },
+              )
+            : false;
+      },
+    );
     subList = [];
     return isWishlisted;
   }
@@ -595,24 +611,28 @@ class DatabaseServices {
     var user = AuthService().currentUser!;
     var ref = shoppingcartCollection.doc(user.uid);
 
-    await ref.get().then((value) {
-      value.data().toString().contains('shoppingcart')
-          ? (value.get('shoppingcart') as List).forEach((element) {
-              subList.add(element);
-              for (var map in subList) {
-                if (map?.containsKey('productId') ?? false) {
-                  if ((map!["productId"] == subproduct.productId) &&
-                      (map!["quantity"] == quantity) &&
-                      (map!["size"] == size)) {
-                    isWishlisted = true;
+    await ref.get().then(
+      (value) {
+        value.data().toString().contains('shoppingcart')
+            ? (value.get('shoppingcart') as List).forEach(
+                (element) {
+                  subList.add(element);
+                  for (var map in subList) {
+                    if (map?.containsKey('productId') ?? false) {
+                      if ((map!["productId"] == subproduct.productId) &&
+                          (map!["quantity"] == quantity) &&
+                          (map!["size"] == size)) {
+                        isWishlisted = true;
+                      }
+                    } else {
+                      isWishlisted = false;
+                    }
                   }
-                } else {
-                  isWishlisted = false;
-                }
-              }
-            })
-          : false;
-    });
+                },
+              )
+            : false;
+      },
+    );
     subList = [];
     return isWishlisted;
   }

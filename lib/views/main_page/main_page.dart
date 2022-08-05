@@ -60,7 +60,7 @@ class _MainPageState extends State<MainPage> {
           _selectedIndex = selectedIndexProviderData.getSelectedIndex;
           _selectedIndex = index;
 
-          // print('index fucked = selectedIndexProviderData.getSelectedIndex}');
+          debugPrint('index = selectedIndexProviderData.getSelectedIndex}');
         },
       );
     }
@@ -74,7 +74,6 @@ class _MainPageState extends State<MainPage> {
               Column(
                 children: [
                   SizedBox(
-                    // color: Colors.pink,
                     height: _mediaQuery.size.height * 0.25,
                     width: _mediaQuery.size.width * 0.3,
                     child: Image.asset('assets/images/mpr_main.png'),
@@ -102,7 +101,6 @@ class _MainPageState extends State<MainPage> {
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
-                            // Navigator.of(context).pushNamed('/');
                             onTapBay(0);
                           },
                         ),
@@ -135,7 +133,6 @@ class _MainPageState extends State<MainPage> {
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
-                            // Navigator.of(context).pushNamed('wishlistPage');
                             selectedIndexProviderData.setSlectedIndex(1);
                             onTapBay(1);
                           },
@@ -151,7 +148,6 @@ class _MainPageState extends State<MainPage> {
                           ),
                           onTap: () {
                             Navigator.of(context).pop();
-                            // Navigator.of(context).pushNamed('wishlistPage');
                             selectedIndexProviderData.setSlectedIndex(2);
                             onTapBay(2);
                           },
@@ -209,7 +205,6 @@ class _MainPageState extends State<MainPage> {
               Container(
                 margin: EdgeInsets.only(
                   left: _mediaQuery.size.width * 0.1,
-                  // top: _mediaQuery.size.height * 0.05,
                 ),
                 child: ListTile(
                   leading: Icon(
@@ -246,7 +241,6 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
             activeIcon: Icon(
               Icons.home_rounded,
-              // color: Colors.black,
             ),
             label: 'Home',
             icon: Icon(
@@ -257,7 +251,6 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
             activeIcon: Icon(
               Icons.favorite_rounded,
-              // color: Colors.black,
             ),
             label: 'Wishlist',
             icon: Icon(
@@ -268,7 +261,6 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
             activeIcon: Icon(
               Icons.shopping_cart_rounded,
-              // color: Colors.black,
             ),
             label: 'Shopping Cart',
             icon: Icon(
@@ -285,16 +277,12 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
-
         centerTitle: true,
         title: SizedBox(
-          // color: Colors.red,
           height: _mediaQuery.size.height * 0.06,
           width: _mediaQuery.size.width,
           child: Image.asset('assets/images/mpr_main.png'),
         ),
-
-        // backgroundColor: Colors.white,
         elevation: 0,
         actions: [
           IconButton(
@@ -312,9 +300,6 @@ class _MainPageState extends State<MainPage> {
           ),
           IconButton(
             onPressed: () {
-              // Navigator.of(context).pop();
-              // selectedIndexProviderData.setSlectedIndex(1);
-
               onTapBay(2);
             },
             icon: Stack(
@@ -323,7 +308,6 @@ class _MainPageState extends State<MainPage> {
                 SizedBox(
                   height: _mediaQuery.size.height * 0.033,
                   width: _mediaQuery.size.width * 0.12,
-                  // color: Colors.red,
                   child: Icon(
                     Icons.shopping_cart_rounded,
                     size: _mediaQuery.size.height * 0.033,
@@ -339,7 +323,6 @@ class _MainPageState extends State<MainPage> {
                     style: kSemibold.copyWith(
                         fontSize: _mediaQuery.size.height * 0.0125),
                   ),
-                  // margin: EdgeInsets.only(top: 2),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white,
@@ -372,21 +355,6 @@ class CustomSearchDelegate extends SearchDelegate {
               ),
         );
   }
-  // List<String> searchTerms = [
-  //   'Apple',
-  //   'Mango',
-  //   'Orange',
-  //   'Banana',
-  //   'Papaya',
-  //   'Blueberry',
-  //   'Strawberry',
-  //   'Peach',
-  //   'Grapes',
-  //   'Plum',
-  //   'Litchi',
-  //   'Pomogranate',
-  //   'Pineapple',
-  // ];
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -432,36 +400,22 @@ class CustomSearchDelegate extends SearchDelegate {
       }
     }
     return ListView.builder(
-        itemCount: matchQuery.length,
-        itemBuilder: (context, index) {
-          var result = matchQuery[index];
-          return GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ProductOverview(subproduct: result)));
-            },
-            child: ListTile(
-              title: Text(result.name),
-            ),
-          );
-        });
-
-    // for (var fruit in searchTerms) {
-    //   if (fruit.toLowerCase().contains(query.toLowerCase())) {
-    //     matchQuery.add(fruit);
-    //   }
-    // }
-    // return ListView.builder(
-    //     itemCount: matchQuery.length,
-    //     itemBuilder: (context, index) {
-    //       var result = matchQuery[index];
-    //       return ListTile(
-    //         title: Text(result),
-    //       );
-    //     });
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ProductOverview(subproduct: result)));
+          },
+          child: ListTile(
+            title: Text(result.name),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -514,20 +468,5 @@ class CustomSearchDelegate extends SearchDelegate {
             ),
           );
         });
-    // List<String> matchQuery = [];
-
-    // for (var fruit in searchTerms) {
-    //   if (fruit.toLowerCase().contains(query.toLowerCase())) {
-    //     matchQuery.add(fruit);
-    //   }
-    // }
-    // return ListView.builder(
-    //     itemCount: matchQuery.length,
-    //     itemBuilder: (context, index) {
-    //       var result = matchQuery[index];
-    //       return ListTile(
-    //         title: Text(result),
-    //       );
-    //     });
   }
 }

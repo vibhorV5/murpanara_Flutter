@@ -15,7 +15,6 @@ class BigImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // color: Colors.pink,
       height: height,
       width: width,
       child: Image.asset(imageUrl),

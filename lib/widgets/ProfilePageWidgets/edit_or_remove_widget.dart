@@ -15,28 +15,19 @@ class EditOrRemoveWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // color: Colors.amber,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            padding: EdgeInsets.only(
-              bottom: 15,
-              left: 15,
-            ),
-            child: Text(
-              label,
-              style: kSemibold.copyWith(
-                fontSize: fontSize,
-              ),
-            ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: kSemibold.copyWith(
+            fontSize: fontSize,
           ),
-          Container(
-            child: icon,
-          ),
-        ],
-      ),
+        ),
+        Container(
+          child: icon,
+        ),
+      ],
     );
   }
 }

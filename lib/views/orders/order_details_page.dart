@@ -35,23 +35,18 @@ class OrderDetailsPage extends StatelessWidget {
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
-
         centerTitle: true,
         title: SizedBox(
           height: _mediaQuery.size.height * 0.06,
           width: _mediaQuery.size.width,
           child: Image.asset('assets/images/mpr_main.png'),
         ),
-
-        // backgroundColor: Colors.white,
         elevation: 0,
         actions: [
           IconButton(
             splashColor: Colors.transparent,
             splashRadius: 0.1,
-            onPressed: () {
-              // Navigator.of(context).pushNamed('settingsPage');
-            },
+            onPressed: () {},
             icon: const Icon(
               Icons.settings_rounded,
               size: 0.1,
@@ -209,7 +204,6 @@ class OrderDetailsPage extends StatelessWidget {
                       height: _mediaQuery.size.height * 0.006,
                     ),
                     SizedBox(
-                      // color: Colors.red.withOpacity(0.1),
                       height: _mediaQuery.size.height * 0.35,
                       width: _mediaQuery.size.width,
                       child: ListView.separated(
@@ -246,7 +240,6 @@ class OrderDetailsPage extends StatelessWidget {
                                     SizedBox(
                                       width: _mediaQuery.size.width * 0.53,
                                       height: _mediaQuery.size.height * 0.14,
-                                      // color: Colors.purple.withOpacity(0.2),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,

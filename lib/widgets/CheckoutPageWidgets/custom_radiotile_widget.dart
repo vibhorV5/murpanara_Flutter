@@ -32,7 +32,9 @@ class _CustomRadioTileWidgetState extends State<CustomRadioTileWidget> {
             setState(() {
               checkoutDetailsProviderData.modeOfPaymentValue(value!);
               // paymentModeSelect = value;
-              // print(checkoutDetailsProviderData.currentSelectedModeOfPayment);
+              debugPrint(checkoutDetailsProviderData
+                  .currentSelectedModeOfPayment
+                  .toString());
             });
           },
           title: Text(
@@ -49,7 +51,9 @@ class _CustomRadioTileWidgetState extends State<CustomRadioTileWidget> {
             setState(() {
               // paymentModeSelect = value;
               checkoutDetailsProviderData.modeOfPaymentValue(value!);
-              // print(checkoutDetailsProviderData.currentSelectedModeOfPayment);
+              debugPrint(checkoutDetailsProviderData
+                  .currentSelectedModeOfPayment
+                  .toString());
             });
           },
           title: Text(

@@ -27,7 +27,7 @@ class PersonalDetailsEdit extends StatefulWidget {
 class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
   @override
   void dispose() {
-    // print('dispose');
+    debugPrint('dispose');
     firstNameController.dispose();
     lastNameController.dispose();
     dateController.dispose();
@@ -71,24 +71,18 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
-
         centerTitle: true,
         title: SizedBox(
-          // color: Colors.red,
           height: _mediaQuery.size.height * 0.06,
           width: _mediaQuery.size.width,
           child: Image.asset('assets/images/mpr_main.png'),
         ),
-
-        // backgroundColor: Colors.white,
         elevation: 0,
         actions: [
           IconButton(
             splashColor: Colors.transparent,
             splashRadius: 0.1,
-            onPressed: () {
-              // Navigator.of(context).pushNamed('settingsPage');
-            },
+            onPressed: () {},
             icon: const Icon(
               Icons.settings_rounded,
               size: 0.1,
@@ -139,7 +133,6 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                           fontSize: _mediaQuery.size.height * 0.015,
                           titleFieldText: '*First name'),
                       CustomFormField(
-                        // initialText: personalDetailsData.firstName,
                         fillColor: Colors.white,
                         hintTextSize: _mediaQuery.size.height * 0.014,
                         inputTextSize: _mediaQuery.size.height * 0.015,
@@ -166,7 +159,6 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                           fontSize: _mediaQuery.size.height * 0.015,
                           titleFieldText: '*Last name'),
                       CustomFormField(
-                        // initialText: personalDetailsData.lastName,
                         fillColor: Colors.white,
                         hintTextSize: _mediaQuery.size.height * 0.014,
                         inputTextSize: _mediaQuery.size.height * 0.015,
@@ -195,6 +187,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
 
                       //DOB form field
                       DateSelector(
+                          initalTextSize: _mediaQuery.size.height * 0.015,
                           errorTextSize: _mediaQuery.size.height * 0.013,
                           dateController: dateController),
 
@@ -210,8 +203,6 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                           titleFieldText: '*Phone number'),
 
                       CustomFormField(
-                        // initialText: UserMethods.checkNumField(
-                        //     personalDetailsData.phoneNumber!),
                         fillColor: Colors.white,
                         hintTextSize: _mediaQuery.size.height * 0.014,
                         inputTextSize: _mediaQuery.size.height * 0.015,
@@ -270,6 +261,7 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                           titleFieldText: '*Postal Code'),
 
                       DisabledFormField(
+                        initalTextSize: _mediaQuery.size.height * 0.015,
                         txt: UserMethods.checkNumField(
                             deliveryAddressData.pincode!),
                       ),
@@ -321,13 +313,13 @@ class _PersonalDetailsEditState extends State<PersonalDetailsEdit> {
                         phoneNumber: num.tryParse(phoneNumberController.text),
                       ),
                     );
-                    // print('successfully set personal details');
+                    debugPrint('Successfully set personal details');
                     ScaffoldMessenger.of(context)
                         .showSnackBar(personalDetailsSavedSnackbar);
 
                     Navigator.of(context).pop();
                   } else {
-                    // print('fuck you no personal details set');
+                    debugPrint('No personal details set');
                   }
                 },
                 mediaQuery: _mediaQuery,

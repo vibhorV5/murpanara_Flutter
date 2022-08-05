@@ -45,7 +45,6 @@ class OrderSuccessFailurePage extends StatelessWidget {
                     height: _mediaQuery.size.height * 0.3,
                     width: _mediaQuery.size.height * 0.3,
                     alignment: Alignment.center,
-                    // color: Colors.red,
                     child: Icon(
                       Icons.shopping_bag_rounded,
                       size: _mediaQuery.size.height * 0.2,
@@ -55,7 +54,6 @@ class OrderSuccessFailurePage extends StatelessWidget {
                     height: _mediaQuery.size.height * 0.075,
                     width: _mediaQuery.size.height * 0.075,
                     alignment: Alignment.center,
-                    // color: Colors.amber,
                     margin:
                         EdgeInsets.only(top: _mediaQuery.size.height * 0.055),
                     child: statusText == 'Success'

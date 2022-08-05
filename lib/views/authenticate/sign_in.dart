@@ -148,8 +148,8 @@ class _SignInState extends State<SignIn> {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(emailNotRegisteredSnackBar);
                             }
-                            // print(emailController);
-                            // print(passwordController);
+                            debugPrint(emailController.text);
+                            debugPrint(passwordController.text);
                           }
                         },
                       ),

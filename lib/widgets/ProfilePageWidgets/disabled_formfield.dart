@@ -21,7 +21,7 @@ class DisabledFormField extends StatelessWidget {
       cursorColor: kColorCursorAuthPage,
       style: kInputFormFieldsAuthPage.copyWith(fontSize: initalTextSize),
       // textAlignVertical: TextAlignVertical.center,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         filled: true,
         fillColor: Colors.grey,
         errorStyle: kErrorFormFields,

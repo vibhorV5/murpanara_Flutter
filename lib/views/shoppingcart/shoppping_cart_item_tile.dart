@@ -32,9 +32,8 @@ class ShoppingCartItemTile extends StatelessWidget {
             right: _mediaQuery.size.width * 0.04,
           ),
           height: _mediaQuery.size.height * 0.141,
-          child: product.imagefront == ''
-              ? Image.asset('assets/images/default_mpr_eye.png')
-              : Image.network(product.imagefront),
+          width: _mediaQuery.size.width * 0.36,
+          child: Image.network(product.imagefront),
         ),
         Container(
           padding: EdgeInsets.only(
@@ -45,14 +44,12 @@ class ShoppingCartItemTile extends StatelessWidget {
           ),
           height: _mediaQuery.size.height * 0.141,
           width: _mediaQuery.size.width * 0.45,
-          // color: Colors.green,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 margin:
                     EdgeInsets.only(bottom: _mediaQuery.size.height * 0.028),
-                // color: Colors.purple,
                 child: FittedBox(
                   child: Text(
                     (product.name),
@@ -75,7 +72,6 @@ class ShoppingCartItemTile extends StatelessWidget {
           ),
         ),
         SizedBox(
-          // color: Colors.pink,
           height: _mediaQuery.size.height * 0.14,
           child: Column(
             children: [
@@ -88,8 +84,8 @@ class ShoppingCartItemTile extends StatelessWidget {
                   ScaffoldMessenger.of(context)
                       .showSnackBar(itemRemovedFromShoppingCartSnackBar);
 
-                  // print('deleted');
-                  // print('done');
+                  debugPrint('deleted');
+                  debugPrint('done');
                 },
                 child: Container(
                   alignment: Alignment.center,

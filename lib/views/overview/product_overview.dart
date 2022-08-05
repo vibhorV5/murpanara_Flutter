@@ -51,10 +51,8 @@ class _ProductOverviewState extends State<ProductOverview> {
 
       //2nd Image of Slider
       SizedBox(
-        // color: Colors.purple,
         height: _mediaQuery.size.height * 0.5,
         width: _mediaQuery.size.width,
-        // margin: EdgeInsets.all(6.0),
         child: Image.network(widget.subproduct.imageback),
       ),
     ];
@@ -167,21 +165,20 @@ class _ProductOverviewState extends State<ProductOverview> {
 
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(successSnackBar);
-                            print('Item added to shopping cart');
+                            debugPrint('Item added to shopping cart');
                             setState(() {
                               sizeState.setSize('');
                               quantityState.setQuantity(1);
                             });
                           } else {
                             Navigator.of(context).pop();
-                            print('already present');
+                            debugPrint('already present');
                             ScaffoldMessenger.of(context)
                                 .showSnackBar(itemAlreadyPresentSnackBar);
                           }
                         }),
                   ],
                 ),
-                // padding: EdgeInsets.all(_mediaQuery.size.height * 0.1),
               );
             }),
           );
@@ -305,7 +302,6 @@ class _ProductOverviewState extends State<ProductOverview> {
               Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.only(top: _mediaQuery.size.height * 0.01),
-                // color: Colors.amberAccent,
                 child: Text(
                   widget.subproduct.name,
                   style: kProductsOverviewTitlesTextStyle.copyWith(
@@ -318,7 +314,6 @@ class _ProductOverviewState extends State<ProductOverview> {
               Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.only(top: _mediaQuery.size.height * 0.002),
-                // color: Colors.purple.withOpacity(0.4),
                 child: Text(
                   '₹ ${widget.subproduct.price.toString()}.00',
                   style: kProductsTitlesTextStyle.copyWith(
@@ -333,7 +328,6 @@ class _ProductOverviewState extends State<ProductOverview> {
                     left: _mediaQuery.size.width * 0.055,
                     top: _mediaQuery.size.height * 0.035),
                 alignment: Alignment.centerLeft,
-                // color: Colors.blue,
                 child: Text(
                   'Size',
                   style: kProductsInfoTitles.copyWith(
@@ -354,7 +348,6 @@ class _ProductOverviewState extends State<ProductOverview> {
                     left: _mediaQuery.size.width * 0.055,
                     top: _mediaQuery.size.height * 0.035),
                 alignment: Alignment.centerLeft,
-                // color: Colors.blue,
                 child: Text(
                   'Description',
                   style: kProductsInfoTitles.copyWith(
@@ -366,12 +359,10 @@ class _ProductOverviewState extends State<ProductOverview> {
 
               //Fit
               Container(
-                // color: Colors.yellow.withOpacity(0.3),
                 margin: EdgeInsets.only(
                     left: _mediaQuery.size.width * 0.055,
                     top: _mediaQuery.size.height * 0.012),
                 width: _mediaQuery.size.width,
-                // height: _mediaQuery.size.height * 0.07,
                 child: Text(
                   'Fit Type : ${widget.subproduct.fit}',
                   style: kProductsDescTitles.copyWith(
@@ -381,12 +372,10 @@ class _ProductOverviewState extends State<ProductOverview> {
 
               //Composition
               Container(
-                // color: Colors.red.withOpacity(0.3),
                 margin: EdgeInsets.only(
                     left: _mediaQuery.size.width * 0.055,
                     top: _mediaQuery.size.height * 0.007),
                 width: _mediaQuery.size.width,
-                // height: _mediaQuery.size.height * 0.07,
                 child: Text(
                   'Composition : ${widget.subproduct.composition}',
                   style: kProductsDescTitles.copyWith(
@@ -417,7 +406,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(itemRemovedFromWishlistSnackBar);
 
-                          print('item removed from wishlist');
+                          debugPrint('item removed from wishlist');
                         } else {
                           await DatabaseServices().setWishlistItemOnFirestore(
                               subProducts: widget.subproduct);
@@ -428,7 +417,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                           ScaffoldMessenger.of(context)
                               .showSnackBar(itemAddedToWishlistSnackBar);
 
-                          print('Added added to wishlist');
+                          debugPrint('Added added to wishlist');
                         }
                       },
                       child: FutureBuilder(

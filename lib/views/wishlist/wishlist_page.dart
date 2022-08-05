@@ -37,7 +37,6 @@ class _WishlistPageState extends State<WishlistPage> {
           ),
           wishlistProductsData.isEmpty
               ? SizedBox(
-                  // color: Colors.amber,
                   height: _mediaQuery.size.height * 0.6,
                   width: _mediaQuery.size.width,
                   child: Column(

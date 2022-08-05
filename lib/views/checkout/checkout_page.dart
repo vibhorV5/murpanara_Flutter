@@ -68,12 +68,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
     // Do something when payment succeeds
-    // print('Payment Successfvdfull');
-    // print('Order created with OrderId:${widget.generatedOrderID}');
-    // print('TIME: ${UserMethods.getCurrentDateTime(orderTime)}');
+    debugPrint('Payment Successfull');
+    debugPrint('Order created with OrderId:${widget.generatedOrderID}');
+    // debugPrint('TIME: ${UserMethods.getCurrentDateTime(orderTime)}');
 
-    // print(
-    //     'hello = ${response.orderId} \n ${response.paymentId} \n ${response.signature}');
+    debugPrint(
+        'hello = ${response.orderId} \n ${response.paymentId} \n ${response.signature}');
 
     await DatabaseServices().setUserOrder(
       userOrders: UserOrders(
@@ -93,9 +93,10 @@ class _CheckoutPageState extends State<CheckoutPage> {
         emailId: widget.email,
       ),
     );
-    // print('Orders set');
 
-    // print('User order set success');
+    debugPrint('Orders set');
+    debugPrint('User order set success');
+
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -116,9 +117,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void _handlePaymentError(PaymentFailureResponse response) {
     // Do something when payment fails
 
-    // print('Payment Failed');
-
-    // print('${response.code} \n ${response.message}');
+    debugPrint('Payment Failed');
+    debugPrint('${response.code} \n ${response.message}');
 
     Navigator.push(
       context,
@@ -128,7 +128,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
           greetingText: 'Oops!',
           orderStatusText: 'Payment error, Please try again.',
           onpressFunc: () async {
-            // await DatabaseServices().clearShoppingCartList();
             Navigator.of(context)
                 .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
           },
@@ -139,7 +138,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     // Do something when an external wallet was selected
-    // print('Payment Failed');
+    debugPrint('Payment Failed');
   }
 
   void launchRazorpay() {
@@ -161,7 +160,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     try {
       _razorpay.open(options);
     } catch (e) {
-      // print('Error = $e');
+      debugPrint('Error = $e');
     }
   }
 
@@ -302,7 +301,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  // color: Colors.redAccent.withOpacity(0.4),
                                   height: _mediaQuery.size.height * 0.11,
                                   width: _mediaQuery.size.width * 0.7,
                                   child: ListView(
@@ -427,7 +425,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                       padding: EdgeInsets.all(
                                           _mediaQuery.size.height * 0.02),
                                       width: _mediaQuery.size.width * 0.32,
-                                      // color: Colors.pink,
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -646,7 +643,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       sum = sum + (item.price * item.quantity);
     }
 
-    // print(sum);
+    debugPrint(sum.toString());
     return sum;
   }
 }

@@ -31,7 +31,6 @@ class _SizeButtonsState extends State<SizeSelectorButtons> {
           top: widget.mediaQ.size.height * 0.012),
       width: widget.mediaQ.size.width,
       height: widget.mediaQ.size.height * 0.08,
-      // color: Colors.yellow.withOpacity(0.3),
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         separatorBuilder: (context, index) {
@@ -84,10 +83,10 @@ class _SizeButtonsState extends State<SizeSelectorButtons> {
           return GestureDetector(
               onTap: () {
                 widget.productStatus != 'Available'
-                    ? print('Not Available')
+                    ? debugPrint('Not Available')
                     : sizeState.setSize(widget.sizeList[index]);
 
-                print('${sizeState.getSizeSelected} size slected');
+                debugPrint('${sizeState.getSizeSelected} size slected');
               },
               child: getContainer);
         }),

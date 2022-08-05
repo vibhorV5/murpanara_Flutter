@@ -23,7 +23,7 @@ class DeliveryAddressEdit extends StatefulWidget {
 class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
   @override
   void dispose() {
-    // print('dispose');
+    debugPrint('dispose');
     firstNameController.dispose();
     lastNameController.dispose();
     addressLine1Controller.dispose();
@@ -51,8 +51,6 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
 
   @override
   Widget build(BuildContext context) {
-    // DeliveryAddress deliveryAddressData = Provider.of<DeliveryAddress>(context);
-
     final _mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -69,7 +67,6 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
-
         centerTitle: true,
         title: SizedBox(
           // color: Colors.red,
@@ -77,16 +74,12 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
           width: _mediaQuery.size.width,
           child: Image.asset('assets/images/mpr_main.png'),
         ),
-
-        // backgroundColor: Colors.white,
         elevation: 0,
         actions: [
           IconButton(
             splashColor: Colors.transparent,
             splashRadius: 0.1,
-            onPressed: () {
-              // Navigator.of(context).pushNamed('settingsPage');
-            },
+            onPressed: () {},
             icon: const Icon(
               Icons.settings_rounded,
               size: 0.1,
@@ -140,13 +133,10 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
                           titleFieldText: '*Phone number'),
 
                       CustomFormField(
-                        // initialText: UserMethods.checkNumField(
-                        //     personalDetailsData.phoneNumber!),
                         fillColor: Colors.white,
                         hintTextSize: _mediaQuery.size.height * 0.014,
                         inputTextSize: _mediaQuery.size.height * 0.015,
                         errorTextSize: _mediaQuery.size.height * 0.013,
-
                         initialText: '',
                         textController: phoneNumberController,
                         mediaQuery: _mediaQuery,
@@ -283,14 +273,10 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
 
                       CustomFormField(
                         fillColor: Colors.white,
-
                         hintTextSize: _mediaQuery.size.height * 0.014,
                         inputTextSize: _mediaQuery.size.height * 0.015,
                         errorTextSize: _mediaQuery.size.height * 0.013,
-
                         initialText: '',
-                        // initialText: UserMethods.checkNumField(
-                        //     deliveryAddressData.pincode!),
                         onChanged: (val) {
                           pincodeController.text = val;
                         },
@@ -336,10 +322,6 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
                       SizedBox(
                         height: _mediaQuery.size.height * 0.021,
                       ),
-
-                      // SizedBox(
-                      //   height: 13,
-                      // ),
 
                       //State
                       TitleFieldText(
@@ -402,14 +384,14 @@ class _DeliveryAddressEditState extends State<DeliveryAddressEdit> {
                           state: stateController.text,
                           phone: num.tryParse(phoneNumberController.text)),
                     );
-                    // print('delivery address set');
-                    // print('done baby');
+                    debugPrint('delivery address set');
+                    debugPrint('Delivery Address set Success');
                     ScaffoldMessenger.of(context)
                         .showSnackBar(deliveryAddressSavedSnackbar);
 
                     Navigator.of(context).pop();
                   } else {
-                    // print('fuck you failed');
+                    debugPrint('Delivery Address set failed');
                   }
                 },
                 mediaQuery: _mediaQuery,

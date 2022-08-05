@@ -53,9 +53,7 @@ class _AddressBookState extends State<AddressBook> {
           IconButton(
             splashColor: Colors.transparent,
             splashRadius: 0.1,
-            onPressed: () {
-              // Navigator.of(context).pushNamed('settingsPage');
-            },
+            onPressed: () {},
             icon: const Icon(
               Icons.settings_rounded,
               size: 0.1,
@@ -142,7 +140,6 @@ class _AddressBookState extends State<AddressBook> {
                               SizedBox(
                                 height: _mediaQuery.size.height * 0.15,
                                 width: _mediaQuery.size.width * 0.58,
-                                // color: Colors.purple,
                                 child: ListView(
                                   physics: const NeverScrollableScrollPhysics(),
                                   children: [
@@ -221,7 +218,7 @@ class _AddressBookState extends State<AddressBook> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                                 billingAddressRemovedSnackbar);
-                                        // print('Billing Address removed');
+                                        debugPrint('Billing Address removed');
                                       });
                                 },
                                 child: EditOrRemoveWidget(
@@ -293,7 +290,6 @@ class _AddressBookState extends State<AddressBook> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
-                                // color: Colors.redAccent.withOpacity(0.4),
                                 height: _mediaQuery.size.height * 0.15,
                                 width: _mediaQuery.size.width * 0.58,
                                 child: ListView(
@@ -405,7 +401,7 @@ class _AddressBookState extends State<AddressBook> {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                                 deliveryAddressRemovedSnackbar);
-                                        // print('Delivery Address removed');
+                                        debugPrint('Delivery Address removed');
                                       });
                                 },
                                 child: EditOrRemoveWidget(

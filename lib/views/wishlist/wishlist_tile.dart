@@ -22,7 +22,6 @@ class _WishlistTileState extends State<WishlistTile> {
 
     return Container(
       padding: EdgeInsets.only(bottom: _mediaQuery.size.height * 0.01),
-      // color: Colors.pink,
       height: _mediaQuery.size.height < 600
           ? _mediaQuery.size.height * 0.6
           : _mediaQuery.size.height * 0.7,
@@ -45,14 +44,12 @@ class _WishlistTileState extends State<WishlistTile> {
               width: _mediaQuery.size.width,
               decoration: BoxDecoration(
                 color: const Color(0xFFF6F6F6),
-                // color: Colors.red,
                 borderRadius:
                     BorderRadius.circular(_mediaQuery.size.width * 0.04),
               ),
               child: Column(
                 children: [
                   SizedBox(
-                    // color: Colors.red,
                     height: _mediaQuery.size.height * 0.15,
                     width: _mediaQuery.size.width,
                     child: LayoutBuilder(
@@ -93,8 +90,8 @@ class _WishlistTileState extends State<WishlistTile> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       itemRemovedFromWishlistSnackBar);
 
-                                  print('deleted');
-                                  print('done');
+                                  debugPrint('deleted');
+                                  debugPrint('done');
                                 },
                                 icon: Icon(
                                   Icons.favorite,

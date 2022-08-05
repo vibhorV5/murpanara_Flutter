@@ -28,7 +28,7 @@ class AuthService {
       User user = userCredential.user!;
       return _getAppUserFromFirebaseUser(user);
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       return null;
     }
   }
@@ -47,12 +47,12 @@ class AuthService {
       return _getAppUserFromFirebaseUser(user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        debugPrint('No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        debugPrint('Wrong password provided for that user.');
       }
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       return (null);
     }
   }
@@ -79,7 +79,7 @@ class AuthService {
           (await _auth.signInWithCredential(authCredential)).user!;
       return _getAppUserFromFirebaseUser(firebaseUser);
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       return null;
     }
   }
@@ -101,12 +101,12 @@ class AuthService {
       return _getAppUserFromFirebaseUser(user);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        debugPrint('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        debugPrint('The account already exists for that email.');
       }
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       return null;
     }
   }
@@ -118,14 +118,14 @@ class AuthService {
     try {
       await _auth.sendPasswordResetEmail(email: email.text);
     } on FirebaseAuthException catch (e) {
-      print(
+      debugPrint(
         e.toString(),
       );
-      print(e.code);
-      print(e.message);
+      debugPrint(e.code);
+      debugPrint(e.message);
       return e.message;
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 
@@ -135,8 +135,7 @@ class AuthService {
       await _auth.signOut();
       await _googleSignIn.signOut();
     } on FirebaseAuthException catch (e) {
-      print(e.toString());
-      return null;
+      debugPrint(e.toString());
     }
   }
 }

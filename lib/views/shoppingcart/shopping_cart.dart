@@ -48,7 +48,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
         shoppingCartProductsList.isEmpty
             ? Container(
                 alignment: Alignment.center,
-                // color: Colors.orange,
                 height: _mediaQuery.size.height * 0.6,
                 width: _mediaQuery.size.width,
                 child: Column(
@@ -131,7 +130,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
                   ),
                   Container(
                     height: _mediaQuery.size.height * 0.1,
-                    // color: Colors.orange,
                     margin: EdgeInsets.only(
                         left: _mediaQuery.size.width * 0.04,
                         right: _mediaQuery.size.width * 0.08),
@@ -252,7 +250,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
                     child: Container(
                       margin: EdgeInsets.only(
                           top: _mediaQuery.size.height * 0.02,
-                          // bottom: _mediaQuery.size.height * 0.02,
                           left: _mediaQuery.size.width * 0.06,
                           right: _mediaQuery.size.width * 0.06),
                       alignment: Alignment.center,
@@ -263,7 +260,6 @@ class _ShoppingCartState extends State<ShoppingCart> {
                         borderRadius: BorderRadius.circular(
                             _mediaQuery.size.height * 0.5),
                       ),
-                      // color: Colors.amber,
                       child: Text(
                         'Continue to Checkout',
                         style: kAddToCartTextStyle.copyWith(
@@ -284,7 +280,7 @@ class _ShoppingCartState extends State<ShoppingCart> {
       sum = sum + (item.price * item.quantity);
     }
 
-    // print(sum);
+    debugPrint(sum.toString());
     return sum;
   }
 }

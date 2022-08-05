@@ -8,6 +8,6 @@ class SelectedIndexProvider extends ChangeNotifier {
   void setSlectedIndex(int selectedIndex) {
     getSelectedIndex = selectedIndex;
     notifyListeners();
-    // print('hello = ${getSelectedIndex}');
+    debugPrint('hello = $getSelectedIndex');
   }
 }
