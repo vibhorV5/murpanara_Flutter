@@ -17,19 +17,16 @@ class _GoogleSignInState extends State<GoogleSignIn> {
     String error = '';
 
     return SizedBox(
-      // color: Colors.blue.withOpacity(0.3),
       height: _mediaQuery.size.height * 0.07,
       width: _mediaQuery.size.width,
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Container(
             width: constraints.maxWidth,
-
             margin: EdgeInsets.only(
               left: constraints.maxWidth * 0.1,
               right: constraints.maxWidth * 0.1,
             ),
-            //     top: constraints.maxHeight * 0.69),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(constraints.maxHeight * 0.9),
               color: kColorGoogleButton,
@@ -40,7 +37,7 @@ class _GoogleSignInState extends State<GoogleSignIn> {
                 dynamic result = await AuthService().googleSignIn();
                 if (result == null) {
                   setState(() {
-                    error = 'Check Internet Connection & Try Again.';
+                    error = 'Check Internet Connection & Try Again';
                   });
                   final SnackBar errorSnackBar = SnackBar(
                     elevation: 10,

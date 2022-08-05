@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/product.dart';
 import 'package:murpanara/models/shoppingcartproduct.dart';
@@ -37,7 +38,7 @@ class _MainPageState extends State<MainPage> {
 
   int _selectedIndex = 0;
 
-  final List<Widget> _widgetoptions = [
+  final List<Widget> _widgetOptions = [
     const HomePage(),
     const WishlistPage(),
     const ShoppingCart(),
@@ -54,42 +55,37 @@ class _MainPageState extends State<MainPage> {
     final _mediaQuery = MediaQuery.of(context);
 
     void onTapBay(index) {
-      setState(() {
-        _selectedIndex = selectedIndexProviderData.getSelectedIndex;
-        _selectedIndex = index;
+      setState(
+        () {
+          _selectedIndex = selectedIndexProviderData.getSelectedIndex;
+          _selectedIndex = index;
 
-        // print('index fucked = selectedIndexProviderData.getSelectedIndex}');
-      });
+          // print('index fucked = selectedIndexProviderData.getSelectedIndex}');
+        },
+      );
     }
 
     return Scaffold(
       drawer: Drawer(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              // margin: EdgeInsets.only(top: 100),
-              // color: Colors.red,
-              // height: 300,
-              child: Column(
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
                 children: [
-                  Container(
-                    height: _mediaQuery.size.height * 0.28,
+                  SizedBox(
+                    // color: Colors.pink,
+                    height: _mediaQuery.size.height * 0.25,
                     width: _mediaQuery.size.width * 0.3,
-                    // margin: EdgeInsets.only(
-                    //     top: _mediaQuery.size.height * 0.1,
-                    //     bottom: _mediaQuery.size.height * 0.025),
                     child: Image.asset('assets/images/mpr_main.png'),
                   ),
                   Divider(
-                    color: Colors.grey,
-                    thickness: 0.5,
+                    color: Colors.black54,
+                    thickness: _mediaQuery.size.height * 0.001,
                   ),
                   Container(
-                    // color: Colors.blue.withOpacity(0.2),
                     margin: EdgeInsets.only(
                       left: _mediaQuery.size.width * 0.1,
-                      // top: _mediaQuery.size.height * 0.06,
                     ),
                     child: Column(
                       children: [
@@ -210,30 +206,30 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ],
               ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                left: _mediaQuery.size.width * 0.1,
-                // top: _mediaQuery.size.height * 0.05,
-              ),
-              child: ListTile(
-                leading: Icon(
-                  Icons.logout_rounded,
-                  color: Colors.black,
-                  size: _mediaQuery.size.height * 0.03,
+              Container(
+                margin: EdgeInsets.only(
+                  left: _mediaQuery.size.width * 0.1,
+                  // top: _mediaQuery.size.height * 0.05,
                 ),
-                title: Text(
-                  'Logout',
-                  style:
-                      kBold.copyWith(fontSize: _mediaQuery.size.height * 0.025),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.logout_rounded,
+                    color: Colors.black,
+                    size: _mediaQuery.size.height * 0.03,
+                  ),
+                  title: Text(
+                    'Logout',
+                    style: kBold.copyWith(
+                        fontSize: _mediaQuery.size.height * 0.025),
+                  ),
+                  onTap: () async {
+                    Navigator.of(context).pop();
+                    await AuthService().signOut();
+                  },
                 ),
-                onTap: () async {
-                  Navigator.of(context).pop();
-                  await AuthService().signOut();
-                },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -287,11 +283,11 @@ class _MainPageState extends State<MainPage> {
         currentIndex: _selectedIndex,
       ),
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.white,
 
         centerTitle: true,
-        title: Container(
+        title: SizedBox(
           // color: Colors.red,
           height: _mediaQuery.size.height * 0.06,
           width: _mediaQuery.size.width,
@@ -303,11 +299,14 @@ class _MainPageState extends State<MainPage> {
         actions: [
           IconButton(
             onPressed: () {
-              showSearch(context: context, delegate: CustomSearchDelegate());
+              showSearch(
+                context: context,
+                delegate: CustomSearchDelegate(mediaQuery: _mediaQuery),
+              );
             },
             icon: Icon(
               Icons.search,
-              size: 30,
+              size: _mediaQuery.size.height * 0.033,
               color: Colors.black87,
             ),
           ),
@@ -321,42 +320,50 @@ class _MainPageState extends State<MainPage> {
             icon: Stack(
               alignment: Alignment.topRight,
               children: [
-                Container(
-                  height: 50,
-                  width: 50,
+                SizedBox(
+                  height: _mediaQuery.size.height * 0.033,
+                  width: _mediaQuery.size.width * 0.12,
                   // color: Colors.red,
                   child: Icon(
                     Icons.shopping_cart_rounded,
-                    size: 30,
+                    size: _mediaQuery.size.height * 0.033,
                     color: Colors.black87,
                   ),
                 ),
+
+                //Number
                 Container(
                   alignment: Alignment.center,
                   child: Text(
                     shoppingCartProductsListData.length.toString(),
-                    style: kSemibold.copyWith(fontSize: 11),
+                    style: kSemibold.copyWith(
+                        fontSize: _mediaQuery.size.height * 0.0125),
                   ),
-                  margin: EdgeInsets.only(top: 2),
+                  // margin: EdgeInsets.only(top: 2),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white,
-                    border: Border.all(color: Colors.black87),
+                    border: Border.all(
+                      color: Colors.black87,
+                    ),
                   ),
-                  height: 15,
-                  width: 15,
+                  height: _mediaQuery.size.height * 0.017,
+                  width: _mediaQuery.size.height * 0.017,
                 ),
               ],
             ),
           ),
         ],
       ),
-      body: _widgetoptions.elementAt(_selectedIndex),
+      body: _widgetOptions.elementAt(_selectedIndex),
     );
   }
 }
 
 class CustomSearchDelegate extends SearchDelegate {
+  CustomSearchDelegate({required this.mediaQuery});
+
+  MediaQueryData mediaQuery;
   @override
   ThemeData appBarTheme(BuildContext context) {
     return super.appBarTheme(context).copyWith(
@@ -390,6 +397,7 @@ class CustomSearchDelegate extends SearchDelegate {
         },
         icon: Icon(
           Icons.clear_rounded,
+          size: mediaQuery.size.height * 0.025,
           color: Colors.black87,
         ),
       ),
@@ -399,14 +407,16 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-        onPressed: () {
-          FocusScope.of(context).unfocus();
-          close(context, null);
-        },
-        icon: Icon(
-          Icons.arrow_back_ios_new_rounded,
-          color: Colors.black87,
-        ));
+      onPressed: () {
+        FocusScope.of(context).unfocus();
+        close(context, null);
+      },
+      icon: Icon(
+        Icons.arrow_back_ios_new_outlined,
+        size: mediaQuery.size.width * 0.06,
+        color: kColorBackIconForgotPassPage,
+      ),
+    );
   }
 
   @override
@@ -473,20 +483,33 @@ class CustomSearchDelegate extends SearchDelegate {
           return GestureDetector(
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ProductOverview(subproduct: result)));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductOverview(subproduct: result),
+                ),
+              );
             },
             child: ListTile(
-              leading: Container(child: Image.network(result.imagefront)),
+              leading: Container(
+                margin: EdgeInsets.only(top: mediaQuery.size.height * 0.007),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                      BorderRadius.circular(mediaQuery.size.height * 0.01),
+                ),
+                height: mediaQuery.size.height * 0.1,
+                width: mediaQuery.size.width * 0.15,
+                child: Image.network(result.imagefront),
+              ),
               title: Text(
                 result.name,
-                style: kSemibold.copyWith(fontSize: 12),
+                style: kSemibold.copyWith(
+                    fontSize: mediaQuery.size.height * 0.013),
               ),
               trailing: Text(
                 '₹${result.price.toString()}.00',
-                style: kSemibold.copyWith(fontSize: 10),
+                style: kSemibold.copyWith(
+                    fontSize: mediaQuery.size.height * 0.013),
               ),
             ),
           );
