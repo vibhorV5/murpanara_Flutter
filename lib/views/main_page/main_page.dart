@@ -1,4 +1,6 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/models/product.dart';
@@ -11,6 +13,8 @@ import 'package:murpanara/views/home/home_page.dart';
 import 'package:murpanara/views/wishlist/wishlist_page.dart';
 import 'package:provider/provider.dart';
 
+import '../../main.dart';
+
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -21,6 +25,53 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   @override
   void initState() {
+    super.initState();
+
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification notification = message.notification!;
+      AndroidNotification android = message.notification!.android!;
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                channel.id,
+                channel.name,
+                // channel.description,
+                color: Colors.white,
+                playSound: true,
+                icon: '@mipmap/murpanara',
+              ),
+            ));
+      }
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('A new onMessageOpenedApp event was published!');
+
+      RemoteNotification notification = message.notification!;
+      AndroidNotification android = message.notification!.android!;
+      if (notification != null && android != null) {
+        showDialog(
+            context: context,
+            builder: (_) {
+              return AlertDialog(
+                title: Text(notification.title!),
+                content: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(notification.body!),
+                    ],
+                  ),
+                ),
+              );
+            });
+      }
+    });
+
     // Future.delayed(const Duration(milliseconds: 500), () {
     //   ScaffoldMessenger.of(context).showSnackBar(
     //     const SnackBar(
@@ -33,7 +84,30 @@ class _MainPageState extends State<MainPage> {
     //     ),
     //   );
     // });
-    super.initState();
+  }
+
+  void showNotification() {
+    int counter = 1;
+    setState(() {
+      counter++;
+    });
+
+    flutterLocalNotificationsPlugin.show(
+      0,
+      'murpanara $counter',
+      'Please check out our new t-shirts :)',
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          // channel.description,
+          importance: Importance.high,
+          color: Colors.white,
+          playSound: true,
+          icon: '@mipmap/murpanara',
+        ),
+      ),
+    );
   }
 
   int _selectedIndex = 0;
@@ -281,7 +355,11 @@ class _MainPageState extends State<MainPage> {
         title: SizedBox(
           height: _mediaQuery.size.height * 0.06,
           width: _mediaQuery.size.width,
-          child: Image.asset('assets/images/mpr_main.png'),
+          child: GestureDetector(
+              onTap: () {
+                showNotification();
+              },
+              child: Image.asset('assets/images/mpr_main.png')),
         ),
         elevation: 0,
         actions: [

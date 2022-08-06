@@ -171,7 +171,7 @@ class _SignInState extends State<SignIn> {
                 ),
               ),
 
-              SizedBox(height: _mediaQuery.size.height * 0.11),
+              SizedBox(height: _mediaQuery.size.height * 0.10),
 
               // Google Sign In Button
               const GoogleSignIn(),
