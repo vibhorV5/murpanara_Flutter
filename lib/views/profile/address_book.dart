@@ -180,35 +180,49 @@ class _AddressBookState extends State<AddressBook> {
                                   UserMethods.customDialogBox(
                                       borderRadius:
                                           _mediaQuery.size.width * 0.06,
-                                      contentPadding:
-                                          _mediaQuery.size.width * 0.04,
+                                      contentPadding: _mediaQuery.size.height < 600
+                                          ? _mediaQuery.size.height * 0.01
+                                          : _mediaQuery.size.height * 0.03,
                                       contentContainerHeight:
-                                          _mediaQuery.size.height * 0.28,
+                                          _mediaQuery.size.height < 600
+                                              ? _mediaQuery.size.height * 0.24
+                                              : _mediaQuery.size.height * 0.28,
                                       headingTextTopMargin:
                                           _mediaQuery.size.height * 0.02,
                                       headingTextFontSize:
-                                          _mediaQuery.size.height * 0.025,
+                                          _mediaQuery.size.height < 600
+                                              ? _mediaQuery.size.height * 0.014
+                                              : _mediaQuery.size.height * 0.024,
+                                      confirmTextSize: _mediaQuery.size.height < 600
+                                          ? _mediaQuery.size.height * 0.012
+                                          : _mediaQuery.size.height * 0.018,
+                                      cancelTextSize: _mediaQuery.size.height < 600
+                                          ? _mediaQuery.size.height * 0.012
+                                          : _mediaQuery.size.height * 0.018,
+                                      subTextSize: _mediaQuery.size.height < 600
+                                          ? _mediaQuery.size.height * 0.012
+                                          : _mediaQuery.size.height * 0.018,
                                       mprEyeContainerHeight:
                                           _mediaQuery.size.width * 0.07,
                                       mprEyeContainerWidth:
                                           _mediaQuery.size.width * 0.07,
                                       bigSizedBoxHeight:
-                                          _mediaQuery.size.height * 0.03,
+                                          _mediaQuery.size.height < 600
+                                              ? _mediaQuery.size.height * 0.01
+                                              : _mediaQuery.size.height * 0.04,
                                       smallSizedBoxHeight:
                                           _mediaQuery.size.height * 0.03,
                                       textButtonHorizontalPadding:
                                           _mediaQuery.size.width * 0.05,
                                       textButtonVerticalpadding:
                                           _mediaQuery.size.height * 0.008,
-                                      textButtonBorderRadius:
-                                          _mediaQuery.size.width * 0.06,
+                                      textButtonBorderRadius: _mediaQuery.size.width * 0.06,
                                       cancelText: 'No',
                                       confirmText: 'Yes',
                                       context: context,
                                       mediaQuery: _mediaQuery,
                                       headingText: 'Remove Billing Address',
-                                      subText:
-                                          'Do you want to remove Billing Address?',
+                                      subText: 'Do you want to remove Billing Address?',
                                       confirmFunction: () async {
                                         Navigator.of(context).pop();
 
@@ -364,35 +378,49 @@ class _AddressBookState extends State<AddressBook> {
                                   UserMethods.customDialogBox(
                                       borderRadius:
                                           _mediaQuery.size.width * 0.06,
-                                      contentPadding:
-                                          _mediaQuery.size.width * 0.04,
+                                      contentPadding: _mediaQuery.size.height < 600
+                                          ? _mediaQuery.size.height * 0.01
+                                          : _mediaQuery.size.height * 0.03,
                                       contentContainerHeight:
-                                          _mediaQuery.size.height * 0.28,
+                                          _mediaQuery.size.height < 600
+                                              ? _mediaQuery.size.height * 0.24
+                                              : _mediaQuery.size.height * 0.28,
                                       headingTextTopMargin:
                                           _mediaQuery.size.height * 0.02,
                                       headingTextFontSize:
-                                          _mediaQuery.size.height * 0.025,
+                                          _mediaQuery.size.height < 600
+                                              ? _mediaQuery.size.height * 0.014
+                                              : _mediaQuery.size.height * 0.024,
+                                      confirmTextSize: _mediaQuery.size.height < 600
+                                          ? _mediaQuery.size.height * 0.012
+                                          : _mediaQuery.size.height * 0.018,
+                                      cancelTextSize: _mediaQuery.size.height < 600
+                                          ? _mediaQuery.size.height * 0.012
+                                          : _mediaQuery.size.height * 0.018,
+                                      subTextSize: _mediaQuery.size.height < 600
+                                          ? _mediaQuery.size.height * 0.012
+                                          : _mediaQuery.size.height * 0.018,
                                       mprEyeContainerHeight:
                                           _mediaQuery.size.width * 0.07,
                                       mprEyeContainerWidth:
                                           _mediaQuery.size.width * 0.07,
                                       bigSizedBoxHeight:
-                                          _mediaQuery.size.height * 0.03,
+                                          _mediaQuery.size.height < 600
+                                              ? _mediaQuery.size.height * 0.01
+                                              : _mediaQuery.size.height * 0.04,
                                       smallSizedBoxHeight:
                                           _mediaQuery.size.height * 0.03,
                                       textButtonHorizontalPadding:
                                           _mediaQuery.size.width * 0.05,
                                       textButtonVerticalpadding:
                                           _mediaQuery.size.height * 0.008,
-                                      textButtonBorderRadius:
-                                          _mediaQuery.size.width * 0.06,
+                                      textButtonBorderRadius: _mediaQuery.size.width * 0.06,
                                       cancelText: 'No',
                                       confirmText: 'Yes',
                                       context: context,
                                       mediaQuery: _mediaQuery,
                                       headingText: 'Remove Delivery Address',
-                                      subText:
-                                          'Do you want to remove Delivery Address?',
+                                      subText: 'Do you want to remove Delivery Address?',
                                       confirmFunction: () async {
                                         Navigator.of(context).pop();
                                         await DatabaseServices()

@@ -148,7 +148,9 @@ class _MainPageState extends State<MainPage> {
               Column(
                 children: [
                   SizedBox(
-                    height: _mediaQuery.size.height * 0.25,
+                    height: _mediaQuery.size.height < 600
+                        ? _mediaQuery.size.height * 0.06
+                        : _mediaQuery.size.height * 0.24,
                     width: _mediaQuery.size.width * 0.3,
                     child: Image.asset('assets/images/mpr_main.png'),
                   ),

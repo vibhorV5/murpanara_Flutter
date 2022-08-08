@@ -163,7 +163,10 @@ class _RegisterState extends State<Register> {
                 ),
               ),
 
-              SizedBox(height: _mediaQuery.size.height * 0.10),
+              SizedBox(
+                  height: _mediaQuery.size.height < 600
+                      ? _mediaQuery.size.height * 0.01
+                      : _mediaQuery.size.height * 0.10),
 
               // Google Sign In Button
               const GoogleSignIn(),

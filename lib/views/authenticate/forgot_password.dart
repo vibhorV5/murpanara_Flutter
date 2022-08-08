@@ -131,6 +131,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                     _mediaQuery.size.height * 0.02,
                                 headingTextFontSize:
                                     _mediaQuery.size.height * 0.025,
+                                confirmTextSize:
+                                    _mediaQuery.size.height * 0.018,
+                                cancelTextSize: _mediaQuery.size.height * 0.018,
+                                subTextSize: _mediaQuery.size.height * 0.018,
                                 mprEyeContainerHeight:
                                     _mediaQuery.size.width * 0.07,
                                 mprEyeContainerWidth:

@@ -54,7 +54,6 @@ class UserMethods {
     double contentPadding = 15,
     double contentContainerHeight = 180,
     double headingTextTopMargin = 10,
-    double headingTextFontSize = 20,
     double mprEyeContainerHeight = 30,
     double mprEyeContainerWidth = 30,
     double bigSizedBoxHeight = 30,
@@ -62,6 +61,10 @@ class UserMethods {
     double textButtonHorizontalPadding = 20,
     double textButtonVerticalpadding = 10,
     double textButtonBorderRadius = 30,
+    double headingTextFontSize = 20,
+    double confirmTextSize = 15,
+    double cancelTextSize = 15,
+    double subTextSize = 15,
   }) {
     AlertDialog alertDialog = AlertDialog(
       backgroundColor: Colors.grey.shade100,
@@ -95,7 +98,7 @@ class UserMethods {
             Center(
               child: Text(
                 subText,
-                style: kSemibold,
+                style: kSemibold.copyWith(fontSize: subTextSize),
               ),
             ),
             SizedBox(
@@ -119,7 +122,8 @@ class UserMethods {
                     ),
                     child: Text(
                       cancelText,
-                      style: kRegular.copyWith(color: Colors.white),
+                      style: kRegular.copyWith(
+                          color: Colors.white, fontSize: cancelTextSize),
                     ),
                   ),
                 ),
@@ -137,7 +141,8 @@ class UserMethods {
                     ),
                     child: Text(
                       confirmText,
-                      style: kRegular.copyWith(color: Colors.white),
+                      style: kRegular.copyWith(
+                          color: Colors.white, fontSize: confirmTextSize),
                     ),
                   ),
                 ),
@@ -169,7 +174,6 @@ class UserMethods {
     double contentPadding = 15,
     double contentContainerHeight = 180,
     double headingTextTopMargin = 10,
-    double headingTextFontSize = 20,
     double mprEyeContainerHeight = 30,
     double mprEyeContainerWidth = 30,
     double bigSizedBoxHeight = 30,
@@ -177,6 +181,10 @@ class UserMethods {
     double textButtonHorizontalPadding = 20,
     double textButtonVerticalpadding = 10,
     double textButtonBorderRadius = 30,
+    double headingTextFontSize = 20,
+    double confirmTextSize = 15,
+    double cancelTextSize = 15,
+    double subTextSize = 15,
   }) {
     AlertDialog alertDialog = AlertDialog(
       backgroundColor: Colors.grey.shade100,
@@ -211,7 +219,7 @@ class UserMethods {
             Center(
               child: Text(
                 subText,
-                style: kSemibold,
+                style: kSemibold.copyWith(fontSize: subTextSize),
               ),
             ),
             SizedBox(
@@ -234,7 +242,8 @@ class UserMethods {
                     ),
                     child: Text(
                       confirmText,
-                      style: kRegular.copyWith(color: Colors.white),
+                      style: kRegular.copyWith(
+                          color: Colors.white, fontSize: confirmTextSize),
                     ),
                   ),
                 ),
