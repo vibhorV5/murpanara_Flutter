@@ -152,7 +152,9 @@ class _MainPageState extends State<MainPage> {
                         ? _mediaQuery.size.height * 0.06
                         : _mediaQuery.size.height * 0.24,
                     width: _mediaQuery.size.width * 0.3,
-                    child: Image.asset('assets/images/mpr_main.png'),
+                    child: Image.asset(
+                      'assets/images/mpr_main.png',
+                    ),
                   ),
                   Divider(
                     color: Colors.black54,
