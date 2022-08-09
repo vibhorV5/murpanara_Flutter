@@ -156,7 +156,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                   Divider(
                     color: Colors.black54,
-                    thickness: _mediaQuery.size.height * 0.001,
+                    thickness: _mediaQuery.size.height * 0.0005,
                   ),
                   Container(
                     margin: EdgeInsets.only(
@@ -455,8 +455,9 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
   Widget? buildLeading(BuildContext context) {
     return IconButton(
-      onPressed: () {
+      onPressed: () async {
         FocusScope.of(context).unfocus();
+        await Future.delayed(const Duration(milliseconds: 200));
         close(context, null);
       },
       icon: Icon(
