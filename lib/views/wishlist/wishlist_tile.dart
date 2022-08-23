@@ -69,8 +69,18 @@ class _WishlistTileState extends State<WishlistTile> {
                                     ),
                                   ).then((value) => setState(() {}));
                                 },
-                                child: Image.network(
-                                    widget.subProductList[index].imagefront),
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.only(
+                                      right: _mediaQuery.size.width * 0.16,
+                                      left: _mediaQuery.size.width * 0.2,
+                                    ),
+                                    color: Colors.transparent,
+                                    child: Image.network(
+                                      widget.subProductList[index].imagefront,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
 

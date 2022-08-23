@@ -3,7 +3,7 @@ import 'package:murpanara/constants/colors.dart';
 import 'package:murpanara/constants/styles.dart';
 
 SnackBar itemAddedToWishlistSnackBar = const SnackBar(
-  duration: Duration(seconds: 2),
+  duration: Duration(seconds: 1),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -13,7 +13,7 @@ SnackBar itemAddedToWishlistSnackBar = const SnackBar(
 );
 
 SnackBar itemRemovedFromWishlistSnackBar = const SnackBar(
-  duration: Duration(seconds: 2),
+  duration: Duration(seconds: 1),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -33,7 +33,7 @@ SnackBar errorSnackBar = const SnackBar(
 );
 
 SnackBar successSnackBar = const SnackBar(
-  duration: Duration(seconds: 2),
+  duration: Duration(seconds: 1),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -43,7 +43,7 @@ SnackBar successSnackBar = const SnackBar(
 );
 
 SnackBar itemAlreadyPresentSnackBar = const SnackBar(
-  duration: Duration(seconds: 2),
+  duration: Duration(seconds: 1),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(
@@ -53,7 +53,7 @@ SnackBar itemAlreadyPresentSnackBar = const SnackBar(
 );
 
 SnackBar itemRemovedFromShoppingCartSnackBar = const SnackBar(
-  duration: Duration(seconds: 2),
+  duration: Duration(seconds: 1),
   elevation: 10,
   backgroundColor: kColorSnackBarBackgroundAuthPage,
   content: Text(

@@ -87,14 +87,14 @@ class _MainPageState extends State<MainPage> {
   }
 
   void showNotification() {
-    int counter = 1;
-    setState(() {
-      counter++;
-    });
+    // int counter = 1;
+    // setState(() {
+    //   counter++;
+    // });
 
     flutterLocalNotificationsPlugin.show(
       0,
-      'murpanara $counter',
+      'murpanara',
       'Please check out our new t-shirts :)',
       NotificationDetails(
         android: AndroidNotificationDetails(

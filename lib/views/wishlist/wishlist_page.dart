@@ -26,9 +26,10 @@ class _WishlistPageState extends State<WishlistPage> {
         children: [
           Container(
             margin: EdgeInsets.only(
-                top: _mediaQuery.size.height * 0.04,
-                bottom: _mediaQuery.size.height * 0.03,
-                left: _mediaQuery.size.width * 0.04),
+              top: _mediaQuery.size.height * 0.04,
+              bottom: _mediaQuery.size.height * 0.025,
+              left: _mediaQuery.size.width * 0.04,
+            ),
             alignment: Alignment.centerLeft,
             child: Text(
               'Wishlist',

@@ -81,6 +81,7 @@ class _ProductTileState extends State<ProductTile> {
 
                               //Favourite Button
                               Container(
+                                // color: Colors.blue,
                                 margin: EdgeInsets.only(
                                     top: constraints.maxHeight * 0.1,
                                     right: constraints.maxWidth * 0.09),
@@ -126,17 +127,34 @@ class _ProductTileState extends State<ProductTile> {
                                         var isWishlisted = snapshot.data!;
                                         isWishlistedNew = isWishlisted;
                                         return isWishlistedNew
-                                            ? Icon(
-                                                Icons.favorite,
-                                                size: _mediaQuery.size.height *
-                                                    0.03,
-                                                color: Colors.red,
+                                            ? Container(
+                                                color: Colors.transparent,
+                                                padding: EdgeInsets.all(
+                                                  _mediaQuery.size.height *
+                                                      0.0155,
+                                                ),
+                                                child: Icon(
+                                                  Icons.favorite,
+                                                  size:
+                                                      _mediaQuery.size.height *
+                                                          0.03,
+                                                  color: Colors.red,
+                                                ),
                                               )
-                                            : Icon(
-                                                Icons.favorite_border_outlined,
-                                                size: _mediaQuery.size.height *
-                                                    0.03,
-                                                color: Colors.black,
+                                            : Container(
+                                                color: Colors.transparent,
+                                                padding: EdgeInsets.all(
+                                                  _mediaQuery.size.height *
+                                                      0.0155,
+                                                ),
+                                                child: Icon(
+                                                  Icons
+                                                      .favorite_border_outlined,
+                                                  size:
+                                                      _mediaQuery.size.height *
+                                                          0.03,
+                                                  color: Colors.black,
+                                                ),
                                               );
                                       } else {
                                         return Container();
