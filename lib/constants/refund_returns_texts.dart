@@ -1,0 +1,4 @@
+const String refundAndReturnText1 =
+    '"Our refund and returns policy lasts 7 days. If 7 days have passed since your purchase, we can’t offer you a refund or exchange.\nTo be eligible for a return, your item must be unused and in the same condition that you received it. It must also be in the original packaging.\nTo complete your return, we require a receipt or proof of purchase during the pick up."';
+const String refundAndReturnText2 =
+    '"Once your return is received and inspected, we will send you an email to notify you that we have received your returned item. We will also notify you of the approval or rejection of your refund.\nOnce approved, then your refund will be processed, and a credit will automatically be applied to your credit card or original method of payment, within a couple of days."';

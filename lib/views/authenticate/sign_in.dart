@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:murpanara/constants/snackbars.dart';
+import 'package:murpanara/constants/styles.dart';
 import 'package:murpanara/services/auth.dart';
 import 'package:murpanara/views/authenticate/forgot_password.dart';
-import 'package:murpanara/widgets/google_sign_in.dart';
+import 'package:murpanara/views/authenticate/google_sign_in_button.dart';
+import 'package:murpanara/widgets/AboutUsRefundPageWidgets/big_image_widget.dart';
+import 'package:murpanara/widgets/custom_formfield.dart';
+import 'package:murpanara/widgets/save_button.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key, required this.toggleView}) : super(key: key);
@@ -13,11 +18,15 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  final SnackBar errorSnackBar = SnackBar(
-    content: Text('Enter a Valid Email'),
-  );
+  @override
+  void dispose() {
+    super.dispose();
+    emailController;
+    passwordController;
+  }
 
   String error = '';
+
   String googleErrorMessage = '';
 
   final _formKey = GlobalKey<FormState>();
@@ -27,6 +36,8 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    final _mediaQuery = MediaQuery.of(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -34,208 +45,191 @@ class _SignInState extends State<SignIn> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //Blank space
+              BigImageWidget(
+                height: _mediaQuery.size.height * 0.28,
+                width: _mediaQuery.size.width,
+                imageUrl: 'assets/images/mpr_main.png',
+              ),
+
+              //Blank space
+              SizedBox(height: _mediaQuery.size.height * 0.14),
+
+              //Sign Up Text
               Container(
-                padding: const EdgeInsets.only(left: 55, right: 55, top: 30),
-                child: Image.asset(
-                  'assets/images/mpr_main.png',
+                margin: EdgeInsets.symmetric(
+                    horizontal: _mediaQuery.size.width * 0.05),
+                child: Text(
+                  'Sign In',
+                  style:
+                      kBold.copyWith(fontSize: _mediaQuery.size.height * 0.05),
                 ),
               ),
-              const SizedBox(height: 80),
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(left: 40),
-                    child: const Text(
-                      'Sign In',
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Form(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Container(
-                          height: 60,
-                          margin: const EdgeInsets.only(
-                              left: 40, right: 40, top: 10, bottom: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color(0xFFE9E9E9),
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              child: TextFormField(
-                                validator: (value) => value!.isEmpty
-                                    ? 'Enter Registered Email ID.'
-                                    : null,
-                                onChanged: (val) {
-                                  emailController.text = val;
-                                },
-                                keyboardType: TextInputType.emailAddress,
-                                cursorColor: Colors.black38,
-                                style: const TextStyle(color: Colors.black87),
-                                textAlignVertical: TextAlignVertical.center,
-                                decoration: const InputDecoration(
-                                  errorStyle: TextStyle(color: Colors.black54),
-                                  border: InputBorder.none,
-                                  hintText: 'Email',
-                                  hintStyle: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFFB1B1B1),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 60,
-                          margin: const EdgeInsets.only(
-                              left: 40, right: 40, bottom: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: const Color(0xFFE9E9E9),
-                          ),
-                          child: Center(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              child: TextFormField(
-                                validator: (value) => value!.length < 6
-                                    ? 'Enter a Password 6+ chars long.'
-                                    : null,
-                                onChanged: (val) {
-                                  passwordController.text = val;
-                                },
-                                obscureText: true,
-                                cursorColor: Colors.black38,
-                                style: const TextStyle(color: Colors.black87),
-                                textAlignVertical: TextAlignVertical.center,
-                                decoration: const InputDecoration(
-                                  errorStyle: TextStyle(color: Colors.black54),
-                                  border: InputBorder.none,
-                                  hintText: 'Password',
-                                  hintStyle: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFFB1B1B1),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        // SignIn Button
-                        Container(
-                          margin: const EdgeInsets.only(right: 40),
-                          height: 35,
-                          padding: const EdgeInsets.only(left: 15, right: 15),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(25),
-                            color: const Color(0xFF444444),
-                          ),
-                          child: TextButton(
-                            style: const ButtonStyle(
-                                splashFactory: NoSplash.splashFactory),
-                            onPressed: () async {
-                              FocusScope.of(context).unfocus();
-                              if (_formKey.currentState!.validate()) {
-                                dynamic result = await AuthService().signIn(
-                                  email: emailController,
-                                  password: passwordController,
-                                );
-
-                                if (result == null) {
-                                  // setState(() {
-                                  //   error = 'Enter Registered Email ID';
-                                  // });
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(errorSnackBar);
-                                }
-                                print(emailController);
-                                print(passwordController);
-                              }
-                            },
-                            child: const Text(
-                              'Sign In',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Container(
-                            child: Text(
-                              error,
-                              style: TextStyle(color: Colors.red),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-
-              // Google Sign In Button
-
-              GoogleSignIn(),
-
-              //Already a user?
-
-              Container(
-                margin: const EdgeInsets.only(left: 35, right: 35, top: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              //Fields
+              Form(
+                autovalidateMode: AutovalidateMode.disabled,
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Text(
-                      ' Don\'t have an account? ',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                    //Email Id Field
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                          horizontal: _mediaQuery.size.width * 0.05,
+                          vertical: _mediaQuery.size.height * 0.012),
+                      // color: Colors.black,
+                      child: CustomFormField(
+                          inputTextSize: _mediaQuery.size.height * 0.017,
+                          fillColor: Colors.grey.shade100,
+                          textController: emailController,
+                          mediaQuery: _mediaQuery,
+                          hintText: 'Email Id',
+                          validator: (value) => value!.isEmpty
+                              ? 'Enter Registered Email ID.'
+                              : null,
+                          onChanged: (val) {
+                            emailController.text = val;
+                          },
+                          keyboardType: TextInputType.emailAddress,
+                          initialText: ''),
                     ),
-                    InkWell(
-                      onTap: () {
-                        widget.toggleView();
-                      },
-                      child: Container(
-                        child: const Text(
-                          'Register ',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF008CB8)),
-                        ),
+
+                    //Password Field
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: _mediaQuery.size.width * 0.05,
+                      ),
+                      child: CustomFormField(
+                          inputTextSize: _mediaQuery.size.height * 0.017,
+                          fillColor: Colors.grey.shade100,
+                          obscureText: true,
+                          textController: passwordController,
+                          mediaQuery: _mediaQuery,
+                          hintText: 'Password',
+                          validator: (value) => value!.length < 6
+                              ? 'Enter a Password 6+ chars long.'
+                              : null,
+                          onChanged: (val) {
+                            passwordController.text = val;
+                          },
+                          keyboardType: TextInputType.emailAddress,
+                          initialText: ''),
+                    ),
+
+                    // SignIn Button
+                    Container(
+                      margin: EdgeInsets.symmetric(
+                          horizontal: _mediaQuery.size.width * 0.05,
+                          vertical: _mediaQuery.size.height * 0.012),
+                      child: SaveButton(
+                        fontSize: _mediaQuery.size.height * 0.02,
+                        height: _mediaQuery.size.height * 0.056,
+                        borderRadiusGeometry: BorderRadius.circular(
+                            _mediaQuery.size.height * 0.04),
+                        mediaQuery: _mediaQuery,
+                        txt: 'Sign In',
+                        color: Colors.black,
+                        txtColor: Colors.white,
+                        onPress: () async {
+                          FocusScope.of(context).unfocus();
+                          if (_formKey.currentState!.validate()) {
+                            dynamic result = await AuthService().signIn(
+                              email: emailController,
+                              password: passwordController,
+                            );
+
+                            if (result == null) {
+                              setState(
+                                () {
+                                  error = 'Enter Registered Email ID';
+                                },
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(emailNotRegisteredSnackBar);
+                            }
+                            debugPrint(emailController.text);
+                            debugPrint(passwordController.text);
+                          }
+                        },
                       ),
                     ),
-                    const Text(
-                      '| ',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ForgotPassword()));
-                      },
+
+                    //Error Text
+                    Center(
                       child: Container(
-                        child: const Text(
-                          'Forgot password?',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w500),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: _mediaQuery.size.width * 0.05),
+                        child: Text(
+                          error,
+                          style: kErrorTextStyleInvalidAuthPage.copyWith(
+                              fontSize: _mediaQuery.size.height * 0.012),
                         ),
                       ),
                     ),
                   ],
+                ),
+              ),
+
+              SizedBox(
+                  height: _mediaQuery.size.height < 600
+                      ? _mediaQuery.size.height * 0.01
+                      : _mediaQuery.size.height * 0.10),
+
+              // Google Sign In Button
+              const GoogleSignIn(),
+
+              //Don't have an Account?/Forgot Password
+              Container(
+                height: _mediaQuery.size.height * 0.06,
+                width: _mediaQuery.size.width,
+                margin: EdgeInsets.only(
+                  left: _mediaQuery.size.width * 0.03,
+                  right: _mediaQuery.size.width * 0.03,
+                ),
+                child: LayoutBuilder(
+                  builder: ((context, constraints) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Don\'t have an account? ',
+                          style: kAlreadyAUserTextStyle.copyWith(
+                              fontSize: constraints.maxHeight * 0.28),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            widget.toggleView();
+                          },
+                          child: Text(
+                            'Register ',
+                            style: kAlreadySignInOptAuthPage.copyWith(
+                                fontSize: constraints.maxHeight * 0.29),
+                          ),
+                        ),
+                        Text(
+                          '| ',
+                          style: kForgotPassTextStyleAuthPage.copyWith(
+                              fontSize: constraints.maxHeight * 0.28),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ForgotPassword(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Forgot password?',
+                            style: kForgotPassTextStyleAuthPage.copyWith(
+                                fontSize: constraints.maxHeight * 0.28),
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
                 ),
               ),
             ],
