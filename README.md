@@ -1,6 +1,7 @@
 # murpanara
 
-• Developed an E-commerce app with Responsive design using Firebase as backend and Provider State Management <br />
+• murpanara is an E-commerce Responsive app built using Flutter <br />
+• Implemented Firebase as backend and Provider as a State Management <br />
 • Implemented Google Sign-In, Sign-Up, Sign-In and Forgot password using Firebase Authentication <br />
 • UI and App Icons designed using Figma and Adobe Illustrator <br />
 • Implemented Flutter Local and Push Notifications with Firebase Cloud Messaging <br />
